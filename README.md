@@ -26,16 +26,34 @@ large experiment outputs, and data downloads are intentionally not included.
 
 ## Install
 
+Install directly from GitHub:
+
 ```bash
+uv venv --python 3.10
+uv pip install "tcda_uq @ git+https://github.com/hugogobato/tcda_uq.git"
+```
+
+For development from a local clone:
+
+```bash
+git clone https://github.com/hugogobato/tcda_uq.git
+cd tcda_uq
 uv venv --python 3.10
 uv pip install -e ".[dev]"
 ```
 
-Optional extras:
+Optional extras from a local clone:
 
 ```bash
 uv pip install -e ".[dev,data]"    # SARS-CoV-2 image loader
 uv pip install -e ".[dev,graphs]"  # graph dependencies for future GEOM-style work
+```
+
+Optional extras directly from GitHub:
+
+```bash
+uv pip install "tcda_uq[data] @ git+https://github.com/hugogobato/tcda_uq.git"
+uv pip install "tcda_uq[graphs] @ git+https://github.com/hugogobato/tcda_uq.git"
 ```
 
 Run the smoke tests:
