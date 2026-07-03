@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tcda_uq"
+version = "0.0.1"
+description = "Uncertainty quantification for topological treatment effects."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Hugo Souto", email = "hugo.souto@dell.com" },
+    { name = "Ioannis Diamantis", email = "i.diamantis@maastrichtuniversity.nl" },
+]
+keywords = [
+    "causal inference",
+    "topological data analysis",
+    "uncertainty quantification",
+    "conformal prediction",
+    "functional data analysis",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+dependencies = [
+    "numpy==2.0.2",
+    "scipy==1.15.2",
+    "scikit-learn==1.6.1",
+    "scikit-fda==0.10.1",
+    "gudhi==3.11.0",
+    "matplotlib==3.10.0",
+    "pandas==2.2.3",
+]
+
+[project.optional-dependencies]
+data = [
+    "kagglehub==0.2.7",
+    "pillow",
+]
+graphs = [
+    "torch",
+    "torch-geometric",
+    "rdkit",
+]
+dev = [
+    "pytest>=8",
+    "pytest-cov",
+    "ipykernel",
+    "jupyter",
+]
+
+[tool.setuptools]
+package-dir = { "tcda_uq" = "." }
+packages = [
+    "tcda_uq",
+    "tcda_uq.datasets",
+    "tcda_uq.estimators",
+    "tcda_uq.metrics",
+    "tcda_uq.silhouette",
+    "tcda_uq.uq",
+    "tcda_uq.uq.asymptotic",
+    "tcda_uq.uq.conformal",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]

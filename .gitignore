@@ -1,0 +1,25 @@
+# environments
+.venv/
+*.egg-info/
+__pycache__/
+*.pyc
+
+# build / coverage
+dist/
+build/
+.coverage
+htmlcov/
+.pytest_cache/
+
+# local data and outputs
+data/
+outputs/
+figures/
+*.pt
+*.pickle
+
+# notebooks / editor / OS
+.ipynb_checkpoints/
+.DS_Store
+*.Zone.Identifier
+THIRD_PARTY_NOTICES.md

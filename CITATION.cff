@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: "tcda_uq: Uncertainty Quantification for Topological Treatment Effects"
+message: "If you use tcda_uq in academic work, please cite this software and the accompanying manuscript."
+type: software
+authors:
+  - family-names: Souto
+    given-names: Hugo
+    email: hugo.souto@dell.com
+  - family-names: Diamantis
+    given-names: Ioannis
+    email: i.diamantis@maastrichtuniversity.nl
+abstract: "Python library for uncertainty quantification of topological treatment effects across TATE, CTATE, and ITTE estimands."
+keywords:
+  - causal inference
+  - topological data analysis
+  - uncertainty quantification
+  - conformal prediction
+  - functional data analysis
+license: MIT
+version: 0.0.1
+date-released: 2026-07-03
