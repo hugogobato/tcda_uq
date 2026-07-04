@@ -73,7 +73,13 @@ packages = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+# The default run is fast (smoke + unit + API). The statistical coverage-property
+# tests drive the full nuisance pipeline over many replicates and are marked
+# `slow`; run them explicitly with `pytest -m slow`.
+addopts = "-q -m 'not slow'"
+markers = [
+    "slow: statistical coverage-property tests (many cross-fit replicates)",
+]
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::PendingDeprecationWarning",

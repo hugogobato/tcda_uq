@@ -20,5 +20,8 @@ jobs:
       - name: Install
         run: uv pip install -e ".[dev]"
 
-      - name: Run tests
+      - name: Run fast tests
         run: uv run --no-sync pytest
+
+      - name: Run coverage-property tests
+        run: uv run --no-sync pytest -m slow

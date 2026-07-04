@@ -1,0 +1,28 @@
+# Conda environment for tcda_uq (core, CPU).
+#
+# pyproject.toml is the single source of truth for pinned versions: conda here
+# only provides the Python interpreter, and the pip section installs the package
+# (with its pinned core dependencies) in editable mode.
+#
+# We deliberately do NOT pin `pyg` / `torch-geometric` via conda. PyG dropped
+# conda packaging and the original `pyg=2.6.1` conda pin is fragile; the graph
+# modality is optional and off the critical path. Install it through the pip
+# extra instead (CPU wheels locally, Colab's preinstalled CUDA torch remotely):
+#
+#     pip install -e ".[graphs]"
+#
+# Usage:
+#     conda env create -f environment.yml     # from the repo root
+#     conda activate tcda_uq
+#     pytest                                   # fast suite
+#     pytest -m slow                           # coverage-property tests
+#
+# Prefer `uv` (see README) if you do not need conda.
+name: tcda_uq
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - -e ".[dev]"

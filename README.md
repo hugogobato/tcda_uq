@@ -56,10 +56,25 @@ uv pip install "tcda_uq[data] @ git+https://github.com/hugogobato/tcda_uq.git"
 uv pip install "tcda_uq[graphs] @ git+https://github.com/hugogobato/tcda_uq.git"
 ```
 
-Run the smoke tests:
+Conda users can instead create the environment from `environment.yml` (it
+pip-installs the package; `pyproject.toml` remains the single source of truth for
+pinned versions, and the fragile `pyg` conda pin is intentionally dropped - see
+the file header):
 
 ```bash
-.venv/bin/python -m pytest
+conda env create -f environment.yml
+conda activate tcda_uq
+```
+
+## Testing
+
+Two lanes. The default run is fast (smoke + unit + API tests); the statistical
+coverage-property tests drive the full nuisance pipeline over many replicates and
+are marked `slow`:
+
+```bash
+pytest              # fast: smoke + unit + unified-API tests
+pytest -m slow      # coverage-property regression tests on the tri-oracle harness
 ```
 
 ## Quickstart: TATE Confidence Band
@@ -109,9 +124,61 @@ coverage = ((target >= lo) & (target <= hi)).all(axis=1).mean()
 print(coverage)
 ```
 
+## Unified Interface
+
+A thin, non-breaking convenience layer bands and evaluates all three estimands
+through one surface (the per-method functions/classes remain the reference API):
+
+```python
+from tcda_uq import tate_band, ctate_band, itte_band, evaluate_coverage
+
+# TATE confidence band (method in {"mbb", "pv", "lr"}), then coverage vs truth
+band = tate_band(cross_fit_result, method="mbb", d=1, alpha=0.10)
+print(evaluate_coverage(band, sim.true_tate()[1]))
+# CoverageResult(coverage=... @ level=0.900 ..., mean_width=..., n=1, confidence)
+
+band = ctate_band(ctate_learner, x, d=1, alpha=0.10)   # confidence, per-x
+band = itte_band(itte_model, x, d=1, alpha=0.10)       # prediction
+```
+
+`evaluate_coverage` accepts a `Band` or a raw `(lower, upper)` tuple and a single
+truth curve or a batch, returning simultaneous coverage + mean width.
+
+## Reproducing The Coverage Claims
+
+A self-contained, CPU-only script regenerates the headline coverage/width table
+for all three estimands on the tri-oracle harness:
+
+```bash
+python scripts/reproduce_coverage.py --quick      # fast smoke
+python scripts/reproduce_coverage.py              # default (a few minutes)
+python scripts/reproduce_coverage.py --out coverage.csv
+```
+
+(The full production tables and figures live in the research workspace, not in
+this library repo.)
+
+## Tutorials
+
+Executable notebooks under `notebooks/` - one per estimand and one per dataset:
+
+| Notebook | Focus |
+|---|---|
+| `01_tate_confidence_bands.ipynb` | TATE confidence bands (mbb / PV / LR) |
+| `02_ctate_bridge.ipynb` | CTATE DR-learner + confidence-vs-prediction at x |
+| `03_itte_conformal.ipynb` | ITTE conformal prediction + positivity stabilization |
+| `04_orbit_pipeline.ipynb` | ORBIT point clouds -> persistence -> silhouette -> UQ |
+| `05_sarscov2_demo.ipynb` | SARS-CoV-2 CT images (needs the `[data]` extra) |
+
+Execute them in place with `make notebooks` (or
+`jupyter nbconvert --to notebook --execute --inplace notebooks/*.ipynb`).
+Refresh the notebook JSON from the checked-in sources with
+`python scripts/build_notebooks.py`.
+
 ## Package Layout
 
 ```text
+api.py         unified tate_band / ctate_band / itte_band / evaluate_coverage layer
 datasets/      synthetic oracle DGPs and lightweight data helpers
 estimators/    plug-in, IPW, AIPW, cross-fitting, CTATE DR-learner
 metrics/       band, coverage, width, and plotting helpers
@@ -119,7 +186,9 @@ silhouette/    persistence diagram / point cloud / image to silhouette tools
 uq/
   asymptotic/  confidence-band methods
   conformal/   conformal prediction methods
-tests/         fast smoke tests
+tests/         fast unit/API tests + `slow` coverage-property tests
+scripts/       reproduce_coverage.py and build_notebooks.py
+notebooks/     executable tutorials (one per estimand, one per dataset)
 ```
 
 ## Notes On Optional Backends
