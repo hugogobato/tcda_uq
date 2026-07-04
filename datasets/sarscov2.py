@@ -40,11 +40,27 @@ def load_ct_images(root_dir):
     return infected, noninfected
 
 
-def images_to_silhouettes(images, interval=(0.0, 1.0), r=0.1, resolution=100):
+def _silhouette_task(args):
+    image, interval, r, resolution = args
+    return silhouette_from_image(image, interval, r, resolution, homology_dims=(0,))
+
+
+def _limit_threads():
+    for var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
+                "NUMEXPR_NUM_THREADS", "VECLIB_MAXIMUM_THREADS"):
+        os.environ.setdefault(var, "1")
+
+
+def images_to_silhouettes(images, interval=(0.0, 1.0), r=0.1, resolution=100, workers=1):
     """H0 cubical silhouettes for a list of images: ``[n, 1, resolution]``."""
-    return np.stack(
-        [silhouette_from_image(im, interval, r, resolution, homology_dims=(0,)) for im in images]
-    )
+    tasks = [(im, interval, r, resolution) for im in images]
+    if workers is None or int(workers) <= 1:
+        return np.stack([_silhouette_task(task) for task in tasks])
+
+    from multiprocessing import Pool
+
+    with Pool(processes=int(workers), initializer=_limit_threads) as pool:
+        return np.stack(pool.map(_silhouette_task, tasks, chunksize=1))
 
 
 def make_sarscov2_causal(

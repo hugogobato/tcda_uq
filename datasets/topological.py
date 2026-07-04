@@ -90,6 +90,15 @@ class TopologicalCausalSimulation:
         noise: isotropic Gaussian jitter on the sampled points.
         background: number of uniform background points (adds ``H_0`` noise).
         prop_scale: propensity-logit scale (>1 => weaker overlap; matches the tri-oracle knob).
+        radius_tail_df: **diagram tail-heaviness knob** (Phase 7A.3, topological). ``None``
+            (default) keeps every loop at the fixed ``radius`` -> light, concentrated
+            persistence. When set (a Student-t degrees-of-freedom ``> 2``), each loop's radius
+            is inflated by ``1 + radius_tail_scale * |t|`` with ``t`` a unit-variance
+            ``df``-Student-t draw, so a few loops are far more persistent than the rest: the
+            persistence diagram (hence the silhouette) grows a **heavy tail**. Smaller ``df`` =>
+            heavier tail. Off by default so existing samples are byte-for-byte unchanged.
+        radius_tail_scale: amplitude of the heavy-tail radius inflation (only used when
+            ``radius_tail_df`` is set).
         beta: propensity coefficients.
         seed: seeds the fixed model directions (``w`` for the loop tilt, ``beta`` default).
     """
@@ -110,6 +119,8 @@ class TopologicalCausalSimulation:
         noise: float = 0.08,
         background: int = 6,
         prop_scale: float = 1.0,
+        radius_tail_df: float | None = None,
+        radius_tail_scale: float = 0.6,
         mu1=None,
         mu2=None,
         beta=None,
@@ -131,6 +142,10 @@ class TopologicalCausalSimulation:
         self.noise = noise
         self.background = background
         self.prop_scale = prop_scale
+        if radius_tail_df is not None and radius_tail_df <= 2:
+            raise ValueError("radius_tail_df must be > 2 so the loop radii have finite variance")
+        self.radius_tail_df = radius_tail_df
+        self.radius_tail_scale = float(radius_tail_scale)
 
         self.mu1 = np.asarray(mu1 if mu1 is not None else _MU1[:n_cov], dtype=float)
         self.mu2 = np.asarray(mu2 if mu2 is not None else _MU2[:n_cov], dtype=float)
@@ -157,16 +172,32 @@ class TopologicalCausalSimulation:
         raw = self.base_loops + a * self.loop_effect + tilt
         return np.clip(np.rint(raw), 0, self.max_loops).astype(int)
 
+    def _loop_radii(self, n_loops, rng):
+        """Per-loop radii. Fixed at ``radius`` unless the heavy-tail knob is on.
+
+        When ``radius_tail_df`` is ``None`` (default) no random numbers are drawn, so the
+        overall RNG stream -- and hence every previously generated sample -- is unchanged.
+        """
+        if self.radius_tail_df is None or n_loops == 0:
+            return np.full(int(n_loops), self.radius)
+        t = rng.standard_t(self.radius_tail_df, size=int(n_loops))
+        t = t * np.sqrt((self.radius_tail_df - 2.0) / self.radius_tail_df)   # unit variance
+        return self.radius * (1.0 + self.radius_tail_scale * np.abs(t))
+
     def _point_cloud(self, n_loops, rng):
         """Sample ``n_loops`` jittered circles (+ background) as a 2-D point cloud."""
+        n_loops = int(n_loops)
+        radii = self._loop_radii(n_loops, rng)
         pts = []
-        # place circle centers on a coarse grid so loops are separable in the filtration
-        spacing = 3.0 * self.radius
-        for k in range(int(n_loops)):
+        # place circle centers on a coarse grid so loops stay separable even when the
+        # heavy-tail knob inflates some radii (spacing tracks the largest circle).
+        max_mult = float(radii.max() / self.radius) if n_loops else 1.0
+        spacing = 3.0 * self.radius * max_mult
+        for k in range(n_loops):
             cx, cy = (k % 3) * spacing, (k // 3) * spacing
             theta = rng.uniform(0, 2 * np.pi, self.pts_per_loop)
-            circle = np.column_stack([cx + self.radius * np.cos(theta),
-                                      cy + self.radius * np.sin(theta)])
+            circle = np.column_stack([cx + radii[k] * np.cos(theta),
+                                      cy + radii[k] * np.sin(theta)])
             pts.append(circle + rng.normal(scale=self.noise, size=circle.shape))
         if self.background > 0:
             span = spacing * 3

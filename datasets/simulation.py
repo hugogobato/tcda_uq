@@ -96,6 +96,7 @@ class TriOracleSimulation:
         coef_scale: float = 1.0,
         coef_decay: float = 0.5,
         noise_scale: float = 0.3,
+        noise_df: float | None = None,
         prop_scale: float = 1.0,
         hetero_scale: float = 0.0,
         seed: int = 0,
@@ -106,6 +107,9 @@ class TriOracleSimulation:
         self.interval = interval
         self.n_basis = n_basis
         self.noise_scale = noise_scale
+        if noise_df is not None and noise_df <= 2:
+            raise ValueError("noise_df must be > 2 so the functional noise has finite variance")
+        self.noise_df = noise_df
         # overlap knob: scales the propensity logit. >1 pushes pi(X) toward {0,1}
         # (weaker overlap / positivity); it changes only treatment assignment, not
         # the outcome oracles psi/tau/delta. Phase 4.5 & 6 sweep this.
@@ -222,7 +226,11 @@ class TriOracleSimulation:
         covariate (the Phase-5 heteroskedastic regime). The amplitude is mean-zero-
         preserving, so ``E[delta | X]`` (and hence ``tau``/``psi``) is unchanged.
         """
-        z = rng.normal(size=(n, self.n_hom_dim, self.n_basis))
+        if self.noise_df is None:
+            z = rng.normal(size=(n, self.n_hom_dim, self.n_basis))
+        else:
+            z = rng.standard_t(self.noise_df, size=(n, self.n_hom_dim, self.n_basis))
+            z = z * np.sqrt((self.noise_df - 2.0) / self.noise_df)
         z = z * self.spectral[None, None, :]
         eps = self.noise_scale * (z @ self.Psi)                    # [n,hom,K]@[K,res]
         if self.hetero_scale > 0.0 and X is not None:
