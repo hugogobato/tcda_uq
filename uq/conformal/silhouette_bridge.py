@@ -40,8 +40,9 @@ Two operational consequences, both provided here:
     even though it was calibrated on *estimated* diagrams (a diagram-robust band), at a
     controlled width cost (:func:`certified_width_inflation`).
   * :func:`coverage_certificate` -- if instead one keeps the ordinary band, its worst-case
-    coverage loss from diagram error is bounded through the same ``Delta`` (a certificate
-    that the band degrades gracefully, not catastrophically, under diagram perturbation).
+    coverage loss from diagram error is bounded through the same ``Delta``. For scores
+    computed from estimated diagrams, the vulnerable calibration scores are those just below
+    the ordinary radius, in ``(k - Delta, k]``.
 
 All quantities are analytic in ``(L, r, c, epsilon, s)`` -- no extra fitting -- so the
 bridge is a cheap add-on that certifies the cheap silhouette-space band against the
@@ -150,13 +151,14 @@ def certified_width_inflation(K: float, epsilon: float, s) -> float:
 def coverage_certificate(calib_scores, radius, K: float, epsilon: float, s):
     """Worst-case coverage loss of an *uncorrected* band under diagram error ``<= epsilon``.
 
-    If the band uses the ordinary radius ``k`` but the scores are off by at most ``Delta``,
-    a true-silhouette miss can only happen for units whose *true* score lies in
-    ``(k, k + Delta]``. The empirical fraction of calibration scores in that window upper-
-    bounds the extra miscoverage, giving a *certificate* that coverage degrades by at most
-    this much:
+    Here ``calib_scores`` are the scores computed from the estimated diagrams. If the band
+    uses the ordinary radius ``k`` but the true score can be larger than the estimated score
+    by at most ``Delta``, an extra true-silhouette miss can only occur when the estimated
+    score lies in ``(k - Delta, k]``. The empirical fraction of calibration scores in that
+    window upper-bounds the extra miscoverage, giving a *certificate* that coverage degrades
+    by at most this much:
 
-        coverage(true)  >=  coverage(estimated) - #{ k < S_i <= k + Delta } / n.
+        coverage(true)  >=  coverage(estimated) - #{ k - Delta < S_hat_i <= k } / n.
 
     Args:
         calib_scores: calibration scores ``[n]`` (as computed on the estimated diagrams).
@@ -165,8 +167,8 @@ def coverage_certificate(calib_scores, radius, K: float, epsilon: float, s):
 
     Returns:
         dict with ``delta`` (score slack), ``coverage_loss_bound`` (the fraction above),
-        and ``certified_coverage`` = nominal ``(1 - miss)`` minus the loss bound. ``radius``
-        ``+inf`` -> zero loss (an unbounded band cannot miss).
+        and ``certified_coverage`` = empirical estimated-score coverage minus the loss
+        bound. ``radius`` ``+inf`` -> zero loss (an unbounded band cannot miss).
     """
     scores = np.asarray(calib_scores, dtype=float)
     n = scores.shape[0]
@@ -174,7 +176,7 @@ def coverage_certificate(calib_scores, radius, K: float, epsilon: float, s):
     if not np.isfinite(radius):
         loss = 0.0
     else:
-        loss = float(np.mean((scores > radius) & (scores <= radius + delta)))
+        loss = float(np.mean((scores > radius - delta) & (scores <= radius)))
     emp_cov = float(np.mean(scores <= radius)) if np.isfinite(radius) else 1.0
     return dict(delta=delta, coverage_loss_bound=loss,
                 certified_coverage=max(emp_cov - loss, 0.0))

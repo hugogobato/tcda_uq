@@ -179,11 +179,11 @@ def test_score_perturbation_and_certificates():
     assert SB.certified_width_inflation(K, eps, s) == pytest.approx(
         2 * SB.score_perturbation_bound(K, eps, s) * np.mean(s)
     )
-    # radius 1.0, delta 0.8 -> only score 1.5 falls in the miss window (1.0, 1.8]
+    # radius 1.0, delta 0.8 -> scores 0.5 and 1.0 fall in the vulnerable window (0.2, 1.0]
     cert = SB.coverage_certificate(scores, 1.0, K, eps, s)
     assert cert["delta"] == pytest.approx(0.8)
-    assert cert["coverage_loss_bound"] == pytest.approx(0.2)
-    assert cert["certified_coverage"] == pytest.approx(0.6 - 0.2)
+    assert cert["coverage_loss_bound"] == pytest.approx(0.4)
+    assert cert["certified_coverage"] == pytest.approx(0.6 - 0.4)
     # an unbounded band cannot miss
     cert_inf = SB.coverage_certificate(scores, np.inf, K, eps, s)
     assert cert_inf["coverage_loss_bound"] == 0.0

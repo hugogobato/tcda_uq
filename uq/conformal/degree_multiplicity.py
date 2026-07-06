@@ -16,7 +16,8 @@ union. Three schemes, from bluntest to sharpest:
     per-dim band (marginal or covariate-adaptive), at the cost of a factor ``n_dim`` in
     each dim's level (so each arm at ``alpha/(2 n_dim)``).
   * ``"sidak"`` -- band every dim at ``1 - (1-alpha)^(1/n_dim)``. Sharper than Bonferroni
-    under near-independence across degrees; still a per-dim correction.
+    under a Sidak product / dependence condition across degree-miss events; otherwise it is
+    a useful per-dim comparator rather than the distribution-free theorem.
   * ``"joint"`` -- **fold the degree axis into the sup-norm** exactly as the ``t`` axis
     is folded. Per arm ``a``, define the joint score ``S_i^a = max_d max_t
     |r^a_{i,d}(t)| / s_{a,d}(t)`` (one scalar per unit, maxing over *both* degree and
@@ -55,8 +56,10 @@ def bonferroni_itte_bounds(model, X_new, alpha: float, *, scheme: str = "bonferr
     """Simultaneous-over-degree ITTE bounds by per-dim level correction.
 
     Bands each requested dim at the corrected per-dim level (:func:`_per_dim_scheme_level`)
-    and returns the list of ``(lower, upper, center)`` -- their *intersection over d* holds
-    the whole vector ``(delta_d)_d`` with joint probability ``>= 1 - alpha``.
+    and returns the list of ``(lower, upper, center)``. For ``scheme="bonferroni"``, their
+    *intersection over d* holds the whole vector ``(delta_d)_d`` with joint probability
+    ``>= 1 - alpha`` by the union bound. For ``scheme="sidak"``, the same statement needs
+    the usual Sidak product / dependence condition across degree-miss events.
 
     Args:
         model: a fitted band with ``band_bounds(X, level, d)`` (``ITTEConformal`` or
@@ -122,7 +125,8 @@ def simultaneous_itte_bounds(model, X_new, alpha: float, *, scheme: str = "joint
     """Dispatch to the requested degree-multiplicity ``scheme``.
 
     ``scheme in {"joint", "bonferroni", "sidak"}`` (see module docstring). ``"joint"``
-    is the sharper topology-specific scheme and the recommended default.
+    is the sharper topology-specific scheme and the recommended default; ``"sidak"`` is
+    a comparator unless its dependence condition is part of the theorem being invoked.
     """
     if scheme == "joint":
         return joint_itte_bounds(model, X_new, alpha, dims=dims)
