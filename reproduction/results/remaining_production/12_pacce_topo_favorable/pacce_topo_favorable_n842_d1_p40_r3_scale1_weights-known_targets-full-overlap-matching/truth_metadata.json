@@ -1,0 +1,9 @@
+{
+  "oracle_n": 10000,
+  "seed": 20961010,
+  "sup_oracle_se": 0.00025422404056351733,
+  "sup_profile_oracle_se": 0.0004676495530097296,
+  "profile_mc": 3000,
+  "coverage_scope": "fixed finite grid; oracle approximation uncertainty must be assessed before inferential validation",
+  "note": "Profile oracle SE stored in truth.npz; enlarge profile_mc and repeat truth checks when non-negligible relative to band widths."
+}

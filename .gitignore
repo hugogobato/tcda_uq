@@ -11,15 +11,10 @@ build/
 htmlcov/
 .pytest_cache/
 
-# local data and outputs
-data/
-outputs/
-figures/
-*.pt
-*.pickle
+# Experiment outputs, figures, generated datasets and model weights are kept.
+# Raw clinical files must be selected explicitly when preparing a publication.
 
 # notebooks / editor / OS
 .ipynb_checkpoints/
 .DS_Store
 *.Zone.Identifier
-THIRD_PARTY_NOTICES.md

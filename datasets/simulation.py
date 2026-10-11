@@ -9,7 +9,7 @@ CTATE-mean) and *prediction* coverage (ITTE) can be checked:
   * ITTE   delta_{i,d}(t) = phi^1_{i,d}(t) - phi^0_{i,d}(t)  -- individual draw (realised)
 
 Design (extends TATE Appendix D):
-  * Covariates X in R^d from a two-component Gaussian mixture (subgroups).
+  * Covariates X in R^d are i.i.d. from an equal two-component Gaussian mixture.
   * Propensity pi(x) = expit(x @ beta + interactions).
   * Outcome means mu_{a,d}(t, x) are a Fourier-in-t function-on-scalar model with
     coefficient functions linear in x -- i.e. exactly the family that
@@ -17,6 +17,13 @@ Design (extends TATE Appendix D):
   * phi^a_{i,d}(t) = mu_{a,d}(t, X_i) + eps^a_{i,d}(t), with eps a smooth mean-zero
     functional noise process. The eps carries the *aleatoric* spread that ITTE
     prediction bands must cover and that confidence bands must not.
+
+These Fourier curves test the inference machinery; they are not required to be
+nonnegative or 1-Lipschitz and are not actual persistence silhouettes. The
+Gaussian covariate support is untruncated: logistic propensity is pointwise
+positive mathematically, but a uniform overlap bound is not imposed. Propensity
+values and likelihood ratios must not be silently clipped in exact-weight
+experiments.
 """
 
 from __future__ import annotations
@@ -24,6 +31,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+from scipy.special import expit
+
+from .covariates import _sample_size, _sample_tilted_covariates, gen_covariate
 
 # defaults mirror ORBIT/main.ipynb's data-generating process
 _MU1 = np.array([1.0, 0.6, -0.7, 2.2, -1.0])
@@ -56,7 +66,8 @@ class SimulationSample:
     potential_outcomes: np.ndarray  # [n, 2, n_hom, res]  (phi^0, phi^1)
     oracle_itte: np.ndarray       # [n, n_hom, res]  delta_i = phi^1 - phi^0 (with noise)
     oracle_ctate: np.ndarray      # [n, n_hom, res]  tau(t, X_i)          (noiseless)
-    oracle_tate: np.ndarray       # [n_hom, res]     psi(t)               (noiseless)
+    oracle_tate: np.ndarray | None  # exact full-population mean; None for tilted targets
+    target: str = "full"         # covariate target law for these full-data units
 
     @property
     def observed(self):
@@ -128,6 +139,13 @@ class TriOracleSimulation:
         self.mu2 = np.asarray(mu2 if mu2 is not None else _MU2[:n_cov], dtype=float)
         self.Sigma = np.eye(n_cov) * sigma2
         self.beta = np.asarray(beta if beta is not None else _BETA[:n_cov], dtype=float)
+        for name, value in (("mu1", self.mu1), ("mu2", self.mu2), ("beta", self.beta)):
+            if value.shape != (n_cov,) or not np.isfinite(value).all():
+                raise ValueError(f"{name} must be a finite vector of length n_cov")
+        if n_cov < 1 or sigma2 < 0 or not np.isfinite(sigma2):
+            raise ValueError("n_cov must be positive and sigma2 must be finite and nonnegative")
+        if not np.isfinite(prop_scale):
+            raise ValueError("prop_scale must be finite")
 
         self.tseq = np.linspace(interval[0], interval[1], resolution)
         self.Psi = _fourier_basis(n_basis, self.tseq, interval)      # [K, res]
@@ -142,7 +160,7 @@ class TriOracleSimulation:
                 C = C * self.spectral[:, None]
                 self.Gamma[a].append(C)
 
-        # E[X] under the balanced two-component mixture
+        # E[X] under the equal-probability two-component mixture
         self.EX = 0.5 * (self.mu1 + self.mu2)
 
         # fixed direction + standardization for the heteroskedastic amplitude
@@ -163,12 +181,36 @@ class TriOracleSimulation:
         return out
 
     def _propensity(self, X):
-        y = (
-            X @ self.beta
-            + 0.5 * X[:, 1] * X[:, 2]
-            - 0.7 * X[:, 0] * X[:, 2]
+        """True un-clipped generating probabilities; no uniform-overlap bound."""
+        X = np.atleast_2d(np.asarray(X, dtype=float))
+        y = X @ self.beta
+        if self.n_cov >= 3:
+            y = y + 0.5 * X[:, 1] * X[:, 2] - 0.7 * X[:, 0] * X[:, 2]
+        return expit(self.prop_scale * y)
+
+    def _sample_covariates(self, n, rng):
+        return gen_covariate(self.mu1, self.mu2, self.Sigma, n, rng=rng)[2]
+
+    def propensity_score(self, X):
+        """Known generating pi(X), without clipping or a uniform overlap bound.
+
+        Extreme logits may round to 0 or 1; exact arm-weight routines must
+        validate their support instead of silently replacing these values.
+        """
+        return self._propensity(X)
+
+    def sample_target_covariates(self, n, target="full", rng=None, max_draws=1_000_000):
+        """Draw independent X from full, overlap, matching, or sqrt-tilt Q_X.
+
+        Rejection probabilities use the known generating propensity, preserving
+        the conditional potential-outcome law given X. Each call requires a
+        fresh RNG stream for independent training/calibration/target samples.
+        No outcomes are generated for rejected candidates.
+        """
+        rng = np.random.default_rng(rng)
+        return _sample_tilted_covariates(
+            self._sample_covariates, self._propensity, n, target, rng, max_draws,
         )
-        return 1.0 / (1.0 + np.exp(-self.prop_scale * y))
 
     # ------------------------------------------------------------- oracles
     def true_ctate(self, X):
@@ -179,15 +221,35 @@ class TriOracleSimulation:
         """TATE psi_d(t) = E_X[tau_d(t, X)]: ``[n_hom, res]`` (uses closed-form E[X])."""
         return self.true_ctate(self.EX[None, :])[0]
 
+    def true_target_tate_mc(self, target="overlap", n_x=10000, rng=None):
+        """Monte Carlo target mean, distinct from the closed-form full oracle.
+
+        This averages conditional mean curves over independent target X draws;
+        it has Monte Carlo error and must not be treated as an exact truth.
+        """
+        if _sample_size(n_x, "n_x") < 1:
+            raise ValueError("n_x must be >= 1")
+        X = self.sample_target_covariates(n_x, target=target, rng=rng)
+        # The conditional mean is linear in X, so averaging X first is exact
+        # for the drawn sample and avoids an n_x * homology * grid allocation.
+        return self.true_ctate(X.mean(axis=0, keepdims=True))[0]
+
     # ------------------------------------------------------------- sampling
     def sample(self, n, rng=None) -> SimulationSample:
-        rng = np.random.default_rng(rng)
+        """Draw i.i.d. full-population full-data units with three oracle truths."""
+        return self.sample_target(n, target="full", rng=rng)
 
-        # covariates: balanced two-component Gaussian mixture
-        n1 = n // 2
-        X1 = rng.multivariate_normal(self.mu1, self.Sigma, size=n1)
-        X2 = rng.multivariate_normal(self.mu2, self.Sigma, size=n - n1)
-        X = np.vstack([X1, X2])
+    def sample_target(self, n, target="full", rng=None, max_draws=1_000_000) -> SimulationSample:
+        """Draw independent full-data units from the declared covariate target.
+
+        ``oracle_ctate`` and ``oracle_itte`` remain valid conditional/individual
+        truths. ``oracle_tate`` is None for tilted targets because their marginal
+        mean is not supplied in closed form; use ``true_target_tate_mc`` as an
+        explicitly approximate, independently drawn reference instead.
+        """
+        rng = np.random.default_rng(rng)
+        n = _sample_size(n)
+        X = self.sample_target_covariates(n, target=target, rng=rng, max_draws=max_draws)
 
         # treatment
         pi = self._propensity(X)
@@ -204,7 +266,7 @@ class TriOracleSimulation:
 
         oracle_itte = phi1 - phi0                                   # realised individual
         oracle_ctate = mu1 - mu0                                    # E[delta | X_i]
-        oracle_tate = self.true_tate()
+        oracle_tate = self.true_tate() if target == "full" else None
 
         return SimulationSample(
             tseq=self.tseq,
@@ -215,6 +277,7 @@ class TriOracleSimulation:
             oracle_itte=oracle_itte,
             oracle_ctate=oracle_ctate,
             oracle_tate=oracle_tate,
+            target=target,
         )
 
     def _noise(self, n, rng, X=None):
@@ -247,4 +310,4 @@ class TriOracleSimulation:
         """
         X = np.atleast_2d(np.asarray(X, dtype=float))
         z = (X @ self.w_hetero - self._het_center) / self._het_scale_z
-        return 1.0 / (1.0 + np.exp(-z))
+        return expit(z)

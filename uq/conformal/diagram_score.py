@@ -10,17 +10,17 @@ the ``q``-Wasserstein distance between unit ``i``'s degree-``d`` persistence dia
 *predicted* diagram ``D_hat_a`` for its arm. Because a Wasserstein distance is a **scalar**,
 the causal reweighting (Layer 2) and the whole split-conformal machinery drop in unchanged
 -- only Layer 1 (curve -> scalar) is swapped for (diagram -> scalar). The resulting radius
-``k`` defines a **Wasserstein ball** ``{ D : W_q(D, D_hat_a) <= k }`` as a finite-sample
-prediction set for the potential-outcome diagram.
+``k`` defines a **Wasserstein ball** ``{ D : W_q(D, D_hat_a) <= k }`` as a marginal prediction set when the score is frozen on independent training
+and weights are actual arm-to-target ratios. Learned weights require TV qualification.
 
-Trade-off (why this is *optional*): more faithful to the geometry, but Frechet means of
-persistence diagrams are non-unique / unstable and the pairwise Wasserstein solves are
+Trade-off (why this is *optional*): more faithful to the geometry, but diagram-template optimization
+is nonconvex and the supplied arithmetic update has no optimality guarantee and the pairwise Wasserstein solves are
 ``O((n+m)^3)`` Hungarian assignments -- heavy next to the vectorized silhouette sup-norm.
 Provided as a benchmark for the silhouette-space band and to exercise the Theorem-5.3
 bridge (:mod:`.silhouette_bridge`) against the true diagram metric.
 
-Self-contained: the ``q``-Wasserstein distance and the Turner et al. (2014) Frechet-mean
-barycenter are implemented on top of :func:`scipy.optimize.linear_sum_assignment`, so the
+Self-contained: the ``q``-Wasserstein distance and a legacy heuristic diagram-template
+update are implemented on top of :func:`scipy.optimize.linear_sum_assignment`, so the
 core install needs no optional-transport (`ot`) dependency.
 """
 
@@ -29,84 +29,110 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
-_INF = 1e12
-
 
 def _clean(D):
-    """Drop essential (infinite) pairs and near-diagonal noise; return ``(k, 2)`` float."""
+    """Keep every strictly positive finite bar; discard essential +infinity deaths."""
     D = np.asarray(D, dtype=float)
     if D.size == 0:
         return np.empty((0, 2))
-    D = D[np.isfinite(D).all(axis=1)]
-    return D[D[:, 1] - D[:, 0] > 1e-12]
+    if D.ndim != 2 or D.shape[1] != 2 or np.isnan(D).any() or not np.isfinite(D[:, 0]).all() or np.isneginf(D[:, 1]).any():
+        raise ValueError("diagrams must have shape [k,2], finite births, and finite or +infinity deaths")
+    D = D[np.isfinite(D[:, 1])]
+    if np.any(D[:,1] < D[:,0]):
+        raise ValueError("diagram deaths must be at least their births")
+    return D[D[:, 1] > D[:, 0]]
 
 
-def _diag_cost(D, q):
-    """L-inf distance to the diagonal, ``(death - birth)/2``, raised to ``q``: ``[k]``."""
-    return ((D[:, 1] - D[:, 0]) / 2.0) ** q
+def _assignment_costs(D1, D2, q):
+    """Scaled legal distances and powered costs, with truly forbidden edges."""
+    n, m = len(D1), len(D2)
+    scale = max(float(np.max(np.abs(D1))) if n else 0.,
+                float(np.max(np.abs(D2))) if m else 0.)
+    if scale == 0:
+        scale = 1.
+    distances = np.full((n+m,n+m), np.inf)
+    if n and m:
+        with np.errstate(over="ignore"):
+            raw = np.abs(D1[:,None,:]-D2[None,:,:])
+        # Direct subtraction preserves small distances at a large common offset.
+        # Opposite-sign overflow is safely calculated after normalizing coordinates.
+        norm = np.divide(raw, scale)
+        overflow = ~np.isfinite(raw)
+        if overflow.any():
+            fallback = np.abs(D1[:,None,:]/scale-D2[None,:,:]/scale)
+            norm[overflow] = fallback[overflow]
+        if np.any((raw > 0) & (norm == 0)):
+            raise ValueError("diagram distance underflow after scaling; numerical range is too wide")
+        distances[:n,:m] = norm.max(axis=2)
+    for D, rows, columns in ((D1,np.arange(n),m+np.arange(n)),
+                             (D2,n+np.arange(m),np.arange(m))):
+        if not len(D):
+            continue
+        with np.errstate(over="ignore"):
+            lifetime = D[:,1]-D[:,0]
+        finite = np.isfinite(lifetime)
+        diag = np.empty(len(D))
+        diag[finite] = lifetime[finite]/scale/2
+        diag[~finite] = (D[~finite,1]/scale-D[~finite,0]/scale)/2
+        if np.any(diag == 0):
+            raise ValueError("positive diagonal distance underflow after scaling")
+        distances[rows,columns] = diag
+    distances[n:,m:] = 0.
+    legal = np.isfinite(distances)
+    cost_scale = float(distances[legal].max()) if legal.any() else 1.
+    if cost_scale == 0:
+        cost_scale = 1.
+    costs = np.full_like(distances,np.inf)
+    normalized = distances[legal]/cost_scale
+    if np.any((distances[legal] > 0) & (normalized == 0)):
+        raise ValueError("normalized assignment costs underflow; numerical range is too wide")
+    costs[legal] = normalized**q
+    if np.any((normalized > 0)&(costs[legal] == 0)):
+        raise ValueError("powered Wasserstein costs underflow; q or numerical range is too large")
+    return costs, distances, scale
 
 
 def wasserstein_distance(D1, D2, q: float = 1.0):
-    """``q``-Wasserstein distance between two persistence diagrams (L-inf ground metric).
+    """q-Wasserstein metric with L-infinity ground distance and diagonal matching.
 
-    Matches TATE Definition C.2: ground metric ``||p - p'||_inf``, points may be matched to
-    the diagonal. Built as a balanced assignment on the augmented cost matrix (points of
-    each diagram + diagonal projections of the other's points), solved exactly with the
-    Hungarian algorithm.
-
-    Args:
-        D1, D2: ``(k, 2)`` birth-death arrays (essential pairs dropped internally).
-        q: Wasserstein order (``1`` = ``W_1``, the order in Theorem 5.3).
-
-    Returns:
-        ``W_q(D1, D2)`` (float).
+    Essential +infinity deaths are discarded as a fixed preprocessing rule;
+    every strictly positive finite lifetime is retained. Scaled costs prevent
+    powering overflow. If the numerical range cannot represent the powered
+    objective or final distance, fail explicitly instead of returning a smaller
+    distance. Forbidden assignment edges use infinity, not a finite penalty.
     """
+    if not np.isfinite(q) or q < 1:
+        raise ValueError("Wasserstein order q must be finite and at least 1")
     D1, D2 = _clean(D1), _clean(D2)
-    n, m = D1.shape[0], D2.shape[0]
-    if n == 0 and m == 0:
-        return 0.0
-    size = n + m
-    C = np.full((size, size), _INF)
-    # point-to-point (L-inf ground metric, to the q)
-    if n and m:
-        ground = np.max(np.abs(D1[:, None, :] - D2[None, :, :]), axis=2)   # [n, m]
-        C[:n, :m] = ground ** q
-    # D1 points -> their own diagonal projection (rows 0..n-1, cols m..m+n-1)
-    if n:
-        d1 = _diag_cost(D1, q)
-        C[:n, m:m + n] = _INF
-        C[np.arange(n), m + np.arange(n)] = d1
-    # D2 points -> their own diagonal projection (rows n..n+m-1, cols 0..m-1)
-    if m:
-        d2 = _diag_cost(D2, q)
-        C[n:n + m, :m] = _INF
-        C[n + np.arange(m), np.arange(m)] = d2
-    # diagonal-to-diagonal: free
-    C[n:, m:] = 0.0
-    r_idx, c_idx = linear_sum_assignment(C)
-    total = C[r_idx, c_idx].sum()
-    return float(total ** (1.0 / q))
+    if not len(D1) and not len(D2):
+        return 0.
+    costs, distances, scale = _assignment_costs(D1,D2,q)
+    rows, columns = linear_sum_assignment(costs)
+    selected = distances[rows,columns]
+    peak = float(selected.max())
+    if peak == 0:
+        return 0.
+    norm = float(np.sum((selected/peak)**q)**(1./q))
+    value = np.longdouble(scale)*np.longdouble(peak)*np.longdouble(norm)
+    if value > np.finfo(float).max:
+        raise OverflowError("Wasserstein distance exceeds the finite float range")
+    if 0 < value < np.nextafter(0.,1.):
+        raise ValueError("Wasserstein distance is below the positive float range")
+    return float(value)
 
 
 def frechet_mean_diagram(diagrams, q: float = 2.0, *, n_iter: int = 20, tol: float = 1e-6,
                          rng=None):
-    """Frechet-mean (barycenter) persistence diagram (Turner et al. 2014).
+    """Legacy heuristic template learned by matching and coordinate averaging.
 
-    Minimizes ``sum_i W_q(mu, D_i)^q`` by alternating (i) optimal matching of every diagram
-    to the current mean ``mu`` and (ii) moving each mean point to the average of the points
-    matched to it (points matched to the diagonal pull the mean toward the diagonal, and
-    persistently-diagonal mean points are pruned). A local optimizer -- diagram barycenters
-    are non-convex -- but adequate as a *predicted* diagram for the arm.
-
-    Args:
-        diagrams: list of ``(k_i, 2)`` diagrams (arm-``a`` training diagrams).
-        q: order (2 is the usual barycenter order; the matching still uses the L-inf ground).
-        n_iter, tol: iteration budget / movement tolerance.
-        rng: seed for the initial-diagram choice.
-
-    Returns:
-        ``(k, 2)`` mean diagram (possibly empty).
+    Arithmetic coordinate averages under L-infinity matching costs are not
+    generally exact Frechet minimizers, and this routine does not instantiate
+    Turner's optimizer guarantees. The legacy name is retained for compatibility.
+    Split-conformal validity needs only a measurable template frozen on independent
+    training, not an optimal barycenter. This heuristic can return an empty template.
     """
+    if not np.isfinite(q) or q < 1:
+        raise ValueError("q must be finite and at least 1")
     diags = [_clean(D) for D in diagrams]
     diags = [D for D in diags if D.shape[0] > 0]
     if not diags:
@@ -124,18 +150,7 @@ def frechet_mean_diagram(diagrams, q: float = 2.0, *, n_iter: int = 20, tol: flo
         for D in diags:
             k = mu.shape[0]
             m = D.shape[0]
-            C = np.full((k + m, k + m), _INF)
-            if m:
-                ground = np.max(np.abs(mu[:, None, :] - D[None, :, :]), axis=2) ** q
-                C[:k, :m] = ground
-            # mu points -> diagonal
-            C[:k, m:m + k] = _INF
-            C[np.arange(k), m + np.arange(k)] = _diag_cost(mu, q)
-            # D points -> diagonal
-            if m:
-                C[k:k + m, :m] = _INF
-                C[k + np.arange(m), np.arange(m)] = _diag_cost(D, q)
-            C[k:, m:] = 0.0
+            C, _, _ = _assignment_costs(mu,D,q)
             r_idx, c_idx = linear_sum_assignment(C)
             for ri, ci in zip(r_idx, c_idx):
                 if ri < k:                                   # a mean point
@@ -146,7 +161,7 @@ def frechet_mean_diagram(diagrams, q: float = 2.0, *, n_iter: int = 20, tol: flo
         new_mu = []
         for pts in accum:
             if pts:
-                new_mu.append(np.mean(np.asarray(pts), axis=0))
+                new_mu.append(np.sum(np.asarray(pts)/len(pts),axis=0))
         new_mu = np.asarray(new_mu) if new_mu else np.empty((0, 2))
         new_mu = _clean(new_mu)
         move = (np.inf if new_mu.shape != mu.shape
@@ -159,7 +174,7 @@ def frechet_mean_diagram(diagrams, q: float = 2.0, *, n_iter: int = 20, tol: flo
 
 def _project(p):
     """Project a point onto the diagonal (mean of birth/death on both coords)."""
-    mid = 0.5 * (p[0] + p[1])
+    mid = p[0]/2 + p[1]/2
     return np.array([mid, mid])
 
 
@@ -206,15 +221,15 @@ class DiagramConformalArm:
             calib_diagrams: list of arm-``a`` calibration diagrams.
             q: Wasserstein order for the score.
             ref_diagram: predicted diagram; if ``None`` it is the Frechet mean of
-                ``train_diagrams`` (or of ``calib_diagrams`` if those are absent -- note
-                that reuses calibration data, so pass a disjoint ``train_diagrams`` for an
-                exact split-CP guarantee).
+                independent ``train_diagrams``. Reusing calibration to fit the center is rejected.
             train_diagrams: disjoint diagrams to build the Frechet mean from.
             w_calib: calibration weights ``[n]`` (default uniform / unweighted).
             frechet_q: order of the Frechet-mean barycenter.
         """
         if ref_diagram is None:
-            base = train_diagrams if train_diagrams is not None else calib_diagrams
+            if train_diagrams is None:
+                raise ValueError("ref_diagram or independent train_diagrams is required; calibration cannot fit its own center")
+            base = train_diagrams
             ref_diagram = frechet_mean_diagram(base, frechet_q, rng=rng)
         scores = wasserstein_scores(calib_diagrams, ref_diagram, q)
         if w_calib is None:

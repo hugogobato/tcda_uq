@@ -1,0 +1,181 @@
+{
+  "source_bundle_sha256": "5d305d861b90420db7f05f4b3a58eaa9e6beef7fad74f8240dfe641be1f31883",
+  "source_scope": "Audited frozen corrected experiment adapters plus their original library dependencies",
+  "publication_scope": "Code, synthetic and empirical-pool numerical summaries, controlled-simulation records. No raw clinical records, subject IDs, private emails or draft manuscript are included.",
+  "clinical_constants": "The embedded historical PACCE JSON supplies aggregate coordinate scales only. Its legacy cohort summaries are not evidence for the revised clinical reanalysis.",
+  "primary_replications": 6600,
+  "remaining_replications": 4600,
+  "total_production_replications": 11200,
+  "pacce_mean_test_replays": 1400,
+  "mean_test_replay_scope": "Deterministic mean-stage replays of the same PACCE replications, not additional production samples.",
+  "retained_settings": [
+    {
+      "family": "primary",
+      "setting": "bounded_n200",
+      "replications": 2000
+    },
+    {
+      "family": "primary",
+      "setting": "bounded_n500",
+      "replications": 2000
+    },
+    {
+      "family": "primary",
+      "setting": "bounded_n1000",
+      "replications": 2000
+    },
+    {
+      "family": "primary",
+      "setting": "topological_base",
+      "replications": 200
+    },
+    {
+      "family": "primary",
+      "setting": "topological_scale4_v2",
+      "replications": 200
+    },
+    {
+      "family": "primary",
+      "setting": "sars_r1",
+      "replications": 200
+    },
+    {
+      "family": "remaining",
+      "setting": "01_functional_step_bias/functional_step_n500_d2_p40_r3_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "02_functional_degree3_base/functional_base_n500_d3_p40_r3_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "03_functional_weight_target_sensitivities/functional_base_n500_d2_p40_r3_scale1_weights-known_targets-full-overlap-matching-tilted-clip-shrink",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "03_functional_weight_target_sensitivities/functional_base_n500_d2_p40_r3_scale1_weights-learned_targets-full-overlap-matching-tilted-clip-shrink",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "03_functional_weight_target_sensitivities/functional_base_n500_d2_p40_r3_scale1_weights-misspecified_targets-full-overlap-matching-tilted-clip-shrink",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "03_functional_weight_target_sensitivities/functional_base_n500_d2_p40_r3_scale4_weights-known_targets-full-overlap-matching-tilted-clip-shrink",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "03_functional_weight_target_sensitivities/functional_base_n500_d2_p40_r3_scale4_weights-learned_targets-full-overlap-matching-tilted-clip-shrink",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "03_functional_weight_target_sensitivities/functional_base_n500_d2_p40_r3_scale4_weights-misspecified_targets-full-overlap-matching-tilted-clip-shrink",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "04_topological_scale4_weight_target_sensitivities/topological_base_n500_d2_p40_r3_scale4_weights-known_targets-full-overlap-matching-tilted-clip-shrink",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "04_topological_scale4_weight_target_sensitivities/topological_base_n500_d2_p40_r3_scale4_weights-learned_targets-full-overlap-matching-tilted-clip-shrink",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "04_topological_scale4_weight_target_sensitivities/topological_base_n500_d2_p40_r3_scale4_weights-misspecified_targets-full-overlap-matching-tilted-clip-shrink",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "05_topological_r1/topological_base_n500_d2_p40_r1_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "06_topological_r2/topological_base_n500_d2_p40_r2_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "07_topological_r4/topological_base_n500_d2_p40_r4_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "08_topological_r5/topological_base_n500_d2_p40_r5_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "09_orbit_1000_points/orbit_base_n300_d2_p1000_r3_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "10_pacce_null/pacce_null_n842_d1_p40_r3_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "11_pacce_sld_only/pacce_sld_only_n842_d1_p40_r3_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "12_pacce_topo_favorable/pacce_topo_favorable_n842_d1_p40_r3_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "13_pacce_topo_null/pacce_topo_null_n842_d1_p40_r3_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "14_pacce_nuisance_misp/pacce_nuisance_misp_n842_d1_p40_r3_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "15_pacce_irregular_visits/pacce_irregular_visits_n842_d1_p40_r3_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    },
+    {
+      "family": "remaining",
+      "setting": "16_pacce_dropout_arm/pacce_dropout_arm_n842_d1_p40_r3_scale1_weights-known_targets-full-overlap-matching",
+      "replications": 200,
+      "failures": 0
+    }
+  ]
+}

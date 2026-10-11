@@ -1,46 +1,12 @@
-"""Liebl-Reimherr fast-and-fair simultaneous confidence band (Phase 2.2).
+"""Liebl-Reimherr fast-and-fair benchmark for smooth standardized limits.
 
-Liebl & Reimherr (2023), *Fast and fair simultaneous confidence bands for
-functional parameters*, build a simultaneous 1-alpha band whose half-width is
-
-    band(t) = u(t) * sqrt(diag.cov.x(t)),
-
-where ``diag.cov.x(t) = Var(psi_hat_d(t))`` is the pointwise variance of the
-estimator and ``u(t)`` is a roughness-adaptive critical function obtained from a
-Kac-Rice up-crossing argument on the standardized process, using the roughness
-parameter ``tau(t)`` (the pointwise sd of the standardized-and-differentiated
-process). The "fair" refinement (``n_int > 1``) distributes the type-I error
-uniformly across ``n_int`` sub-intervals so the false-positive rate is even over
-the domain, rather than concentrated where the process is rough.
-
-For the topological DR estimand: by Theorem 5.2 ``sqrt(n)(psi_hat_d - psi_d)``
-is asymptotically the mean-zero Gaussian process ``G_d`` with covariance
-``cov{phi_d(s), phi_d(t)}``. So we feed
-
-  * ``x``          = AIPW estimate ``psi_hat_d(t)``  (``cross_fit(...).aipw[d]``),
-  * ``diag.cov.x`` = ``Var(psi_hat_d(t)) = sigma_hat_d(t)^2 / n``
-                     (:func:`~.covariance.eif_pointwise_variance` over ``n``),
-  * ``tau``        = roughness of the EIF process, from its covariance kernel
-                     (:func:`cov2tau`, the port of ffscb ``cov2tau_fun``).
-
-Because the limit is Gaussian we use the ``z`` band (``make_band_FFSCB_z``); the
-``t`` variant is available for small ``n``.
-
-Two backends (identical inputs):
-
-  * ``backend="R"`` (default, **faithful**): shells out to ``Rscript`` and calls
-    the original ``ffscb`` R source in ``ffscb-master/R/``. Uses only base R
-    ``stats`` (``cov2tau_fun`` + ``make_band_FFSCB_z``/``_t`` need no ``pracma``
-    or ``fda``), so no R packages must be installed. This is the route the plan
-    calls 2.2a; we reach it via an ``Rscript`` subprocess rather than ``rpy2``
-    (whose C extension fails to build against this R), which is more robust and
-    avoids the compiled-interop dependency.
-  * ``backend="python"``: a self-contained numpy/scipy port of ``cov2tau_fun`` and
-    ``.make_band_FFSCB_z`` (plan 2.2b). Validated against the R backend in the
-    Phase 2.6 study; use it where R is unavailable (e.g. some Colab runtimes).
-
-``backend="auto"`` (the public default) uses R when ``Rscript`` is on PATH and the
-``ffscb`` source is found, else falls back to the Python port.
+Expected-excursion theory provides asymptotic coverage at least the nominal level
+when the standardized Gaussian limit and covariance derivative estimates meet
+its smoothness conditions. Lipschitz silhouettes or a process CLT alone do not
+verify them. The Python and optional R backends implement numerical critical
+functions on an evenly spaced domain rescaled to [0,1], allocating error in
+proportion to interval length. This module does not certify those assumptions.
+Zero variance or unusable roughness yields a whole real-line band.
 """
 
 from __future__ import annotations
@@ -57,6 +23,7 @@ from scipy.stats import norm, t as student_t
 
 from ...metrics import Band
 from .covariance import eif_covariance, eif_pointwise_variance
+from ._validation import validate_alpha, validate_process, pointwise_scale
 
 
 # --------------------------------------------------------------------------- #
@@ -79,7 +46,9 @@ def cov2tau(cov):
     cov = np.asarray(cov, dtype=float)
     p = cov.shape[0]
     grid = np.linspace(0.0, 1.0, p)
-    d = np.sqrt(np.maximum(np.diag(cov), 1e-300))
+    if cov.ndim != 2 or cov.shape != (p,p) or p < 2 or not np.isfinite(cov).all() or np.any(np.diag(cov) <= 0):
+        raise ValueError("roughness needs a finite covariance with positive diagonal on at least two grid points")
+    d = np.sqrt(np.diag(cov))
     corr = cov / np.outer(d, d)
 
     a2 = corr[np.arange(p - 1), np.arange(1, p)]      # corr(t, t+step)
@@ -91,6 +60,8 @@ def cov2tau(cov):
     if np.any(~np.isfinite(tau)):
         idx = np.arange(p - 1)
         good = np.isfinite(tau)
+        if not good.any():
+            raise ValueError("covariance does not yield any finite roughness estimates")
         if not good[0]:
             tau[0] = tau[good][0]
             good[0] = True
@@ -377,7 +348,13 @@ def liebl_reimherr_band(
     tau=None,
     ffscb_dir=None,
 ) -> Band:
-    """Liebl-Reimherr fast-and-fair simultaneous band for one homology dim.
+    """Liebl-Reimherr benchmark under additional smooth-process conditions.
+
+    Expected excursion theory gives an asymptotic coverage lower bound, not
+    automatically equality. Continuous or Lipschitz silhouettes alone do not
+    verify standardized-process smoothness or covariance derivative consistency.
+    The implementation rescales an evenly spaced domain to [0,1] for proportional
+    fair error allocation. Zero variance or unusable roughness returns the whole line.
 
     Args:
         influence: centered EIF process ``[n, res]`` (``cross_fit(...).influence()[d]``).
@@ -400,17 +377,34 @@ def liebl_reimherr_band(
     Returns:
         :class:`~tcda_uq.metrics.Band` with ``kind="confidence"``.
     """
-    phi = np.asarray(influence, dtype=float)
-    phi = phi - phi.mean(axis=0, keepdims=True)
+    validate_alpha(alpha)
+    phi, estimate = validate_process(influence, estimate, tseq)
     n = phi.shape[0]
-    estimate = np.asarray(estimate, dtype=float)
-
-    var = eif_pointwise_variance(phi) if variance is None else np.asarray(variance, float)
+    if not isinstance(n_int, (int, np.integer)) or n_int < 1:
+        raise ValueError("n_int must be a positive integer")
+    if distribution not in ("z", "t") or backend not in ("auto", "R", "python"):
+        raise ValueError("invalid distribution or backend")
+    grid = np.asarray(tseq, float)
+    if grid.size < 2 or not np.allclose(np.diff(grid), (grid[-1]-grid[0])/(grid.size-1)):
+        raise ValueError("Liebl-Reimherr implementation requires an evenly spaced grid, rescaled internally to [0,1]")
+    var = pointwise_scale(phi, variance)**2
+    if np.any(var == 0):
+        return Band(tseq=tseq, lower=np.full_like(estimate, -np.inf),
+                    upper=np.full_like(estimate, np.inf), center=estimate,
+                    level=1-alpha, kind="confidence")
     diag_cov = var / n                                  # Var(psi_hat(t))
     if tau is None:
         cov = eif_covariance(phi) if covariance is None else np.asarray(covariance, float)
         tau = cov2tau(cov)
     tau = np.asarray(tau, dtype=float)
+    if tau.shape != estimate.shape or not np.isfinite(tau).all() or np.any(tau < 0):
+        raise ValueError("tau must be finite, nonnegative, and match the grid")
+    if np.any(tau == 0):
+        # The segmented numerical formula divides by roughness; abstain instead
+        # of substituting an arbitrary smoothness/variance floor.
+        return Band(tseq=tseq, lower=np.full_like(estimate, -np.inf),
+                    upper=np.full_like(estimate, np.inf), center=estimate,
+                    level=1-alpha, kind="confidence")
 
     if backend == "auto":
         backend = "R" if r_backend_available(ffscb_dir) else "python"
@@ -430,6 +424,8 @@ def liebl_reimherr_band(
     else:
         raise ValueError(f"backend must be 'auto'/'R'/'python', got {backend!r}")
 
+    if not np.isfinite(half).all() or np.any(half < 0):
+        half = np.full_like(estimate, np.inf)
     return Band(
         tseq=tseq,
         lower=estimate - half,

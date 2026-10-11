@@ -1,0 +1,9 @@
+{
+  "settings": 7,
+  "verified_sidecars": 1400,
+  "original_checkpoints_unchanged": true,
+  "source_root": "/home/hugo_souto/Stuff/Research/CP_TATE/revision_20261010/rerun/remaining_frozen_workspace",
+  "sidecar_script_sha256": "08f61704fb3a39dd2b32f3c177b4da2291acdf66e30728b742c79488154f7ea0",
+  "frozen_adapter_sha256": "427570f7969960fb7a5918b1ac933d6598f43dbfa2dccb334eedc4ef1c0de55f",
+  "scope": "Native Gaussian absolute-supremum zero-mean test replay; no new fitted samples"
+}

@@ -1,9 +1,5 @@
 #!/usr/bin/env python
-"""Build the executable tutorial notebooks shipped with ``tcda_uq``.
-
-The notebooks are generated from compact Python cell sources so the JSON stays
-reproducible and easy to refresh after API changes.
-"""
+"""Build clean tutorial notebooks from the checked-in Python cell sources."""
 
 from __future__ import annotations
 
@@ -16,7 +12,6 @@ import nbformat as nbf
 ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOKS = ROOT / "notebooks"
 
-
 BOOTSTRAP = r"""
 from pathlib import Path
 import sys
@@ -27,10 +22,6 @@ if repo.name == "tcda_uq":
     sys.path.insert(0, str(repo.parent))
 elif (repo / "tcda_uq").exists():
     sys.path.insert(0, str(repo))
-
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-warnings.filterwarnings("ignore", category=PendingDeprecationWarning)
 """.strip()
 
 
@@ -43,8 +34,8 @@ def code(text: str):
 
 
 def write_notebook(path: Path, title: str, cells):
-    nb = nbf.v4.new_notebook()
-    nb.metadata.update(
+    notebook = nbf.v4.new_notebook()
+    notebook.metadata.update(
         {
             "kernelspec": {
                 "display_name": "Python 3",
@@ -54,79 +45,90 @@ def write_notebook(path: Path, title: str, cells):
             "language_info": {"name": "python", "pygments_lexer": "ipython3"},
         }
     )
-    nb.cells = [md(f"# {title}"), code(BOOTSTRAP), *cells]
-    nbf.write(nb, path)
+    notebook.cells = [md(f"# {title}"), code(BOOTSTRAP), *cells]
+    nbf.write(notebook, path)
 
 
 def tate_notebook():
     return [
         md(
             """
-            This notebook builds TATE confidence bands on the tri-oracle
-            simulation harness and evaluates them against the known marginal
-            truth. It uses small CPU settings for a tutorial smoke run.
+            This small example estimates a population mean-effect curve and builds
+            a Gaussian multiplier confidence band. The fit uses folds randomized
+            independently of the observations. The displayed inclusion is on the
+            simulation's fixed filtration grid for this one data set; it is not a
+            check of the asymptotic assumptions or continuum coverage.
+
+            Interval-wise testing is a separate task. `tate_test(..., method="iwt")`
+            returns adjusted p-values, not a confidence band.
             """
         ),
         code(
             """
             import matplotlib.pyplot as plt
-            import numpy as np
             import pandas as pd
             from sklearn.linear_model import LogisticRegression
 
-            from tcda_uq import evaluate_coverage, tate_band
+            from tcda_uq import evaluate_coverage, tate_band, tate_test
             from tcda_uq.datasets import TriOracleSimulation
             from tcda_uq.estimators import cross_fit
-            from tcda_uq.metrics import interval_wise_error
             """
         ),
         code(
             """
-            sim = TriOracleSimulation(n_hom_dim=1, resolution=28, n_basis=5, noise_scale=0.3, seed=0)
-            sample = sim.sample(220, rng=1)
+            sim = TriOracleSimulation(
+                n_hom_dim=1, resolution=28, n_basis=5, noise_scale=0.3, seed=0
+            )
+            sample = sim.sample(240, rng=1)
             fit = cross_fit(
                 sample.observed,
                 sim.tseq,
                 n_basis=5,
                 n_splits=2,
-                random_state=0,
+                random_state=2,
+                stratify=False,
                 propensity_estimator=LogisticRegression(max_iter=500),
             )
             truth = sim.true_tate()[0]
+            band = tate_band(
+                fit, method="mbb", d=0, alpha=0.10, n_boot=120, rng=3
+            )
+            inclusion = evaluate_coverage(band, truth).coverage
             """
         ),
         code(
             """
-            specs = {
-                "mbb": {"n_boot": 120, "rng": 2},
-                "pv": {"n_boot": 120, "rng": 2},
-                "lr": {"backend": "python"},
-            }
-
-            bands = {name: tate_band(fit, method=name, d=0, alpha=0.10, **kw) for name, kw in specs.items()}
-            rows = []
-            for name, band in bands.items():
-                result = evaluate_coverage(band, truth)
-                metric = interval_wise_error(band.lower, band.upper, truth) if name == "pv" else result.coverage
-                rows.append(
-                    {
-                        "method": name,
-                        "reported_metric": "interval-wise error" if name == "pv" else "simultaneous coverage",
-                        "value": metric,
-                        "mean_width": band.mean_width(),
-                    }
-                )
-            pd.DataFrame(rows)
+            pd.DataFrame(
+                [{
+                    "object": "TATE mean confidence band",
+                    "grid_inclusion_for_this_sample": inclusion,
+                    "grid_mean_width": band.mean_width(),
+                    "multiplier_default": "Gaussian, unstudentized",
+                }]
+            )
+            """
+        ),
+        code(
+            """
+            iwt = tate_test(fit, method="iwt", d=0, alpha=0.10, n_boot=120, rng=4)
+            pd.DataFrame(
+                {
+                    "filtration value": sim.tseq,
+                    "adjusted p-value": iwt.p_adjusted,
+                    "reject on grid": iwt.significant(adjusted=True),
+                }
+            )
             """
         ),
         code(
             """
             fig, ax = plt.subplots(figsize=(7, 4))
-            ax.plot(sim.tseq, truth, color="black", lw=2, label="true TATE")
-            for name, band in bands.items():
-                ax.plot(sim.tseq, band.center, lw=1, label=f"{name} center")
-                ax.fill_between(sim.tseq, band.lower, band.upper, alpha=0.12)
-            ax.set(xlabel="t", ylabel="silhouette effect", title="TATE confidence bands")
+            ax.plot(sim.tseq, truth, color="black", lw=2, label="known TATE mean")
+            ax.plot(sim.tseq, band.center, lw=1.5, label="AIPW estimate")
+            ax.fill_between(sim.tseq, band.lower, band.upper, alpha=0.2,
+                            label="Gaussian multiplier confidence band")
+            ax.set(xlabel="filtration value", ylabel="effect",
+                   title="TATE mean inference on a fixed grid")
             ax.legend(loc="best", fontsize=8)
             fig.tight_layout()
             """
@@ -138,9 +140,10 @@ def ctate_notebook():
     return [
         md(
             """
-            CTATE bands target the conditional mean curve at a fixed covariate
-            value. A prediction band at the same covariate value is wider because
-            it covers an individual draw rather than the conditional mean.
+            CTATE inference concerns the conditional mean curve at one prespecified
+            covariate value. It does not cover an individual treatment effect at
+            that `x`. See the ITTE tutorial for a separate marginal prediction
+            example evaluated on draws from its declared target population.
             """
         ),
         code(
@@ -149,67 +152,54 @@ def ctate_notebook():
             import pandas as pd
             from sklearn.linear_model import LogisticRegression
 
-            from tcda_uq import ctate_band, evaluate_coverage, itte_band
+            from tcda_uq import ctate_band, evaluate_coverage
             from tcda_uq.datasets import TriOracleSimulation
             from tcda_uq.estimators import CTATEDRLearner
-            from tcda_uq.uq.conformal import ITTEConformal, make_weight_fn
             """
         ),
         code(
             """
-            sim = TriOracleSimulation(n_hom_dim=1, resolution=28, n_basis=5, noise_scale=0.3, seed=4)
-            sample = sim.sample(260, rng=5)
+            sim = TriOracleSimulation(
+                n_hom_dim=1, resolution=28, n_basis=5, noise_scale=0.3, seed=4
+            )
+            sample = sim.sample(300, rng=5)
             x = sim.EX + 0.25
-
             learner = CTATEDRLearner(n_basis=5).fit(
                 sample.observed,
                 sim.tseq,
                 n_splits=2,
                 random_state=6,
+                stratify=False,
                 propensity_estimator=LogisticRegression(max_iter=500),
             )
-            conf = ctate_band(learner, x, d=0, alpha=0.10, n_boot=120, rng=7)
-            truth = sim.true_ctate(x[None, :])[0, 0]
-
-            predictor = ITTEConformal.fit(
-                sample.observed,
-                sim.tseq,
-                n_basis=5,
-                weight_fn=make_weight_fn("overlap"),
-                random_state=8,
-                propensity_estimator=LogisticRegression(max_iter=500),
+            band = ctate_band(
+                learner, x, d=0, alpha=0.10, n_boot=120, rng=7
             )
-            pred = itte_band(predictor, x, d=0, alpha=0.10)
+            mean_truth = sim.true_ctate(x[None, :])[0, 0]
+            inclusion = evaluate_coverage(band, mean_truth).coverage
             """
         ),
         code(
             """
             pd.DataFrame(
-                [
-                    {
-                        "object": "CTATE confidence band",
-                        "kind": conf.kind,
-                        "covers_mean_truth": evaluate_coverage(conf, truth).coverage,
-                        "mean_width": conf.mean_width(),
-                    },
-                    {
-                        "object": "ITTE prediction band at same x",
-                        "kind": pred.kind,
-                        "covers_mean_truth": evaluate_coverage(pred, truth).coverage,
-                        "mean_width": pred.mean_width(),
-                    },
-                ]
+                [{
+                    "target": "conditional mean at fixed x",
+                    "grid_inclusion_for_this_sample": inclusion,
+                    "grid_mean_width": band.mean_width(),
+                }]
             )
             """
         ),
         code(
             """
             fig, ax = plt.subplots(figsize=(7, 4))
-            ax.plot(sim.tseq, truth, color="black", lw=2, label="true CTATE mean")
-            ax.fill_between(sim.tseq, conf.lower, conf.upper, alpha=0.25, label="confidence")
-            ax.fill_between(sim.tseq, pred.lower, pred.upper, alpha=0.18, label="prediction")
-            ax.plot(sim.tseq, conf.center, lw=1.5, label="CTATE estimate")
-            ax.set(xlabel="t", ylabel="effect", title="Confidence vs prediction at fixed x")
+            ax.plot(sim.tseq, mean_truth, color="black", lw=2,
+                    label="known CTATE mean")
+            ax.plot(sim.tseq, band.center, lw=1.5, label="estimated CTATE")
+            ax.fill_between(sim.tseq, band.lower, band.upper, alpha=0.23,
+                            label="confidence band for the mean")
+            ax.set(xlabel="filtration value", ylabel="effect",
+                   title="CTATE at a prespecified covariate value")
             ax.legend(loc="best", fontsize=8)
             fig.tight_layout()
             """
@@ -221,8 +211,13 @@ def itte_notebook():
     return [
         md(
             """
-            This notebook compares naive inverse-propensity conformal weighting
-            with overlap-stabilized weighting under weak overlap.
+            This example compares full, overlap, and matching population targets.
+            Each model uses the simulator's known propensity, and each is evaluated
+            on a fresh sample from the same target used by its conformal weights.
+            Training and calibration are split inside `ITTEConformal.fit`.
+            Coverage is a finite-sample lower bound under the stated split and
+            identification conditions; empirical inclusion need not equal its
+            nominal level. Bounded target weights can still produce infinite bands.
             """
         ),
         code(
@@ -230,60 +225,63 @@ def itte_notebook():
             import matplotlib.pyplot as plt
             import numpy as np
             import pandas as pd
-            from sklearn.linear_model import LogisticRegression
 
             from tcda_uq import evaluate_coverage
             from tcda_uq.datasets import TriOracleSimulation
-            from tcda_uq.uq.conformal import ITTEConformal, make_weight_fn
+            from tcda_uq.uq.conformal import ITTEConformal
             """
         ),
         code(
             """
             sim = TriOracleSimulation(
                 n_hom_dim=1,
-                resolution=25,
+                resolution=26,
                 n_basis=5,
                 noise_scale=0.3,
-                prop_scale=3.0,
+                prop_scale=2.5,
                 seed=10,
             )
-            train = sim.sample(360, rng=11)
-            test = sim.sample(160, rng=12)
-
+            train = sim.sample(500, rng=11)
+            targets = ("full", "overlap", "matching")
             models = {
-                "naive": ITTEConformal.fit(
+                target: ITTEConformal.fit(
                     train.observed,
                     sim.tseq,
                     n_basis=5,
-                    weight_fn=make_weight_fn("naive"),
-                    random_state=13,
-                    propensity_estimator=LogisticRegression(max_iter=500),
-                ),
-                "overlap": ITTEConformal.fit(
-                    train.observed,
-                    sim.tseq,
-                    n_basis=5,
-                    weight_fn=make_weight_fn("overlap"),
-                    random_state=13,
-                    propensity_estimator=LogisticRegression(max_iter=500),
-                ),
+                    target=target,
+                    propensity_fn=sim.propensity_score,
+                    weights_known=True,
+                    random_state=20 + j,
+                )
+                for j, target in enumerate(targets)
+            }
+            test_samples = {
+                target: sim.sample_target(180, target=target, rng=30 + j)
+                for j, target in enumerate(targets)
             }
             """
         ),
         code(
             """
             rows = []
-            target = test.oracle_itte[:, 0, :]
-            for name, model in models.items():
-                lo, hi, center = model.band_bounds(test.X, alpha=0.10, d=0)
-                res = evaluate_coverage((lo, hi), target, level=0.90)
-                finite = np.isfinite(hi - lo).all(axis=1)
+            for target in targets:
+                test = test_samples[target]
+                model = models[target]
+                lower, upper, _ = model.band_bounds(test.X, alpha=0.10, d=0)
+                result = evaluate_coverage(
+                    (lower, upper), test.oracle_itte[:, 0, :], level=0.90
+                )
+                finite = np.isfinite(upper - lower).all(axis=1)
+                widths = (upper - lower).mean(axis=1)
                 rows.append(
                     {
-                        "weighting": name,
-                        "coverage": res.coverage,
-                        "finite_band_share": finite.mean(),
-                        "mean_width": res.mean_width,
+                        "target": target,
+                        "weights known": model.weights_known_,
+                        "grid inclusion": result.coverage,
+                        "finite band share": finite.mean(),
+                        "mean width among finite bands": (
+                            widths[finite].mean() if finite.any() else np.nan
+                        ),
                     }
                 )
             pd.DataFrame(rows)
@@ -291,25 +289,22 @@ def itte_notebook():
         ),
         code(
             """
-            plot_idx = [0, 1, 2, 3]
-            lo, hi, center = models["overlap"].band_bounds(test.X[plot_idx], alpha=0.10, d=0)
-            true_itte = test.oracle_itte[plot_idx, 0, :]
+            test = test_samples["full"]
+            lower, upper, center = models["full"].band_bounds(
+                test.X[:1], alpha=0.10, d=0
+            )
+            individual = test.oracle_itte[0, 0]
 
-            fig, axes = plt.subplots(2, 2, figsize=(9, 6), sharex=True, sharey=True)
-            for ax, idx, lower, upper, ctr, truth in zip(
-                axes.ravel(), plot_idx, lo, hi, center, true_itte
-            ):
-                ax.fill_between(sim.tseq, lower, upper, color="tab:blue", alpha=0.18, label="90% band")
-                ax.plot(sim.tseq, ctr, color="tab:blue", lw=1.8, label="estimated ITTE")
-                ax.plot(sim.tseq, truth, color="black", lw=1.5, linestyle="--", label="true ITTE")
-                ax.set_title(f"held-out unit {idx}")
-                ax.axhline(0.0, color="0.75", lw=0.8)
-
-            handles, labels = axes[0, 0].get_legend_handles_labels()
-            fig.legend(handles, labels, loc="upper center", ncol=3, frameon=False)
-            fig.supxlabel("t")
-            fig.supylabel("ITTE curve")
-            fig.tight_layout(rect=(0, 0, 1, 0.93))
+            fig, ax = plt.subplots(figsize=(7, 4))
+            ax.fill_between(sim.tseq, lower[0], upper[0], alpha=0.2,
+                            label="prediction band for a full-target draw")
+            ax.plot(sim.tseq, center[0], lw=1.5, label="predicted ITTE center")
+            ax.plot(sim.tseq, individual, color="black", ls="--",
+                    label="realized simulated ITTE")
+            ax.set(xlabel="filtration value", ylabel="individual effect",
+                   title="One new draw from the full-population target")
+            ax.legend(loc="best", fontsize=8)
+            fig.tight_layout()
             """
         ),
     ]
@@ -319,19 +314,20 @@ def orbit_notebook():
     return [
         md(
             """
-            This example runs the actual ORBIT point-cloud to persistence to
-            silhouette pipeline, then treats the generated counterfactual
-            silhouettes as potential topological outcomes for a small TATE band.
+            This small synthetic example runs point clouds through persistence
+            and plain silhouette construction before estimating a TATE mean curve.
+            Treatment is randomized independently across units. The notebook plots
+            a confidence band and estimate, but does not claim coverage from this
+            single generated data set.
             """
         ),
         code(
             """
             import matplotlib.pyplot as plt
             import numpy as np
-            import pandas as pd
             from sklearn.linear_model import LogisticRegression
 
-            from tcda_uq import evaluate_coverage, tate_band
+            from tcda_uq import tate_band
             from tcda_uq.datasets import make_orbit_causal
             from tcda_uq.estimators import cross_fit
             """
@@ -340,21 +336,21 @@ def orbit_notebook():
             """
             rng = np.random.default_rng(20)
             orbit = make_orbit_causal(
-                n=24,
+                n=30,
                 p_reverse=0.25,
                 interval=(0.0, 0.25),
+                r=3.0,
                 resolution=22,
                 homology_dims=(0, 1),
                 num_pts=40,
                 rng=21,
             )
-            po = orbit["potential_outcomes"]
-            n = po.shape[0]
+            potential_outcomes = orbit["potential_outcomes"]
+            n = potential_outcomes.shape[0]
             X = rng.normal(size=(n, 3))
-            A = np.array([0, 1] * (n // 2))
-            rng.shuffle(A)
-            phi = po[np.arange(n), A]
-            sample = (phi, A, X)
+            A = rng.binomial(1, 0.5, size=n)
+            observed = potential_outcomes[np.arange(n), A]
+            sample = (observed, A, X)
             """
         ),
         code(
@@ -365,29 +361,21 @@ def orbit_notebook():
                 n_basis=4,
                 n_splits=2,
                 random_state=22,
+                stratify=False,
                 propensity_estimator=LogisticRegression(max_iter=500),
             )
-            band = tate_band(fit, method="mbb", d=1, alpha=0.10, n_boot=80, rng=23)
-            truth = orbit["true_effect"][1]
-            pd.DataFrame(
-                [
-                    {
-                        "dataset": "ORBIT synthetic point clouds",
-                        "homology_dim": 1,
-                        "coverage_against_sample_truth": evaluate_coverage(band, truth).coverage,
-                        "mean_width": band.mean_width(),
-                    }
-                ]
-            )
+            band = tate_band(fit, method="mbb", d=1, alpha=0.10,
+                             n_boot=100, rng=23)
             """
         ),
         code(
             """
             fig, ax = plt.subplots(figsize=(7, 4))
-            ax.plot(orbit["tseq"], truth, color="black", lw=2, label="sample oracle TATE")
-            ax.fill_between(orbit["tseq"], band.lower, band.upper, alpha=0.25, label="mbb band")
+            ax.fill_between(orbit["tseq"], band.lower, band.upper, alpha=0.22,
+                            label="Gaussian multiplier confidence band")
             ax.plot(orbit["tseq"], band.center, lw=1.5, label="AIPW estimate")
-            ax.set(xlabel="filtration value", ylabel="H1 silhouette effect", title="ORBIT TATE band")
+            ax.set(xlabel="filtration value", ylabel="H1 silhouette effect",
+                   title="ORBIT pipeline on a fixed grid")
             ax.legend(loc="best", fontsize=8)
             fig.tight_layout()
             """
@@ -399,10 +387,12 @@ def sars_notebook():
     return [
         md(
             """
-            The real SARS-CoV-2 CT loader needs the optional ``[data]`` extra and
-            local dataset files. This executable tutorial uses ``TCDA_UQ_SARS_ROOT``
-            when available, otherwise it falls back to tiny synthetic CT-like
-            images so the image-to-silhouette and causal-UQ code path still runs.
+            This tutorial converts CT images to H0 silhouettes, then constructs a
+            synthetic randomized example. It can read local images through
+            `TCDA_UQ_SARS_ROOT`; potential outcomes and treatment assignment are
+            still generated for demonstration. It does not estimate a clinical
+            treatment effect or evaluate counterfactual coverage in observed
+            patients. The band is shown without a coverage comparison.
             """
         ),
         code(
@@ -411,11 +401,14 @@ def sars_notebook():
 
             import matplotlib.pyplot as plt
             import numpy as np
-            import pandas as pd
             from sklearn.linear_model import LogisticRegression
 
-            from tcda_uq import evaluate_coverage, tate_band
-            from tcda_uq.datasets.sarscov2 import images_to_silhouettes, load_ct_images, make_sarscov2_causal
+            from tcda_uq import tate_band
+            from tcda_uq.datasets.sarscov2 import (
+                images_to_silhouettes,
+                load_ct_images,
+                make_sarscov2_causal,
+            )
             from tcda_uq.estimators import cross_fit
             """
         ),
@@ -426,7 +419,7 @@ def sars_notebook():
                 infected, noninfected = load_ct_images(root)
                 infected = infected[:12]
                 noninfected = noninfected[:12]
-                source = "local SARS-CoV-2 CT files"
+                source = "local CT images with synthetic treatment/outcomes"
             else:
                 rng = np.random.default_rng(30)
                 grid = np.linspace(-1.0, 1.0, 18)
@@ -438,57 +431,55 @@ def sars_notebook():
 
                 infected = [blob(-0.25, 0.22) for _ in range(14)]
                 noninfected = [blob(0.25, 0.35) for _ in range(14)]
-                source = "synthetic CT-like images"
+                source = "synthetic CT-like images and outcomes"
 
-            phi_inf = images_to_silhouettes(infected, resolution=24, workers=1)
-            phi_non = images_to_silhouettes(noninfected, resolution=24, workers=1)
-            causal = make_sarscov2_causal(phi_inf, phi_non, n=20, p=0.70, rng=31)
+            phi_inf = images_to_silhouettes(
+                infected, r=1.0, resolution=24, workers=1
+            )
+            phi_non = images_to_silhouettes(
+                noninfected, r=1.0, resolution=24, workers=1
+            )
+            causal = make_sarscov2_causal(
+                phi_inf, phi_non, n=24, p=0.70, rng=31
+            )
             """
         ),
         code(
             """
             rng = np.random.default_rng(32)
-            po = causal["potential_outcomes"]
-            n = po.shape[0]
+            potential_outcomes = causal["potential_outcomes"]
+            n = potential_outcomes.shape[0]
             X = rng.normal(size=(n, 2))
-            A = np.array([0, 1] * (n // 2))
-            rng.shuffle(A)
-            phi = po[np.arange(n), A]
-            tseq = np.linspace(0.0, 1.0, po.shape[-1])
+            A = rng.binomial(1, 0.5, size=n)
+            observed = potential_outcomes[np.arange(n), A]
+            tseq = np.linspace(0.0, 1.0, potential_outcomes.shape[-1])
 
             fit = cross_fit(
-                (phi, A, X),
+                (observed, A, X),
                 tseq,
                 n_basis=4,
                 n_splits=2,
                 random_state=33,
+                stratify=False,
                 propensity_estimator=LogisticRegression(max_iter=500),
             )
-            band = tate_band(fit, method="mbb", d=0, alpha=0.10, n_boot=80, rng=34)
-            truth = causal["true_effect"][0]
-
-            pd.DataFrame(
-                [
-                    {
-                        "source": source,
-                        "n_images_used": len(infected) + len(noninfected),
-                        "coverage_against_constructed_truth": evaluate_coverage(band, truth).coverage,
-                        "mean_width": band.mean_width(),
-                    }
-                ]
-            )
+            band = tate_band(fit, method="mbb", d=0, alpha=0.10,
+                             n_boot=100, rng=34)
             """
         ),
         code(
             """
-            fig, ax = plt.subplots(1, 2, figsize=(8, 3))
-            ax[0].imshow(infected[0], cmap="gray")
-            ax[0].set_title("control image")
-            ax[0].axis("off")
-            ax[1].plot(tseq, truth, color="black", lw=2, label="constructed TATE")
-            ax[1].fill_between(tseq, band.lower, band.upper, alpha=0.25, label="mbb band")
-            ax[1].legend(loc="best", fontsize=8)
-            ax[1].set_title("H0 cubical silhouette effect")
+            fig, axes = plt.subplots(1, 2, figsize=(8, 3))
+            axes[0].imshow(infected[0], cmap="gray")
+            axes[0].set_title(source)
+            axes[0].axis("off")
+            axes[1].fill_between(tseq, band.lower, band.upper, alpha=0.22,
+                                 label="mean confidence band")
+            axes[1].plot(tseq, band.center, color="black", lw=1.5,
+                         label="estimated mean effect")
+            axes[1].set_title("Synthetic randomized example")
+            axes[1].set_xlabel("filtration value")
+            axes[1].legend(loc="best", fontsize=8)
             fig.tight_layout()
             """
         ),
@@ -498,11 +489,11 @@ def sars_notebook():
 def main():
     NOTEBOOKS.mkdir(exist_ok=True)
     specs = [
-        ("01_tate_confidence_bands.ipynb", "TATE Confidence Bands", tate_notebook()),
-        ("02_ctate_bridge.ipynb", "CTATE Bridge", ctate_notebook()),
-        ("03_itte_conformal.ipynb", "ITTE Conformal Prediction", itte_notebook()),
-        ("04_orbit_pipeline.ipynb", "ORBIT Pipeline", orbit_notebook()),
-        ("05_sarscov2_demo.ipynb", "SARS-CoV-2 CT Demo", sars_notebook()),
+        ("01_tate_confidence_bands.ipynb", "TATE Mean Confidence Bands", tate_notebook()),
+        ("02_ctate_bridge.ipynb", "CTATE Mean Inference", ctate_notebook()),
+        ("03_itte_conformal.ipynb", "Target-Matched ITTE Prediction", itte_notebook()),
+        ("04_orbit_pipeline.ipynb", "ORBIT Point-Cloud Pipeline", orbit_notebook()),
+        ("05_sarscov2_demo.ipynb", "Synthetic CT Image Demonstration", sars_notebook()),
     ]
     for filename, title, cells in specs:
         write_notebook(NOTEBOOKS / filename, title, cells)

@@ -1,28 +1,10 @@
-"""Unified, non-breaking convenience layer over the estimand-specific UQ methods.
+"""Public mean-effect bands, native mean-effect tests, and individual prediction.
 
-This module introduces **no new methodology**. It is a thin adapter that wraps
-the existing per-method functions and classes behind one small, uniform surface,
-so the three estimands can be *banded* and *evaluated* the same way::
-
-    from tcda_uq import tate_band, ctate_band, itte_band, evaluate_coverage
-
-    band = tate_band(cross_fit_result, method="mbb", d=1, alpha=0.10)   # confidence
-    band = ctate_band(ctate_learner, x, d=1, alpha=0.10)                # confidence
-    band = itte_band(itte_model, x, d=1, alpha=0.10)                    # prediction
-    cov  = evaluate_coverage(band, truth)                               # -> CoverageResult
-
-Each function returns a :class:`tcda_uq.metrics.Band` (or a list of them, one per
-homology dimension, when ``d`` is left ``None``). The underlying reference API is
-unchanged: :func:`~tcda_uq.uq.asymptotic.multiplier_bootstrap_band`,
-:func:`~tcda_uq.uq.asymptotic.ctate_confidence_band`,
-:class:`~tcda_uq.uq.conformal.ITTEConformal`, ... all keep their exact signatures.
-
-Method aliases (case-insensitive):
-
-  * TATE (:func:`tate_band`) --
-    ``"multiplier" | "mbb" | "bootstrap"`` (multiplier bootstrap, TATE Cor 5.4),
-    ``"pini_vantini" | "pv" | "iwt"`` (interval-wise band),
-    ``"liebl_reimherr" | "lr" | "ffscb"`` (fast-and-fair band).
+`tate_band` and `ctate_band` return confidence bands under their asymptotic
+conditions. `tate_test` returns native testing results, including IWT p-values.
+`itte_band` returns marginal individual prediction bands; fitted likelihood ratios
+require a total-variation qualification for the intended target. All curve arrays
+are finite-grid representations unless a separate grid extension is justified.
 """
 
 from __future__ import annotations
@@ -37,6 +19,7 @@ from .metrics.coverage import covers_simultaneous, mean_width
 
 __all__ = [
     "tate_band",
+    "tate_test",
     "ctate_band",
     "itte_band",
     "evaluate_coverage",
@@ -47,7 +30,6 @@ __all__ = [
 # canonical TATE method name -> accepted aliases
 TATE_METHODS = {
     "multiplier_bootstrap": ("multiplier_bootstrap", "multiplier", "mbb", "bootstrap"),
-    "pini_vantini": ("pini_vantini", "pv", "iwt"),
     "liebl_reimherr": ("liebl_reimherr", "lr", "ffscb"),
 }
 _TATE_ALIAS = {a: canon for canon, aliases in TATE_METHODS.items() for a in aliases}
@@ -55,6 +37,8 @@ _TATE_ALIAS = {a: canon for canon, aliases in TATE_METHODS.items() for a in alia
 
 def _resolve_tate(method: str):
     """Map a TATE method name/alias to its ``*_bands`` convenience function."""
+    if str(method).lower() in ("pini_vantini", "pv", "iwt"):
+        raise ValueError("IWT returns testing p-values, not a confidence band; call tate_test(..., method='iwt')")
     canon = _TATE_ALIAS.get(str(method).lower())
     if canon is None:
         raise ValueError(
@@ -64,13 +48,11 @@ def _resolve_tate(method: str):
     # imported lazily so `import tcda_uq` stays cheap
     from .uq.asymptotic import (
         multiplier_bootstrap_bands,
-        pini_vantini_bands,
         liebl_reimherr_bands,
     )
 
     return {
         "multiplier_bootstrap": multiplier_bootstrap_bands,
-        "pini_vantini": pini_vantini_bands,
         "liebl_reimherr": liebl_reimherr_bands,
     }[canon]
 
@@ -101,9 +83,37 @@ def tate_band(
         A :class:`~tcda_uq.metrics.Band` (``kind="confidence"``) if ``d`` is given,
         else a list of them.
     """
+    _validate_dimension(d, len(cross_fit_result.aipw))
     fn = _resolve_tate(method)
     bands = fn(cross_fit_result, alpha=alpha, **kwargs)
     return bands if d is None else bands[d]
+
+
+def tate_test(cross_fit_result, *, method: str = "iwt", d: Optional[int] = None,
+              alpha: float = 0.05, **kwargs):
+    """Test a prespecified mean-effect null, returning native testing results.
+
+    ``iwt``/``pv``/``pini_vantini`` returns :class:`IWTResult` with adjusted
+    and unadjusted p-values against ``ref`` (default zero). ``mbb``/``multiplier``
+    returns the global multiplier test dictionary against zero. These procedures
+    require valid process approximations; IWT is not confidence-set inversion.
+    ``d=None`` returns one result per degree, without error correction over degrees.
+    """
+    from .uq.asymptotic import iwt_pvalues, topological_effect_test
+    from .uq.asymptotic._validation import validate_alpha
+    validate_alpha(alpha)
+    m = str(method).lower()
+    influence = cross_fit_result.influence()
+    _validate_dimension(d, len(influence))
+    dims = range(len(influence)) if d is None else [d]
+    if m in ("iwt", "pv", "pini_vantini"):
+        results = [iwt_pvalues(influence[j], cross_fit_result.tseq,
+                               cross_fit_result.aipw[j], alpha=alpha, **kwargs) for j in dims]
+    elif m in TATE_METHODS["multiplier_bootstrap"]:
+        results = [topological_effect_test(influence[j], cross_fit_result.aipw[j], **kwargs) for j in dims]
+    else:
+        raise ValueError("testing method must be 'iwt' or 'multiplier'")
+    return results if d is None else results[0]
 
 
 def ctate_band(
@@ -140,6 +150,7 @@ def ctate_band(
             "counterpart at x is covariate-adaptive conformal -- fit an "
             "AdaptiveITTEConformal and call itte_band(...) / ctate_prediction_band(...)."
         )
+    _validate_dimension(d, learner.n_hom_dim)
     from .uq.asymptotic import ctate_confidence_bands
 
     bands = ctate_confidence_bands(learner, x, alpha=alpha, **kwargs)
@@ -165,6 +176,7 @@ def itte_band(
     Returns:
         A :class:`~tcda_uq.metrics.Band` (``kind="prediction"``) or a list of them.
     """
+    _validate_dimension(d, model.n_hom_dim)
     if d is None:
         return model.bands(x, alpha)
     return model.band(x, alpha, d)
@@ -248,3 +260,8 @@ def evaluate_coverage(band, truth, *, level: Optional[float] = None) -> Coverage
         level=level if level is not None else lvl,
         kind=kind,
     )
+
+
+def _validate_dimension(d, count):
+    if d is not None and (isinstance(d, (bool, np.bool_)) or not isinstance(d, (int, np.integer)) or not 0 <= d < count):
+        raise ValueError("d must be None or a valid nonnegative homology dimension")

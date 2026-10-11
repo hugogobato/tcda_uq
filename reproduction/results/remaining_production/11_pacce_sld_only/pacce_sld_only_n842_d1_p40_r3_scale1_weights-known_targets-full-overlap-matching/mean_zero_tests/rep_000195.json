@@ -1,0 +1,23 @@
+{
+  "rep": 195,
+  "seed": 39761595,
+  "n_observed": 647,
+  "original_checkpoint_sha256": "61958f09604e4eb037016fee47e2b94e744fe88d6d8cffe98f25cfe904ded6a5",
+  "frozen_adapter_sha256": "427570f7969960fb7a5918b1ac933d6598f43dbfa2dccb334eedc4ef1c0de55f",
+  "sidecar_script_sha256": "08f61704fb3a39dd2b32f3c177b4da2291acdf66e30728b742c79488154f7ea0",
+  "elapsed_seconds": 1.0409327249944909,
+  "rows": [
+    {
+      "degree": 0,
+      "reject_zero": true,
+      "sup_estimate": 0.021258272666136967,
+      "critical_half_width": 0.012163643194098402,
+      "agreement_with_original": {
+        "coverage": 1.0,
+        "width": 0.024327286388196794,
+        "sup_bias": 0.0114071007981477,
+        "mean_error": 0.004681117008798871
+      }
+    }
+  ]
+}

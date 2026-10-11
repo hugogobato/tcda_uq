@@ -1,0 +1,10 @@
+{
+  "preset_notebooks": 16,
+  "syntax": "PASS",
+  "source_sha256": "5d305d861b90420db7f05f4b3a58eaa9e6beef7fad74f8240dfe641be1f31883",
+  "download_fallback": "PASS",
+  "command_failure_status": "PASS",
+  "existing_checkpoint_resume": "PASS",
+  "failed_command_with_existing_checkpoint_exit": 2,
+  "scope": "Executor and notebook validation; no added scientific replications"
+}

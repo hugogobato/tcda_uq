@@ -51,6 +51,9 @@ def make_orbit_causal(
     num_pts=1000,
     rng=None,
     orbits=None,
+    *,
+    normalization="plain",
+    allow_experimental_r=False,
 ):
     """Build the ORBIT counterfactual dataset (notebook ``main.ipynb`` construction).
 
@@ -82,10 +85,16 @@ def make_orbit_causal(
         x_ctrl = pops[idx[0], i]
         x_trt = pops[idx[1], i]
         potential_ctrl.append(
-            silhouette_from_pointcloud(x_ctrl, interval, r, resolution, homology_dims)
+            silhouette_from_pointcloud(
+                x_ctrl, interval, r, resolution, homology_dims,
+                normalization=normalization, allow_experimental_r=allow_experimental_r,
+            )
         )
         potential_trt.append(
-            silhouette_from_pointcloud(x_trt, interval, r, resolution, homology_dims)
+            silhouette_from_pointcloud(
+                x_trt, interval, r, resolution, homology_dims,
+                normalization=normalization, allow_experimental_r=allow_experimental_r,
+            )
         )
 
     potential_ctrl = np.stack(potential_ctrl)   # [n, n_hom, res]

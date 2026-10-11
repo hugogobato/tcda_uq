@@ -1,36 +1,11 @@
-"""Layer 3 -- arm composition into an ITTE prediction band (Phase 4.3).
+"""Armwise prediction intervals combined by Bonferroni and Minkowski difference.
 
-The individual topological treatment effect ``delta_{i,d}(t) = phi^1_{i,d}(t) -
-phi^0_{i,d}(t)`` is a *difference* of two counterfactual silhouettes. Build a
-weighted functional-CP band for each arm at level ``alpha/2`` and combine by
-**interval arithmetic + Bonferroni** into a simultaneous ``alpha`` band for
-``delta``:
-
-    phi^1(t) in [c1(t) - h1(t),  c1(t) + h1(t)]   (treated arm, level 1 - alpha/2)
-    phi^0(t) in [c0(t) - h0(t),  c0(t) + h0(t)]   (control arm, level 1 - alpha/2)
-    ==>  delta(t) in [ (c1-c0)(t) - (h1+h0)(t),  (c1-c0)(t) + (h1+h0)(t) ].
-
-So the ITTE band is centered at the plug-in CTATE ``c1 - c0 = mu_hat_1 -
-mu_hat_0`` with half-width ``h1 + h0``. This is the functional lift of Lemma A.1
-of Schroeder et al. (2025).
-
-**Coverage (Phase 4.4 composition lemma).** For a new unit drawn from the target
-population, ``P(phi^1 in band_1) >= 1 - alpha/2`` and ``P(phi^0 in band_0) >=
-1 - alpha/2`` (Layer 2, each arm marginal-over-``X``), so by the union bound
-``P(both) >= 1 - alpha``; on that event ``delta = phi^1 - phi^0`` lies in the
-interval-arithmetic band. Hence
-
-    P( delta_{n+1,d}(.) in C(X_{n+1}, .) )  >=  1 - alpha,   simultaneously over t,
-
-finite-sample, distribution-free (marginal over ``X``), doubly robust. **Cost:**
-conservative (Bonferroni across arms; the sup-norm already absorbs the union over
-``t``). This is a **prediction** band: it carries the aleatoric spread of an
-individual draw and its width does **not** vanish as ``n -> infinity`` -- the
-essential contrast with the TATE/CTATE *confidence* bands (Phases 2, 3).
-
-**What cannot be claimed:** finite-sample coverage of the *average* ``psi_d`` or
-conditional-mean ``tau_d`` -- CP covers a draw, not an expectation. For those,
-use the asymptotic bands.
+Each arm uses alpha/2; no independence of the two potential-outcome coverage
+events is assumed. True arm-to-target ratios give marginal coverage at least
+1-alpha. Estimated ratios require subtracting both armwise TV discrepancies for
+the intended target. Independent centers and scales affect efficiency, without
+making estimated weights doubly robust. Individual widths need not stay positive
+in degenerate models. Computations operate on the fixed grid.
 """
 
 from __future__ import annotations
@@ -41,6 +16,7 @@ from ...estimators.nuisance import (
     NuisanceFit,
     fit_functional_regression,
     fit_propensity,
+    validate_sample,
 )
 from ...metrics import Band
 from .weighted_cp import ConformalArm
@@ -56,16 +32,19 @@ def fit_split_nuisances(
 ) -> NuisanceFit:
     """Fit outcome regressions (both arms) + propensity on a training split.
 
-    Split-CP fits the nuisances on data **disjoint** from the calibration set, so
-    the calibration residuals are exchangeable with a fresh test residual. Returns
+    Fits on data independent of calibration. Weighted calibration and target
+    residuals need not be exchangeable; actual ratios handle covariate shift. Returns
     a :class:`NuisanceFit` (its ``predict_mu`` / ``prop_model`` feed
     :class:`~tcda_uq.uq.conformal.weighted_cp.ConformalArm`).
     """
-    phi, A, X = train_sample
+    phi, A, X, tseq = validate_sample(train_sample, tseq)
+    if set(np.unique(A)) != {0,1}:
+        raise ValueError("training split requires both treatment arms")
     reg = fit_functional_regression(train_sample, tseq, n_basis=n_basis)
     feat = propensity_feature_fn if propensity_feature_fn is not None else (lambda z: z)
     prop = fit_propensity(feat(np.asarray(X)), A, propensity_estimator)
-    return NuisanceFit(mu_reg=reg, prop_model=prop, tseq=np.asarray(tseq, dtype=float))
+    return NuisanceFit(mu_reg=reg, prop_model=prop, tseq=np.asarray(tseq, dtype=float),
+                       propensity_feature_fn=propensity_feature_fn)
 
 
 class ITTEConformal:
@@ -101,13 +80,18 @@ class ITTEConformal:
         n_basis: int = 5,
         propensity_estimator=None,
         propensity_feature_fn=None,
-        modulation_kind: str = "pointwise-sd",
+        modulation_kind: str = "constant",
         floor: float = 0.0,
         weighted: bool = True,
         weight_fn=None,
         random_state=0,
         nuisance: NuisanceFit | None = None,
         calib_index=None,
+        train_index=None,
+        target: str = "full",
+        propensity_fn=None,
+        weights_known: bool = False,
+        modulation_residuals=None,
     ):
         """Fit the composed ITTE conformal predictor.
 
@@ -123,26 +107,31 @@ class ITTEConformal:
             weight_fn: Layer-2 weight map ``(pi_hat, arm) -> weights`` (default naive
                 ``1/pi``). Pass a stabilizer from
                 :mod:`~tcda_uq.uq.conformal.stabilized_weights` (Phase 6.5) to bound
-                the weights under weak overlap -- the coverage guarantee then holds
-                for that weighter's target population.
+                the weights under weak overlap -- the coverage lower bound for that target requires true ratios; learned
+                ratios require TV qualification. Bounded weights do not guarantee finite bands.
             random_state: seeds the train/calibration split.
             nuisance: optionally supply a pre-fit :class:`NuisanceFit` (fit on data
                 disjoint from the calibration units) instead of splitting here.
+            target: full, overlap, or matching covariate population.
+            propensity_fn: fixed probability function on raw X (e.g. true propensity).
+            weights_known: caller declaration that ratios are actual target ratios.
+            train_index: independent units to fit nonconstant scales with external nuisances.
+            modulation_residuals: alternatively independent residual arrays indexed [d][a].
             calib_index: optional explicit boolean/int index of calibration units
                 (requires ``nuisance``); overrides the internal random split.
         """
-        phi, A, X = sample
-        phi = np.asarray(phi, dtype=float)
-        A = np.asarray(A)
-        X = np.asarray(X, dtype=float)
-        tseq = np.asarray(tseq, dtype=float)
+        phi, A, X, tseq = validate_sample(sample, tseq)
+        if not np.isfinite(calib_frac) or not 0 < calib_frac < 1:
+            raise ValueError("calib_frac must be strictly between 0 and 1")
         n = phi.shape[0]
         n_hom_dim = phi.shape[-2]
+        if n < 2 and nuisance is None:
+            raise ValueError("internal training/calibration split requires at least two observations")
 
         if nuisance is None:
             rng = np.random.default_rng(random_state)
             perm = rng.permutation(n)
-            n_cal = int(round(calib_frac * n))
+            n_cal = min(max(int(round(calib_frac * n)), 1), n-1)
             cal_idx = np.sort(perm[:n_cal])
             tr_idx = np.sort(perm[n_cal:])
             train = (phi[tr_idx], A[tr_idx], X[tr_idx])
@@ -154,22 +143,46 @@ class ITTEConformal:
         else:
             if calib_index is None:
                 raise ValueError("supplying `nuisance` also requires `calib_index`")
-            cal_idx = np.asarray(calib_index)
+            cal_idx = _indices(calib_index, n, "calib_index")
+            tr_idx = None if train_index is None else _indices(train_index, n, "train_index")
+            if tr_idx is not None and np.intersect1d(cal_idx, tr_idx).size:
+                raise ValueError("training and calibration indices must be disjoint")
 
         calib = (phi[cal_idx], A[cal_idx], X[cal_idx])
+
+        # Fit every nonconstant scale on independent training before calibration.
+        from .functional_cp import residual_curves
+        mod = {}
+        for d in range(n_hom_dim):
+            for a in (0, 1):
+                if modulation_kind == "constant":
+                    mod[d, a] = None
+                elif modulation_residuals is not None:
+                    mod[d, a] = modulation_residuals[d][a]
+                elif tr_idx is not None:
+                    arm_train = tr_idx[A[tr_idx] == a]
+                    mu = nuisance.predict_mu(X[arm_train])[d][a]
+                    mod[d, a] = residual_curves(phi[arm_train, d, :], mu)
+                else:
+                    raise ValueError("nonconstant modulation with external nuisance requires independent train_index or modulation_residuals[d][a]")
 
         arm_kw = dict(
             modulation_kind=modulation_kind,
             floor=floor,
             weighted=weighted,
             propensity_feature_fn=propensity_feature_fn,
-            weight_fn=weight_fn,
+            weight_fn=weight_fn, target=target, propensity_fn=propensity_fn,
+            weights_known=weights_known,
         )
-        arms0 = [ConformalArm(nuisance, calib, d, 0, **arm_kw) for d in range(n_hom_dim)]
-        arms1 = [ConformalArm(nuisance, calib, d, 1, **arm_kw) for d in range(n_hom_dim)]
+        arms0 = [ConformalArm(nuisance, calib, d, 0, modulation_residuals=mod[d, 0], **arm_kw) for d in range(n_hom_dim)]
+        arms1 = [ConformalArm(nuisance, calib, d, 1, modulation_residuals=mod[d, 1], **arm_kw) for d in range(n_hom_dim)]
         model = cls(arms0, arms1, tseq)
         model.nuisance_ = nuisance
         model.calib_index_ = cal_idx
+        model.train_index_ = tr_idx
+        model.target_ = arms0[0].target_
+        model.weights_known_ = arms0[0].weights_known_
+        model.coverage_scope_ = arms0[0].coverage_scope_
         return model
 
     # ------------------------------------------------------------------- bands
@@ -180,6 +193,8 @@ class ITTEConformal:
         banded at ``alpha/2``; the composition is centered at the plug-in CTATE
         ``mu_hat_1 - mu_hat_0`` with half-width ``h1 + h0``.
         """
+        from ..asymptotic._validation import validate_alpha
+        validate_alpha(alpha)
         l1, u1, c1 = self.arms1[d].band_bounds(X_new, alpha / 2.0)
         l0, u0, c0 = self.arms0[d].band_bounds(X_new, alpha / 2.0)
         center = c1 - c0
@@ -189,6 +204,8 @@ class ITTEConformal:
     def band(self, x_new, alpha: float, d: int = 0) -> Band:
         """ITTE prediction :class:`Band` for ``delta_d(., x)`` at a single ``x``."""
         lower, upper, center = self.band_bounds(x_new, alpha, d)
+        if lower.shape[0] != 1:
+            raise ValueError("band expects one covariate row; use band_bounds for batches")
         return Band(
             tseq=self.tseq,
             lower=lower[0],
@@ -201,3 +218,16 @@ class ITTEConformal:
     def bands(self, x_new, alpha: float):
         """One ITTE band per homology dim at a single ``x``."""
         return [self.band(x_new, alpha, d) for d in range(self.n_hom_dim)]
+
+
+def _indices(index, n, name):
+    index = np.asarray(index)
+    if index.size == 0 and index.ndim == 1:
+        return np.empty(0, dtype=int)
+    if index.dtype == bool:
+        if index.shape != (n,):
+            raise ValueError(f"{name} boolean mask must have length n")
+        return np.flatnonzero(index)
+    if index.ndim != 1 or not np.issubdtype(index.dtype, np.integer) or np.any((index < 0) | (index >= n)) or np.unique(index).size != index.size:
+        raise ValueError(f"{name} must contain unique valid integer indices")
+    return index

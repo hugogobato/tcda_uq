@@ -36,8 +36,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+from scipy.special import expit
 
 from ..silhouette import compute_silhouette, diagrams_from_pointcloud
+from .covariates import _sample_size, _sample_tilted_covariates, gen_covariate
 
 _MU1 = np.array([1.0, 0.6, -0.7, 2.2, -1.0])
 _MU2 = np.array([0.4, -0.4, -0.6, 3.3, 3.0])
@@ -58,6 +60,8 @@ class TopologicalSample:
     homology_dims: tuple
     interval: tuple
     r: float
+    target: str = "full"
+    normalization: str = "plain"
 
     @property
     def observed(self):
@@ -96,7 +100,7 @@ class TopologicalCausalSimulation:
             is inflated by ``1 + radius_tail_scale * |t|`` with ``t`` a unit-variance
             ``df``-Student-t draw, so a few loops are far more persistent than the rest: the
             persistence diagram (hence the silhouette) grows a **heavy tail**. Smaller ``df`` =>
-            heavier tail. Off by default so existing samples are byte-for-byte unchanged.
+            heavier tail. Off by default.
         radius_tail_scale: amplitude of the heavy-tail radius inflation (only used when
             ``radius_tail_df`` is set).
         beta: propensity coefficients.
@@ -126,6 +130,9 @@ class TopologicalCausalSimulation:
         beta=None,
         sigma2: float = 0.5,
         seed: int = 0,
+        *,
+        normalization="plain",
+        allow_experimental_r=False,
     ):
         self.n_cov = n_cov
         self.homology_dims = tuple(homology_dims)
@@ -133,6 +140,13 @@ class TopologicalCausalSimulation:
         self.resolution = resolution
         self.interval = interval
         self.r = r
+        # Validate even when a sample contains no diagrams.
+        compute_silhouette(
+            [], interval=interval, r=r, resolution=resolution,
+            normalization=normalization, allow_experimental_r=allow_experimental_r,
+        )
+        self.normalization = normalization
+        self.allow_experimental_r = allow_experimental_r
         self.base_loops = base_loops
         self.loop_effect = loop_effect
         self.loop_slope = loop_slope
@@ -151,6 +165,13 @@ class TopologicalCausalSimulation:
         self.mu2 = np.asarray(mu2 if mu2 is not None else _MU2[:n_cov], dtype=float)
         self.Sigma = np.eye(n_cov) * sigma2
         self.beta = np.asarray(beta if beta is not None else _BETA[:n_cov], dtype=float)
+        for name, value in (("mu1", self.mu1), ("mu2", self.mu2), ("beta", self.beta)):
+            if value.shape != (n_cov,) or not np.isfinite(value).all():
+                raise ValueError(f"{name} must be a finite vector of length n_cov")
+        if n_cov < 1 or sigma2 < 0 or not np.isfinite(sigma2):
+            raise ValueError("n_cov must be positive and sigma2 must be finite and nonnegative")
+        if not np.isfinite(prop_scale):
+            raise ValueError("prop_scale must be finite")
         self.tseq = np.linspace(interval[0], interval[1], resolution)
 
         init = np.random.default_rng(seed)
@@ -161,10 +182,16 @@ class TopologicalCausalSimulation:
 
     # ------------------------------------------------------------------ structure
     def _propensity(self, X):
+        """True un-clipped logistic probabilities on untruncated Gaussian X.
+
+        Mathematical positivity holds pointwise; there is no assumed uniform
+        epsilon bound. Extreme logits can round to 0 or 1 in floating point.
+        """
+        X = np.atleast_2d(np.asarray(X, dtype=float))
         y = X @ self.beta
         if self.n_cov >= 3:
             y = y + 0.5 * X[:, 1] * X[:, 2] - 0.7 * X[:, 0] * X[:, 2]
-        return 1.0 / (1.0 + np.exp(-self.prop_scale * y))
+        return expit(self.prop_scale * y)
 
     def _n_loops(self, X, a):
         """Loop count ``L^a(X)`` per unit (integer, clipped to ``[0, max_loops]``)."""
@@ -172,11 +199,15 @@ class TopologicalCausalSimulation:
         raw = self.base_loops + a * self.loop_effect + tilt
         return np.clip(np.rint(raw), 0, self.max_loops).astype(int)
 
+    def propensity_score(self, X):
+        """Known generating pi(X), without clipping or uniform-overlap claims."""
+        return self._propensity(X)
+
     def _loop_radii(self, n_loops, rng):
         """Per-loop radii. Fixed at ``radius`` unless the heavy-tail knob is on.
 
-        When ``radius_tail_df`` is ``None`` (default) no random numbers are drawn, so the
-        overall RNG stream -- and hence every previously generated sample -- is unchanged.
+        When ``radius_tail_df`` is ``None`` (default) no radius random numbers
+        are drawn.
         """
         if self.radius_tail_df is None or n_loops == 0:
             return np.full(int(n_loops), self.radius)
@@ -213,14 +244,25 @@ class TopologicalCausalSimulation:
     def _silhouette(self, diags, r=None):
         return compute_silhouette(diags, interval=self.interval,
                                   r=self.r if r is None else r,
-                                  resolution=self.resolution)
+                                  resolution=self.resolution,
+                                  normalization=self.normalization,
+                                  allow_experimental_r=self.allow_experimental_r)
 
     def _sample_covariates(self, n, rng):
-        """Draw covariates from the fixed two-component mixture."""
-        n1 = n // 2
-        X1 = rng.multivariate_normal(self.mu1, self.Sigma, size=n1)
-        X2 = rng.multivariate_normal(self.mu2, self.Sigma, size=n - n1)
-        return np.vstack([X1, X2])
+        """Draw i.i.d. covariates with Bernoulli(1/2) component memberships."""
+        return gen_covariate(self.mu1, self.mu2, self.Sigma, n, rng=rng)[2]
+
+    def sample_target_covariates(self, n, target="full", rng=None, max_draws=1_000_000):
+        """Draw full/overlap/matching/sqrt target X using the true propensity.
+
+        Rejection occurs before point clouds and persistence are computed;
+        conditional potential-outcome laws are preserved. Use independent RNG
+        streams for independent training, calibration, and target samples.
+        """
+        rng = np.random.default_rng(rng)
+        return _sample_tilted_covariates(
+            self._sample_covariates, self._propensity, n, target, rng, max_draws,
+        )
 
     # ------------------------------------------------------------------ Monte Carlo oracles
     def sample_potential_outcome(self, X, a: int, rng=None, r=None):
@@ -263,12 +305,13 @@ class TopologicalCausalSimulation:
             acc += phi1 - phi0
         return acc / n_mc
 
-    def true_tate_mc(self, n_x: int = 512, n_mc: int = 8, rng=None, r=None):
-        """Monte Carlo oracle for the marginal topological effect ``E_X tau(X)``.
+    def true_tate_mc(self, n_x: int = 512, n_mc: int = 8, rng=None, r=None, *, target="full"):
+        """Monte Carlo target mean ``E_Q tau(X)``, with Monte Carlo error.
 
         Args:
             n_x: number of covariate draws used for the outer expectation.
             n_mc: number of fresh point-cloud replicates per covariate value.
+            target: full, overlap, matching, or sqrt covariate population.
 
         Returns:
             Array ``[n_hom, resolution]``.
@@ -276,13 +319,19 @@ class TopologicalCausalSimulation:
         if n_x < 1:
             raise ValueError("n_x must be >= 1")
         rng = np.random.default_rng(rng)
-        X = self._sample_covariates(n_x, rng)
+        X = self.sample_target_covariates(n_x, target=target, rng=rng)
         return self.true_ctate_mc(X, n_mc=n_mc, rng=rng, r=r).mean(axis=0)
 
     # ------------------------------------------------------------------ sampling
     def sample(self, n, rng=None) -> TopologicalSample:
+        """Draw i.i.d. full-population units, in plain tent units by default."""
+        return self.sample_target(n, target="full", rng=rng)
+
+    def sample_target(self, n, target="full", rng=None, max_draws=1_000_000) -> TopologicalSample:
+        """Independent target full-data units with both realized potential curves."""
         rng = np.random.default_rng(rng)
-        X = self._sample_covariates(n, rng)
+        n = _sample_size(n)
+        X = self.sample_target_covariates(n, target=target, rng=rng, max_draws=max_draws)
         pi = self._propensity(X)
         A = rng.binomial(1, pi)
 
@@ -302,6 +351,7 @@ class TopologicalCausalSimulation:
             tseq=self.tseq, X=X, A=A, propensity=pi, diagrams=diagrams,
             potential_outcomes=po, oracle_itte=oracle_itte,
             homology_dims=self.homology_dims, interval=self.interval, r=self.r,
+            target=target, normalization=self.normalization,
         )
 
     def silhouettes_at_r(self, sample: TopologicalSample, r: float):
@@ -309,11 +359,21 @@ class TopologicalCausalSimulation:
 
         Returns ``potential_outcomes`` ``[n, 2, n_hom, res]`` and ``oracle_itte``
         ``[n, n_hom, res]`` at the requested ``r`` -- the only thing that changes when ``r``
-        moves is the power weighting of the *same* diagrams.
+        moves is the power weighting of the *same* diagrams. The sample's
+        original grid, degrees, interval, and normalization are preserved.
         """
+        compute_silhouette(
+            [], interval=sample.interval, r=r, resolution=len(sample.tseq),
+            normalization=sample.normalization,
+            allow_experimental_r=self.allow_experimental_r,
+        )
         n = len(sample.A)
-        po = np.empty((n, 2, self.n_hom_dim, self.resolution))
+        po = np.empty((n, 2, len(sample.homology_dims), len(sample.tseq)))
         for i in range(n):
-            po[i, 0] = self._silhouette(sample.diagrams[i][0], r=r)
-            po[i, 1] = self._silhouette(sample.diagrams[i][1], r=r)
+            for a in (0, 1):
+                po[i, a] = compute_silhouette(
+                    sample.diagrams[i][a], interval=sample.interval, r=r,
+                    resolution=len(sample.tseq), normalization=sample.normalization,
+                    allow_experimental_r=self.allow_experimental_r,
+                )
         return po, po[:, 1] - po[:, 0]

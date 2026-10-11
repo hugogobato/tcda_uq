@@ -1,4 +1,4 @@
-"""Tests for the non-breaking unified convenience layer (``tcda_uq.api``)
+"""Tests for the unified convenience layer (``tcda_uq.api``)
 and the composed-band helpers that share its band interface.
 
 Uses one small cross-fit fixture (module-scoped) so the class-based estimators
@@ -16,6 +16,7 @@ from tcda_uq import (
     evaluate_coverage,
     itte_band,
     tate_band,
+    tate_test,
 )
 from tcda_uq.datasets import TriOracleSimulation
 from tcda_uq.estimators import CTATEDRLearner, cross_fit
@@ -36,7 +37,7 @@ def harness():
 
 # ------------------------------------------------------------- lazy re-exports
 def test_top_level_lazy_exports():
-    for name in ("tate_band", "ctate_band", "itte_band", "evaluate_coverage", "CoverageResult"):
+    for name in ("tate_band", "tate_test", "ctate_band", "itte_band", "evaluate_coverage", "CoverageResult"):
         assert name in dir(tcda_uq)
         assert getattr(tcda_uq, name) is not None
     with pytest.raises(AttributeError):
@@ -73,7 +74,7 @@ def test_evaluate_coverage_batched_bands():
 
 
 # ------------------------------------------------------------------ TATE band
-@pytest.mark.parametrize("method", ["mbb", "multiplier", "pini_vantini", "pv", "lr", "ffscb"])
+@pytest.mark.parametrize("method", ["mbb", "multiplier", "lr", "ffscb"])
 def test_tate_band_dispatch(harness, method):
     _, _, fit = harness
     kw = dict(backend="python") if method in ("lr", "ffscb") else {}
@@ -91,6 +92,17 @@ def test_tate_band_list_and_bad_method(harness):
     assert len(bands) == 2 and all(isinstance(b, Band) for b in bands)
     with pytest.raises(ValueError):
         tate_band(fit, method="not-a-method")
+
+
+@pytest.mark.parametrize("method", ["pini_vantini", "pv", "iwt"])
+def test_iwt_dispatch_returns_native_testing_result(harness, method):
+    from tcda_uq.uq.asymptotic import IWTResult
+    _, _, fit = harness
+    with pytest.raises(ValueError, match="tate_test"):
+        tate_band(fit, method=method)
+    result = tate_test(fit, method=method, d=0, n_boot=99, rng=0)
+    assert isinstance(result, IWTResult)
+    assert np.all((result.p_adjusted >= 0) & (result.p_adjusted <= 1))
 
 
 # ----------------------------------------------------------------- CTATE band

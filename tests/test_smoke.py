@@ -69,8 +69,10 @@ def test_aipw_mean_matches_manual():
     reg = fit_functional_regression(sample.observed, sim.tseq, n_basis=4)
     mu_hats = predict_functional_regression(reg, X, sim.tseq)
     pi = fit_propensity(X, A).predict_proba(X)[:, 1]
-    manual = aipw_estimator(pi, mu_hats, sample.observed)
-    scores = aipw_scores(pi, mu_hats, sample.observed)
+    # This in-sample forest can predict boundary probabilities. Regularization
+    # is an explicit estimator choice, rather than silently changing known pi.
+    manual = aipw_estimator(pi, mu_hats, sample.observed, propensity_clip=0.01)
+    scores = aipw_scores(pi, mu_hats, sample.observed, propensity_clip=0.01)
     for d in range(sim.n_hom_dim):
         assert np.allclose(scores[d].mean(axis=0), manual[d])
 

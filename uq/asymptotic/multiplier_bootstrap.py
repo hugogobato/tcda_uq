@@ -1,28 +1,11 @@
-"""Multiplier-bootstrap simultaneous confidence band for the TATE (Phase 2.1).
+"""Finite-grid Gaussian multiplier inference for a mean effect.
 
-Implements the band underlying TATE Corollary 5.4 / Theorem 5.2. By Theorem 5.2,
-
-    sqrt(n) { psi_hat_AIPW,d(t) - psi_d(t) }  ==>  G_d(t)   in l^inf(T),
-
-a mean-zero Gaussian process with covariance kernel ``cov{phi_d(s), phi_d(t)}``.
-A simultaneous 1-alpha band inverts the sup-statistic ``sup_t |sqrt(n)(psi_hat-psi)|``
-(optionally studentized by the pointwise sd), whose law is estimated by the
-Gaussian/Rademacher **multiplier bootstrap** of the estimated influence process:
-
-    G_hat_n,d(t) = n^{-1/2} sum_i xi_i * phi_hat_{i,d}(t),   xi_i iid mean 0 var 1,
-
-with ``phi_hat_{i,d}(t)`` the *centered* cross-fitted EIF (``cross_fit(...).influence()``).
-Let ``c_{1-alpha}`` be the conditional (1-alpha) quantile of the (studentized)
-sup-norm of ``G_hat_n,d``. The band is
-
-    psi_hat_d(t)  +/-  c_{1-alpha} * s(t) / sqrt(n),
-
-with ``s(t) = sigma_hat_d(t)`` (studentized, variance-adaptive width; the default)
-or ``s(t) = 1`` (raw sup-statistic, literal Corollary 5.4). Both are
-asymptotically valid; studentization gives shorter bands when the pointwise
-variance varies over ``t`` and is the standard multiplier-bootstrap construction
-(Chernozhukov-Chetverikov-Kato). The band is a **confidence** band: it covers the
-mean curve ``psi_d`` and its half-width vanishes at the ``1/sqrt(n)`` rate.
+The default uses the unstudentized absolute supremum. Asymptotic coverage
+requires uniform asymptotic linearity, oracle and conditional bootstrap process
+convergence, and continuity and local strict increase of the limiting supremum
+CDF at its quantile. Studentization additionally requires nonvanishing variance;
+a zero empirical variance returns a whole real-line band. Finite-grid calculation
+does not by itself establish coverage between grid nodes or verify nuisance rates.
 """
 
 from __future__ import annotations
@@ -32,7 +15,7 @@ from typing import Optional
 import numpy as np
 
 from ...metrics import Band
-from .covariance import eif_pointwise_sd
+from ._validation import validate_alpha, validate_bootstrap, validate_process, pointwise_scale
 
 _MULTIPLIERS = ("gaussian", "rademacher", "mammen")
 
@@ -60,8 +43,8 @@ def multiplier_bootstrap_band(
     *,
     alpha: float = 0.05,
     n_boot: int = 2000,
-    multiplier: str = "rademacher",
-    standardize: bool = True,
+    multiplier: str = "gaussian",
+    standardize: bool = False,
     variance=None,
     rng=None,
 ) -> Band:
@@ -75,10 +58,12 @@ def multiplier_bootstrap_band(
             i.e. ``cross_fit(...).aipw[d]``.
         alpha: 1 - target simultaneous coverage.
         n_boot: number of bootstrap draws.
-        multiplier: ``"rademacher"`` (default), ``"gaussian"`` or ``"mammen"``.
+        multiplier: ``"gaussian"`` (default), ``"rademacher"`` or ``"mammen"``.
+            Non-Gaussian choices require separate bootstrap justification.
         standardize: studentize by the pointwise sd (variance-adaptive width).
-            ``False`` reproduces the literal Corollary 5.4 sup-statistic
-            (constant width ``c/sqrt(n)``).
+            ``False`` (default) uses the raw absolute supremum and constant width.
+            With ``True``, any zero pointwise variance returns the whole real line;
+            no numerical variance floor is substituted.
         variance: optional pointwise variance ``sigma_hat^2(t)`` ``[resolution]``;
             if ``None`` it is estimated from ``influence``. Supplying a shared
             variance (e.g. from :func:`~.covariance.eif_pointwise_variance`) keeps
@@ -88,19 +73,16 @@ def multiplier_bootstrap_band(
     Returns:
         :class:`~tcda_uq.metrics.Band` with ``kind="confidence"``.
     """
+    validate_alpha(alpha)
+    validate_bootstrap(n_boot, multiplier)
     rng = np.random.default_rng(rng)
-    phi = np.asarray(influence, dtype=float)
-    phi = phi - phi.mean(axis=0, keepdims=True)
+    phi, estimate = validate_process(influence, estimate, tseq)
     n, res = phi.shape
-    estimate = np.asarray(estimate, dtype=float)
-
-    if standardize:
-        if variance is None:
-            sd = eif_pointwise_sd(phi)
-        else:
-            sd = np.sqrt(np.maximum(np.asarray(variance, dtype=float), 1e-12))
-    else:
-        sd = np.ones(res)
+    empirical_sd = pointwise_scale(phi, variance)
+    sd = empirical_sd if standardize else np.ones(res)
+    if standardize and np.any(sd == 0):
+        return Band(tseq=tseq, lower=np.full(res, -np.inf), upper=np.full(res, np.inf),
+                    center=estimate, level=1.0 - alpha, kind="confidence")
 
     # bootstrap sup-statistic:  sup_t | n^{-1/2} sum_i xi_i phi_i(t) | / s(t)
     xi = _draw_multipliers(multiplier, (n_boot, n), rng)      # [B, n]
@@ -141,12 +123,12 @@ def topological_effect_test(
     estimate,
     *,
     n_boot: int = 2000,
-    multiplier: str = "rademacher",
+    multiplier: str = "gaussian",
     standardize: bool = False,
     variance=None,
     rng=None,
 ):
-    """Corollary 5.4 test of ``H0: psi_d == 0`` (no topological effect).
+    """Gaussian multiplier test of ``H0: psi_d == 0`` (no topological effect).
 
     Statistic ``T_n = sqrt(n) * sup_t |psi_hat_d(t)| / s(t)`` compared to the
     multiplier-bootstrap null law of ``sup_t |G_hat_n,d(t)| / s(t)``. With
@@ -157,20 +139,15 @@ def topological_effect_test(
         dict with ``statistic`` ``T_n``, bootstrap ``pvalue`` = mean(sup_boot >= T_n),
         and the critical values ``crit`` at the 90/95/99% levels.
     """
+    validate_bootstrap(n_boot, multiplier)
     rng = np.random.default_rng(rng)
-    phi = np.asarray(influence, dtype=float)
-    phi = phi - phi.mean(axis=0, keepdims=True)
+    phi, estimate = validate_process(influence, estimate)
     n, res = phi.shape
-    estimate = np.asarray(estimate, dtype=float)
-
-    if standardize:
-        sd = (
-            eif_pointwise_sd(phi)
-            if variance is None
-            else np.sqrt(np.maximum(np.asarray(variance, dtype=float), 1e-12))
-        )
-    else:
-        sd = np.ones(res)
+    empirical_sd = pointwise_scale(phi, variance)
+    sd = empirical_sd if standardize else np.ones(res)
+    if standardize and np.any(sd == 0):
+        return {"statistic": np.nan, "pvalue": 1.0, "crit": {},
+                "status": "zero_variance_no_rejection"}
 
     T_n = float(np.max(np.abs(estimate) / sd) * np.sqrt(n))
     xi = _draw_multipliers(multiplier, (n_boot, n), rng)

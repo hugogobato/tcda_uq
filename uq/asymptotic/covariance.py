@@ -28,6 +28,7 @@ when ``influence`` is already centered.
 from __future__ import annotations
 
 import numpy as np
+from ._validation import validate_process
 
 
 def eif_covariance(influence, ddof: int = 0):
@@ -44,8 +45,11 @@ def eif_covariance(influence, ddof: int = 0):
         ``Sigma_hat`` of shape ``[resolution, resolution]`` estimating
         ``cov{G_d(s), G_d(t)}``.
     """
-    phi = np.asarray(influence, dtype=float)
+    raw = np.asarray(influence, dtype=float)
+    phi, _ = validate_process(raw, np.zeros(raw.shape[1]) if raw.ndim == 2 else [])
     n = phi.shape[0]
+    if not isinstance(ddof, (int, np.integer)) or not 0 <= ddof < n:
+        raise ValueError("ddof must be an integer in [0, n)")
     # re-center defensively (cross-fitting can leave a tiny non-zero mean)
     phi = phi - phi.mean(axis=0, keepdims=True)
     return (phi.T @ phi) / (n - ddof)
@@ -57,29 +61,37 @@ def eif_pointwise_variance(influence, ddof: int = 0):
     This is ``diag(eif_covariance(...))`` computed directly (cheaper, no dense
     kernel). It is the pointwise asymptotic variance of ``sqrt(n) psi_hat_d(t)``.
     """
-    phi = np.asarray(influence, dtype=float)
+    raw = np.asarray(influence, dtype=float)
+    phi, _ = validate_process(raw, np.zeros(raw.shape[1]) if raw.ndim == 2 else [])
     n = phi.shape[0]
+    if not isinstance(ddof, (int, np.integer)) or not 0 <= ddof < n:
+        raise ValueError("ddof must be an integer in [0, n)")
     phi = phi - phi.mean(axis=0, keepdims=True)
     return np.einsum("it,it->t", phi, phi) / (n - ddof)
 
 
-def eif_pointwise_sd(influence, ddof: int = 0, floor: float = 1e-12):
-    """Pointwise standard deviation ``sigma_hat_d(t)``, floored away from zero.
+def eif_pointwise_sd(influence, ddof: int = 0, floor: float = 0.0):
+    """Pointwise standard deviation ``sigma_hat_d(t)`` with no floor by default.
 
-    The ``floor`` guards the studentization ``phi(t) / sigma(t)`` at grid points
-    where the estimated variance collapses (e.g. a silhouette that is identically
-    zero on part of the domain).
+    A positive ``floor`` is a legacy numerical regularization; using it does not
+    satisfy the revised nondegenerate studentization theorem.
     """
+    if not np.isfinite(floor) or floor < 0:
+        raise ValueError("floor must be finite and nonnegative")
     var = eif_pointwise_variance(influence, ddof=ddof)
     return np.sqrt(np.maximum(var, floor))
 
 
-def eif_correlation(influence, ddof: int = 0, floor: float = 1e-12):
+def eif_correlation(influence, ddof: int = 0, floor: float = 0.0):
     """Correlation kernel of ``G_d`` -- the covariance standardized by its diagonal.
 
     Shape ``[resolution, resolution]``. Used by the parametric-bootstrap /
     interval-wise bands, which operate on the studentized process.
     """
+    if not np.isfinite(floor) or floor < 0:
+        raise ValueError("floor must be finite and nonnegative")
     cov = eif_covariance(influence, ddof=ddof)
     sd = np.sqrt(np.maximum(np.diag(cov), floor))
+    if np.any(sd == 0):
+        raise ValueError("correlation is undefined at zero variance; an explicit floor is numerical regularization only")
     return cov / np.outer(sd, sd)

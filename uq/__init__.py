@@ -1,10 +1,11 @@
 """Uncertainty quantification.
 
-  * :mod:`.asymptotic` -- C1: confidence bands for the *mean* estimands (TATE, CTATE
-    mean) via multiplier bootstrap / Liebl-Reimherr / Pini-Vantini (Phase 2/3).
+  * :mod:`.asymptotic` -- confidence bands for mean estimands, with assumptions
+    specific to each method; native interval-wise testing returns p-values.
   * :mod:`.conformal`  -- C2: finite-sample *prediction* bands for the individual
-    effect (ITTE), adaptive/stabilised variants (Phases 4-6).
+    effect (ITTE), with declared target populations and training-fixed scores.
 
 The organising distinction: expectations -> confidence (asymptotic, ~1/sqrt(n));
-an individual draw -> prediction (conformal, non-vanishing aleatoric width).
+an individual draw -> prediction (conformal, with width reflecting residual
+individual uncertainty, which may vanish for deterministic outcomes).
 """

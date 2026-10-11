@@ -1,13 +1,8 @@
-"""Asymptotic confidence bands for the mean estimands (C1, Phase 2).
+"""Conditional asymptotic mean-effect inference and native testing.
 
-Each band consumes the cross-fitted EIF process from
-:func:`tcda_uq.estimators.cross_fit` (Theorem 5.2: its covariance is the limiting
-Gaussian covariance) and exposes a uniform ``*_band(...) -> tcda_uq.metrics.Band``:
-
-  * :mod:`.covariance`           -- shared EIF covariance / pointwise variance (2.4).
-  * :mod:`.multiplier_bootstrap` -- Gaussian/Rademacher multiplier band (TATE Cor 5.4).
-  * :mod:`.pini_vantini`         -- interval-wise testing (IWT) band.
-  * :mod:`.liebl_reimherr`       -- fair pivotal bands via the R ``ffscb`` package.
+Gaussian multiplier bands require the revised process and bias assumptions.
+IWT returns p-values; legacy IWT envelope helpers remain explicitly deprecated.
+Liebl-Reimherr benchmarks require additional smooth-process assumptions.
 """
 
 from .covariance import (

@@ -1,48 +1,11 @@
-"""Layer 1 -- functional split conformal prediction (Phase 4.1).
+"""Finite-grid split-conformal scores and honest quantiles.
 
-Finite-sample, distribution-free **prediction** bands for a *curve-valued*
-outcome, following Diquigiovanni-Fontana-Vantini (2022). The construction
-collapses each calibration curve to a single scalar via a **sup-norm
-nonconformity score with a modulation function** ``s(t)``:
-
-    S_i  =  sup_t | phi_{i,d}(t) - mu_hat_a(t, X_i) | / s(t).
-
-Given a fitted regression ``mu_hat_a`` (any predictor) and calibration scores
-``{S_i}``, the split-conformal band around a new prediction is
-
-    mu_hat_a(t, x)  +/-  k_{1-beta} * s(t),
-
-with ``k_{1-beta}`` the ``ceil((n_cal+1)(1-beta))`` order statistic of the
-scores (the finite-sample conformal quantile). This is the *unweighted*
-(exchangeable) core; the causal covariate-shift reweighting is Layer 2
-(:mod:`.weighted_cp`) and the arm composition is Layer 3 (:mod:`.composition`).
-
-**Crucial reduction (why Layer 2 drops in with no new theory).** The sup-norm
-score maps each *curve* to one *scalar* ``S_i``; weighting then acts on the
-scalars exactly as in the standard weighted-CP proof.
-
-**Why the topological outcome is unusually friendly here.** The power-weighted
-silhouette is 1-Lipschitz in ``t`` (TATE Lemma 2.1) and excludes infinite-
-persistence pairs, so ``||phi||_inf < infinity`` and the residual curves are
-equicontinuous: the sup-norm and modulation are numerically tame (no envelope
-pathologies), and the sup over the finite grid controls the sup over the whole
-interval up to the grid spacing (see :func:`grid_discretization_slack`).
-
-Modulation ``s(t)`` (the width shape; Phase 4.1):
-  * ``"constant"``     -- ``s(t) = 1`` (uniform-width band, the plain sup-norm).
-  * ``"pointwise-sd"`` -- ``s(t) = sd_i r_{i}(t)`` (local variability; the DFV
-    default, shortest bands where the residual spread varies over ``t``).
-  * ``"lipschitz"``    -- pointwise-sd floored away from 0. Because the residual
-    curves are 1-Lipschitz-driven (Lemma 2.1) a vanishing ``s(t)`` in a flat
-    region would blow up the score; the floor keeps the band well posed and is
-    the Lipschitz-aware modulation of Phase 4.1.
-
-**Exchangeability note.** The scores ``{S_i}`` are exchangeable when ``s(t)`` is
-either (i) a function of a data split independent of the calibration residuals
-(pass ``modulation_residuals=``) or (ii) a *symmetric* function of the
-calibration residuals (the default here -- ``pointwise-sd`` over the calibration
-set). Case (ii) is the standard DFV practice; it self-normalizes the scores and
-its finite-sample coverage impact is negligible (validated in Phase 4.5).
+A fixed center and strictly positive scale must be frozen on independent training
+data before calibration. The safest default is s=1. Learning a symmetric scale
+from calibration outcomes does not put the new score under the same frozen rule
+and is not supported. `modulation` is a numerical training helper, whose caller
+must supply independent residuals. These functions calculate grid coverage;
+continuum guarantees require additional extension bounds.
 """
 
 from __future__ import annotations
@@ -50,6 +13,7 @@ from __future__ import annotations
 import numpy as np
 
 from ...metrics import Band
+from ..asymptotic._validation import validate_alpha
 
 _MODULATIONS = ("constant", "pointwise-sd", "lipschitz")
 
@@ -63,7 +27,7 @@ def residual_curves(phi_a, mu_hat_a):
     return np.asarray(phi_a, dtype=float) - np.asarray(mu_hat_a, dtype=float)
 
 
-def modulation(residuals, kind: str = "pointwise-sd", *, floor: float = 0.0, eps: float = 1e-8):
+def modulation(residuals, kind: str = "constant", *, floor: float = 0.0, eps: float = 1e-8):
     """Modulation function ``s(t)`` from residual curves ``[n, resolution]``.
 
     Args:
@@ -78,7 +42,13 @@ def modulation(residuals, kind: str = "pointwise-sd", *, floor: float = 0.0, eps
         ``s(t)`` array ``[resolution]``, strictly positive.
     """
     R = np.asarray(residuals, dtype=float)
+    if R.ndim != 2 or R.shape[1] < 1 or not np.isfinite(R).all():
+        raise ValueError("residuals must be finite [n, resolution] curves")
+    if not np.isfinite(floor) or floor < 0 or not np.isfinite(eps) or eps <= 0:
+        raise ValueError("floor must be nonnegative and eps strictly positive")
     kind = kind.lower()
+    if kind != "constant" and R.shape[0] == 0:
+        raise ValueError("nonconstant modulation needs nonempty independent training residuals")
     if kind == "constant":
         s = np.ones(R.shape[-1])
     elif kind in ("pointwise-sd", "lipschitz"):
@@ -99,8 +69,10 @@ def sup_norm_score(residuals, s):
     """
     R = np.atleast_2d(np.asarray(residuals, dtype=float))
     s = np.asarray(s, dtype=float)
+    if R.ndim != 2 or not np.isfinite(R).all() or s.shape != (R.shape[1],) or not np.isfinite(s).all() or np.any(s <= 0):
+        raise ValueError("residuals must be finite and scale a finite positive [resolution] array")
     out = np.max(np.abs(R) / s, axis=-1)
-    return out if out.shape[0] > 1 else float(out[0])
+    return float(out[0]) if out.shape[0] == 1 else out
 
 
 def split_conformal_radius(scores, alpha: float):
@@ -112,9 +84,13 @@ def split_conformal_radius(scores, alpha: float):
     line). This is the special case of :func:`~.weighted_cp.weighted_conformal_radius`
     with equal weights.
     """
+    validate_alpha(alpha)
     scores = np.asarray(scores, dtype=float)
+    if scores.ndim != 1 or not np.isfinite(scores).all() or np.any(scores < 0):
+        raise ValueError("scores must be a finite nonnegative [n] array")
     n = scores.shape[0]
-    k = int(np.ceil((n + 1) * (1.0 - alpha)))
+    numerator, denominator = float(alpha).as_integer_ratio()
+    k = ((n+1)*(denominator-numerator)+denominator-1)//denominator
     if k > n:
         return np.inf
     return float(np.partition(scores, k - 1)[k - 1])
@@ -136,6 +112,10 @@ def functional_cp_band(center, s, radius, tseq, *, alpha=None, kind: str = "pred
     """
     center = np.asarray(center, dtype=float)
     s = np.asarray(s, dtype=float)
+    if alpha is not None:
+        validate_alpha(alpha)
+    if center.ndim != 1 or not np.isfinite(center).all() or s.shape != center.shape or not np.isfinite(s).all() or np.any(s <= 0) or np.isnan(radius) or radius < 0:
+        raise ValueError("center must be finite, scale finite positive, and radius nonnegative (possibly infinity)")
     half = radius * s
     return Band(
         tseq=tseq,
@@ -148,27 +128,17 @@ def functional_cp_band(center, s, radius, tseq, *, alpha=None, kind: str = "pred
 
 
 def grid_discretization_slack(scores_grid, s, lipschitz_const: float = 1.0):
-    """Upper bound on the sup-over-``t`` score missed by the finite-grid sup.
+    """Grid slack for a residual with a supplied Lipschitz bound.
 
-    Because the silhouette is ``lipschitz_const``-Lipschitz in ``t`` (TATE
-    Lemma 2.1) and ``mu_hat`` is Lipschitz with the same modulus family, the
-    residual ``r(t)`` is Lipschitz, so between two grid nodes at spacing
-    ``delta`` the true ``|r|`` exceeds the grid maximum by at most
-    ``lipschitz_const * delta / 2``. Dividing by ``min_t s(t)`` converts that to
-    a score slack. Adding this slack to the calibration scores gives a band that
-    is simultaneous over the *whole* interval, not just the grid -- a
-    topology-specific guarantee with no generic-functional-CP analogue.
-
-    Args:
-        scores_grid: the grid spacing ``delta`` (scalar) or ``tseq`` to infer it.
-        s: modulation ``[resolution]`` (uses its minimum).
-        lipschitz_const: Lipschitz modulus of the residual in ``t`` (``2`` if
-            both ``phi`` and ``mu_hat`` are 1-Lipschitz).
-
-    Returns:
-        Scalar score slack to add to each calibration score.
+    The bound is L*delta/(2*min(s)). A continuum guarantee requires a strictly
+    positive scale on the entire interval and a verified residual Lipschitz
+    modulus. Nonconstant scales need a valid extension bound; values at nodes
+    alone do not certify the score between nodes. This helper does not establish
+    Lipschitz continuity of a fitted regression.
     """
     g = np.asarray(scores_grid, dtype=float)
     delta = float(g) if g.ndim == 0 else float(np.max(np.diff(g)))
-    s_min = float(np.min(np.asarray(s, dtype=float)))
-    return lipschitz_const * delta / 2.0 / max(s_min, 1e-12)
+    scale = np.asarray(s, dtype=float)
+    if not np.isfinite(scale).all() or np.any(scale <= 0) or not np.isfinite(delta) or delta < 0 or not np.isfinite(lipschitz_const) or lipschitz_const < 0:
+        raise ValueError("positive finite scale and nonnegative finite spacing/modulus required")
+    return lipschitz_const * delta / 2.0 / float(np.min(scale))

@@ -45,7 +45,7 @@ def test_eif_covariance_symmetric_psd_diag_matches_variance():
     assert np.linalg.eigvalsh(cov).min() > -1e-8           # PSD
     var = eif_pointwise_variance(phi)
     assert np.allclose(np.diag(cov), var)                  # diagonal == pointwise var
-    assert np.allclose(eif_pointwise_sd(phi), np.sqrt(np.maximum(var, 1e-12)))
+    assert np.allclose(eif_pointwise_sd(phi), np.sqrt(var))
     corr = eif_correlation(phi)
     assert np.allclose(np.diag(corr), 1.0, atol=1e-6)      # unit diagonal
 
@@ -110,7 +110,7 @@ def test_overlap_and_matching_weights_are_bounded():
     for arm in (0, 1):
         for w in (SW.overlap_weights(pi, arm), SW.matching_weights(pi, arm)):
             assert np.all(w > 0) and np.all(w <= 1.0 + 1e-12)
-    # overlap: treated -> 1-pi, control -> pi (on the clipped propensity)
+    # Exact overlap weights use the supplied propensity without clipping.
     assert np.allclose(SW.overlap_weights(pi, 1), 1.0 - _clip_pi(pi))
     assert np.allclose(SW.overlap_weights(pi, 0), _clip_pi(pi))
 
@@ -127,11 +127,10 @@ def test_weight_upper_bounds():
     assert SW.weight_upper_bound("overlap") == 1.0
     assert SW.weight_upper_bound("matching") == 1.0
     assert SW.weight_upper_bound("tilted", gamma=1.0) == 1.0
-    assert SW.weight_upper_bound("tilted", gamma=0.5) == pytest.approx(EPS_PI ** (-0.5))
+    assert SW.weight_upper_bound("tilted", gamma=0.5) == np.inf
     assert SW.weight_upper_bound("clip", eps=0.1) == pytest.approx(10.0)
     assert SW.weight_upper_bound("shrink", cap=7.0) == 7.0
-    # naive is unbounded except for the EPS_PI clip -> the largest bound of all
-    assert SW.weight_upper_bound("naive") == pytest.approx(1.0 / EPS_PI)
+    assert SW.weight_upper_bound("naive") == np.inf
 
 
 def test_shrink_saturates_below_cap():
@@ -152,19 +151,22 @@ def test_stabilizer_registry_dispatch_and_binding():
 
 # ------------------------------------------------------------- silhouette bridge
 def test_bridge_constant_formula():
-    assert SB.bridge_constant(3.0, 1.0, 5.0) == pytest.approx(1 + 2 * 3)    # c drops at r=1
-    assert SB.bridge_constant(2.0, 2.0, 3.0) == pytest.approx(1 + 2 * 2 * 2 * 3)  # = 25
-    assert SB.bridge_constant(0.0, 2.0, 9.0) == pytest.approx(1.0)
+    assert SB.bridge_constant(r=1.0) == 3.0
+    assert SB.bridge_constant(r=2.0) == 5.0
+    with pytest.warns(FutureWarning, match="ignores L and c"):
+        assert SB.bridge_constant(0.0, 2.0, 9.0) == 5.0
     with pytest.raises(ValueError):
-        SB.bridge_constant(1.0, 0.0, 1.0)
+        SB.bridge_constant(r=0.0)
 
 
 def test_estimate_bridge_params():
     diags = [np.array([[0.0, 1.0], [0.0, 3.0]])]           # lifetimes 1, 3
-    L, c = SB.estimate_bridge_params(diags, r=2.0)
+    with pytest.warns(FutureWarning):
+        L, c = SB.estimate_bridge_params(diags, r=2.0)
     assert c == pytest.approx(3.0)
     assert L == pytest.approx(1.0)                          # max(lt^{-1}) = max(1, 1/3)
-    assert SB.estimate_bridge_params([], r=2.0) == (0.0, 0.0)
+    with pytest.warns(FutureWarning):
+        assert SB.estimate_bridge_params([], r=2.0) == (0.0, 0.0)
 
 
 def test_score_perturbation_and_certificates():
@@ -180,14 +182,13 @@ def test_score_perturbation_and_certificates():
         2 * SB.score_perturbation_bound(K, eps, s) * np.mean(s)
     )
     # radius 1.0, delta 0.8 -> scores 0.5 and 1.0 fall in the vulnerable window (0.2, 1.0]
-    cert = SB.coverage_certificate(scores, 1.0, K, eps, s)
+    cert = SB.empirical_score_sensitivity(scores, 1.0, K, eps, s)
     assert cert["delta"] == pytest.approx(0.8)
-    assert cert["coverage_loss_bound"] == pytest.approx(0.4)
-    assert cert["certified_coverage"] == pytest.approx(0.6 - 0.4)
-    # an unbounded band cannot miss
-    cert_inf = SB.coverage_certificate(scores, np.inf, K, eps, s)
-    assert cert_inf["coverage_loss_bound"] == 0.0
-    assert cert_inf["certified_coverage"] == 1.0
+    assert cert["empirical_affected_fraction"] == pytest.approx(0.4)
+    assert cert["empirical_inside_fraction"] == pytest.approx(0.6)
+    cert_inf = SB.empirical_score_sensitivity(scores, np.inf, K, eps, s)
+    assert cert_inf["empirical_affected_fraction"] == 0.0
+    assert cert_inf["empirical_inside_fraction"] == 1.0
 
 
 # --------------------------------------------------------------------- estimators

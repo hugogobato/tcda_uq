@@ -1,93 +1,46 @@
-"""Silhouette<->diagram stability bridge inside conformal prediction (Phase 6.1).
+"""Normalized-tent stability and numerical score perturbation helpers.
 
-The nonconformity scores of the Phase-4 band are computed in **silhouette space**
-(cheap, vectorized), but the intrinsic object is the **persistence diagram** ``D``. The
-silhouette blurs the number of homological features, and in practice ``D`` itself is only
-*estimated* (finite point cloud, chosen filtration), so the silhouette fed to the score
-carries a diagram-estimation error. TATE Theorem 5.3 turns that error into an explicit,
-computable bound -- and this module turns that theorem into a *load-bearing component of
-the conformal analysis* (concept note section 5.1), which, to our knowledge, is a novel
-use of a TDA stability bound inside CP.
-
-**Theorem 5.3 (Kim & Lee 2026).** For power-weighted silhouettes ``phi, phi'`` of
-diagrams ``D, D'`` with exponent ``r``, under boundedness (A6),
-
-    || phi - phi' ||_inf  <=  ( 1 + 2 L r c^{r-1} ) * W_1(D, D'),
-
-where (Lemma C.3 / Appendix C.5):
-
-  * ``r``  is the power-weight exponent,
-  * ``c = max{ b_x - a_x : x in D ∪ D' }`` is the **largest lifetime** across the two
-    diagrams,
-  * ``L`` bounds ``(b_p - a_p)^(1 - r)`` (the tent-height / weight ratio) over all points.
-
-We call ``K(L, r, c) = 1 + 2 L r c^{r-1}`` the **bridge constant**. It converts a
-Wasserstein-``W_1`` perturbation of the diagram into a sup-norm perturbation of the
-silhouette, hence (dividing by ``min_t s(t)``) into a perturbation of the sup-norm
-nonconformity score.
-
-**Why this matters for coverage.** Suppose the diagrams used to build the scores are
-estimated with ``W_1(D_hat, D) <= epsilon`` (a bound one gets from a bottleneck/Wasserstein
-stability argument on the filtration, or from a resampling estimate). Then every
-silhouette moves by at most ``K * epsilon`` in sup-norm, so every score moves by at most
-
-    Delta = K * epsilon / min_t s(t).
-
-Two operational consequences, both provided here:
-
-  * :func:`certified_score_inflation` -- inflate the calibration scores by ``Delta`` before
-    taking the conformal quantile. The resulting band is valid for the *true* silhouette
-    even though it was calibrated on *estimated* diagrams (a diagram-robust band), at a
-    controlled width cost (:func:`certified_width_inflation`).
-  * :func:`coverage_certificate` -- if instead one keeps the ordinary band, its worst-case
-    coverage loss from diagram error is bounded through the same ``Delta``. For scores
-    computed from estimated diagrams, the vulnerable calibration scores are those just below
-    the ordinary radius, in ``(k - Delta, k]``.
-
-All quantities are analytic in ``(L, r, c, epsilon, s)`` -- no extra fitting -- so the
-bridge is a cheap add-on that certifies the cheap silhouette-space band against the
-expensive diagram-space geometry it stands in for.
+The revised W1 bridge is ||Phi_r(D)-Phi_r(E)|| <= (1+2r) W1(D,E)
+for r>=1, without a lower persistence bound. Perturbation helpers require caller-
+supplied true error bounds and independent fixed scoring rules. Calibration-score
+fractions are empirical diagnostics, never population coverage certificates.
 """
 
 from __future__ import annotations
 
 import numpy as np
+import warnings
 
 
-def bridge_constant(L: float, r: float, c: float) -> float:
-    """The Theorem-5.3 bridge constant ``K = 1 + 2 L r c^(r-1)``.
+def bridge_constant(*args, r: float = 1.0, normalization: str = "plain"):
+    """Dimension-free normalized-tent W1 stability constant 1+2r, r>=1.
 
-    Converts ``W_1(D, D')`` into an upper bound on ``|| phi - phi' ||_inf``. At ``r = 1``
-    the ``c`` term drops (``K = 1 + 2L``), matching the theorem's special case.
-
-    Args:
-        L: bound on ``(b_p - a_p)^(1-r)`` over the diagrams' points (A6 constant).
-        r: power-weight exponent (> 0).
-        c: largest lifetime ``max (b - a)`` across the two diagrams (> 0).
+    ``normalization='legacy_gudhi'`` (or the alias ``'gudhi'``) scales the constant by sqrt(2). Legacy positional
+    ``(L, r, c)`` calls are accepted with a deprecation warning; L and c play no
+    role in the revised theorem. A single positional argument is the exponent.
     """
-    if r <= 0:
-        raise ValueError(f"r must be > 0, got {r!r}")
-    if r == 1.0:
-        return 1.0 + 2.0 * L * r            # c^0 = 1; kept explicit for clarity
-    return 1.0 + 2.0 * L * r * c ** (r - 1.0)
+    if len(args) == 1:
+        r = args[0]
+    elif len(args) == 3:
+        warnings.warn("bridge_constant(L,r,c) is deprecated; use bridge_constant(r=r). The revised bound ignores L and c", FutureWarning, stacklevel=2)
+        r = args[1]
+    elif args:
+        raise TypeError("use bridge_constant(r=...) or deprecated (L,r,c)")
+    if not np.isfinite(r) or r < 1:
+        raise ValueError("the normalized silhouette stability theorem requires finite r >= 1")
+    if normalization not in ("plain", "gudhi", "legacy_gudhi"):
+        raise ValueError("normalization must be 'plain' or 'legacy_gudhi' ('gudhi' alias)")
+    return float((1+2*r) * (np.sqrt(2) if normalization in ("gudhi", "legacy_gudhi") else 1))
 
 
 def estimate_bridge_params(diagrams, r: float, *, eps: float = 1e-12):
-    """Estimate ``(L, c)`` for :func:`bridge_constant` from a collection of diagrams.
+    """Deprecated lifetime diagnostics (L,c), unnecessary for the revised bridge.
 
-    ``c = max lifetime`` and ``L = max (lifetime)^(1-r)`` over every finite point in every
-    diagram (Lemma C.3: the constant depends only on the largest lifetime and, through
-    ``L``, on the exponent). Infinite/essential pairs must already be removed (the
-    silhouette pipeline drops them).
-
-    Args:
-        diagrams: iterable of ``(k_i, 2)`` birth-death arrays (mixed sizes allowed).
-        r: power-weight exponent.
-        eps: lifetimes below this are ignored (numerical zeros / diagonal points).
-
-    Returns:
-        ``(L, c)`` floats. Empty input -> ``(0.0, 0.0)`` (bridge constant then ``1``).
+    Empty input returns (0,0); this does not alter the universal 1+2r constant.
     """
+    warnings.warn("estimate_bridge_params is a legacy lifetime diagnostic; L,c are not required by the revised 1+2r bound", FutureWarning, stacklevel=2)
+    if not np.isfinite(r) or r < 1:
+        raise ValueError("r must be finite and at least 1")
     lifetimes = []
     for D in diagrams:
         D = np.asarray(D, dtype=float)
@@ -119,17 +72,17 @@ def score_perturbation_bound(K: float, epsilon: float, s) -> float:
     """
     s = np.asarray(s, dtype=float)
     s_min = float(np.min(s)) if s.ndim else float(s)
-    return float(K) * float(epsilon) / max(s_min, 1e-12)
+    if not np.isfinite(s).all() or np.any(s <= 0) or not np.isfinite(K) or K < 0 or not np.isfinite(epsilon) or epsilon < 0:
+        raise ValueError("finite nonnegative K/epsilon and strictly positive finite scales required")
+    return float(K) * float(epsilon) / s_min
 
 
 def certified_score_inflation(scores, K: float, epsilon: float, s):
-    """Add the certified slack ``Delta`` to every calibration score (diagram-robust band).
+    """Numerically inflate scores by a supplied deterministic bridge bound.
 
-    Calibrating on ``scores + Delta`` (with ``Delta`` from :func:`score_perturbation_bound`)
-    yields a band that covers the **true** silhouette even though the scores were built from
-    **estimated** diagrams with ``W_1`` error ``<= epsilon`` -- the exact analogue of the
-    Lipschitz grid slack (:func:`~tcda_uq.uq.conformal.functional_cp.grid_discretization_slack`),
-    but for diagram estimation rather than grid discretization.
+    A true-silhouette coverage claim additionally needs a justified score/target
+    perturbation comparison and probabilities for the armwise error events.
+    This arithmetic helper does not estimate those probabilities.
     """
     delta = score_perturbation_bound(K, epsilon, s)
     return np.asarray(scores, dtype=float) + delta
@@ -149,34 +102,29 @@ def certified_width_inflation(K: float, epsilon: float, s) -> float:
 
 
 def coverage_certificate(calib_scores, radius, K: float, epsilon: float, s):
-    """Worst-case coverage loss of an *uncorrected* band under diagram error ``<= epsilon``.
+    """Deprecated empirical calibration-score sensitivity, not a coverage bound.
 
-    Here ``calib_scores`` are the scores computed from the estimated diagrams. If the band
-    uses the ordinary radius ``k`` but the true score can be larger than the estimated score
-    by at most ``Delta``, an extra true-silhouette miss can only occur when the estimated
-    score lies in ``(k - Delta, k]``. The empirical fraction of calibration scores in that
-    window upper-bounds the extra miscoverage, giving a *certificate* that coverage degrades
-    by at most this much:
-
-        coverage(true)  >=  coverage(estimated) - #{ k - Delta < S_hat_i <= k } / n.
-
-    Args:
-        calib_scores: calibration scores ``[n]`` (as computed on the estimated diagrams).
-        radius: the conformal radius ``k`` actually used (scalar).
-        K, epsilon, s: as above.
-
-    Returns:
-        dict with ``delta`` (score slack), ``coverage_loss_bound`` (the fraction above),
-        and ``certified_coverage`` = empirical estimated-score coverage minus the loss
-        bound. ``radius`` ``+inf`` -> zero loss (an unbounded band cannot miss).
+    The returned legacy fields summarize calibration scores near a chosen radius.
+    Their empirical fractions cannot bound fresh-unit population miscoverage.
+    For such a theorem, supply justified diagram error probabilities and armwise
+    score inflation separately; neither follows from this observed fraction.
     """
-    scores = np.asarray(calib_scores, dtype=float)
-    n = scores.shape[0]
+    warnings.warn("coverage_certificate reports empirical score sensitivity only, not a population coverage certificate; use empirical_score_sensitivity", FutureWarning, stacklevel=2)
+    empirical = empirical_score_sensitivity(calib_scores, radius, K, epsilon, s)
+    loss = empirical["empirical_affected_fraction"]
+    return dict(delta=empirical["delta"], coverage_loss_bound=loss,
+                certified_coverage=max(empirical["empirical_inside_fraction"]-loss, 0),
+                scope="empirical calibration score sensitivity only")
+
+
+def empirical_score_sensitivity(calib_scores, radius, K: float, epsilon: float, s):
+    """Empirical score fraction affected by a supplied deterministic perturbation."""
+    scores = np.asarray(calib_scores, float)
+    if scores.ndim != 1 or scores.size == 0 or not np.isfinite(scores).all():
+        raise ValueError("calib_scores must be a finite nonempty vector")
     delta = score_perturbation_bound(K, epsilon, s)
-    if not np.isfinite(radius):
-        loss = 0.0
-    else:
-        loss = float(np.mean((scores > radius - delta) & (scores <= radius)))
-    emp_cov = float(np.mean(scores <= radius)) if np.isfinite(radius) else 1.0
-    return dict(delta=delta, coverage_loss_bound=loss,
-                certified_coverage=max(emp_cov - loss, 0.0))
+    if np.isnan(radius) or radius < 0:
+        raise ValueError("radius must be nonnegative, possibly infinity")
+    fraction = 0.0 if np.isinf(radius) else float(np.mean((scores > radius-delta) & (scores <= radius)))
+    return {"delta": delta, "empirical_affected_fraction": fraction,
+            "empirical_inside_fraction": float(np.mean(scores <= radius))}

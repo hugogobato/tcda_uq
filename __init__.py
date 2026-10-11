@@ -11,11 +11,12 @@ convenience layer is re-exported here (see :mod:`tcda_uq.api`)::
 These are loaded lazily, so ``import tcda_uq`` itself stays cheap.
 """
 
-__version__ = "0.0.1"
+__version__ = "0.1.0"
 
 # Lazily re-exported from tcda_uq.api (keeps top-level import light).
 _API_EXPORTS = {
     "tate_band",
+    "tate_test",
     "ctate_band",
     "itte_band",
     "evaluate_coverage",

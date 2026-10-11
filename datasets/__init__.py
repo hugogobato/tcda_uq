@@ -9,7 +9,7 @@
 from .orbit import gen_orbits, make_orbit_causal
 from .simulation import TriOracleSimulation, SimulationSample
 from .topological import TopologicalCausalSimulation, TopologicalSample
-from .covariates import gen_covariate, gen_trt_prob
+from .covariates import TARGETS, gen_covariate, gen_trt_prob, target_tilt
 
 __all__ = [
     "gen_orbits",
@@ -20,4 +20,6 @@ __all__ = [
     "TopologicalSample",
     "gen_covariate",
     "gen_trt_prob",
+    "target_tilt",
+    "TARGETS",
 ]

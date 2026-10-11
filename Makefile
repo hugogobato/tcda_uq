@@ -11,9 +11,9 @@ help:
 	@echo "  test           fast test suite (smoke + unit + API)"
 	@echo "  test-slow      statistical coverage-property tests (pytest -m slow)"
 	@echo "  test-all       fast + slow"
-	@echo "  reproduce      regenerate the coverage/width table (scripts/reproduce_coverage.py)"
+	@echo "  reproduce      run the finite-grid simulation diagnostics (scripts/reproduce_coverage.py)"
 	@echo "  reproduce-quick  fast smoke of the reproduction script"
-	@echo "  notebooks      execute the tutorial notebooks in place"
+	@echo "  notebooks      execute the source tutorials in place"
 	@echo "  clean          remove caches and build artifacts"
 
 install:

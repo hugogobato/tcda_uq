@@ -41,8 +41,11 @@ def load_ct_images(root_dir):
 
 
 def _silhouette_task(args):
-    image, interval, r, resolution = args
-    return silhouette_from_image(image, interval, r, resolution, homology_dims=(0,))
+    image, interval, r, resolution, normalization, allow_experimental_r = args
+    return silhouette_from_image(
+        image, interval, r, resolution, homology_dims=(0,),
+        normalization=normalization, allow_experimental_r=allow_experimental_r,
+    )
 
 
 def _limit_threads():
@@ -51,9 +54,22 @@ def _limit_threads():
         os.environ.setdefault(var, "1")
 
 
-def images_to_silhouettes(images, interval=(0.0, 1.0), r=0.1, resolution=100, workers=1):
-    """H0 cubical silhouettes for a list of images: ``[n, 1, resolution]``."""
-    tasks = [(im, interval, r, resolution) for im in images]
+def images_to_silhouettes(
+    images, interval=(0.0, 1.0), r=1.0, resolution=100, workers=1,
+    *, normalization="plain", allow_experimental_r=False,
+):
+    """H0 cubical plain tents ``[n, 1, resolution]``, with supported r=1.
+
+    Legacy GUDHI units and r<1 require the explicit corresponding opt-ins.
+    """
+    tasks = [(im, interval, r, resolution, normalization, allow_experimental_r)
+             for im in images]
+    if not tasks:
+        # Validate the public options even for an empty image collection.
+        from ..silhouette import compute_silhouette
+        compute_silhouette([], interval, r, resolution, normalization=normalization,
+                           allow_experimental_r=allow_experimental_r)
+        return np.empty((0, 1, resolution))
     if workers is None or int(workers) <= 1:
         return np.stack([_silhouette_task(task) for task in tasks])
 
@@ -70,21 +86,35 @@ def make_sarscov2_causal(
     p=0.75,
     rng=None,
 ):
-    """Build potential outcomes by mixing infected / non-infected silhouettes.
+    """Synthetic i.i.d. paired outcomes from empirical image distributions.
 
-    Mirrors the notebook: control = infected; treated = a ``p`` / ``2-p`` mix of
-    non-infected and infected, giving a non-trivial average effect.
+    Control images are infected; each treated image is independently drawn
+    from the non-infected pool with probability p, otherwise the infected pool.
+    This artificial pairing is a simulation, not an identified clinical effect.
+    ``true_effect`` is the realized finite-sample average paired contrast;
+    ``population_effect`` is the mean under the empirical-pool generating law.
     """
     rng = np.random.default_rng(rng)
-    # treated arm: fraction p non-infected + (1-p) infected; control arm: infected.
-    # (the notebook's int() truncation only balanced when n*p was integral).
-    n_non = int(round(n * p))
-    n_inf_trt = n - n_non
-    idx_non = rng.choice(len(phi_noninfected), n_non)
-    idx_inf = rng.choice(len(phi_infected), n + n_inf_trt)
-
-    potential_trt = np.vstack([phi_noninfected[idx_non], phi_infected[idx_inf[n:]]])
-    potential_ctrl = phi_infected[idx_inf[:n]]
+    from .covariates import _sample_size
+    n = _sample_size(n)
+    if not np.isfinite(p) or not 0 <= p <= 1:
+        raise ValueError("p must be a probability in [0, 1]")
+    phi_infected = np.asarray(phi_infected, dtype=float)
+    phi_noninfected = np.asarray(phi_noninfected, dtype=float)
+    if (phi_infected.ndim != 3 or phi_noninfected.ndim != 3
+            or phi_infected.shape[1:] != phi_noninfected.shape[1:]
+            or not len(phi_infected) or not len(phi_noninfected)
+            or not np.isfinite(phi_infected).all() or not np.isfinite(phi_noninfected).all()):
+        raise ValueError("both image pools must be nonempty arrays with matching [n, hom, grid] shapes")
+    noninfected = rng.binomial(1, p, size=n).astype(bool)
+    potential_ctrl = phi_infected[rng.choice(len(phi_infected), n)]
+    potential_trt = np.empty_like(potential_ctrl)
+    potential_trt[noninfected] = phi_noninfected[
+        rng.choice(len(phi_noninfected), int(noninfected.sum()))]
+    potential_trt[~noninfected] = phi_infected[
+        rng.choice(len(phi_infected), int((~noninfected).sum()))]
     potential_outcomes = np.stack([potential_ctrl, potential_trt], axis=1)
-    true_effect = potential_trt.mean(0) - potential_ctrl.mean(0)
-    return {"potential_outcomes": potential_outcomes, "true_effect": true_effect}
+    true_effect = potential_trt.mean(0) - potential_ctrl.mean(0) if n else np.full(phi_infected.shape[1:], np.nan)
+    population_effect = p * (phi_noninfected.mean(0) - phi_infected.mean(0))
+    return {"potential_outcomes": potential_outcomes, "true_effect": true_effect,
+            "population_effect": population_effect}

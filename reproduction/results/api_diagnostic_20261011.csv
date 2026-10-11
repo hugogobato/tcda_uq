@@ -1,0 +1,6 @@
+n,target,estimand,grid_inclusion,mean_width_finite,finite_band_share
+200,full,TATE Gaussian mean band,1.0,0.7056043689608896,1.0
+200,fixed x,CTATE mean band,1.0,0.33528437288089036,1.0
+200,full,ITTE prediction,0.9975,3.3021112572740456,0.9908333333333333
+200,overlap,ITTE prediction,0.9983333333333334,3.40014155942225,1.0
+200,matching,ITTE prediction,1.0,3.418314025071586,1.0

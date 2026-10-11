@@ -47,8 +47,9 @@ def mean_width(lower, upper):
 def interval_wise_error(lower, upper, target):
     """Fraction of the domain where a single ``target`` curve falls outside the band.
 
-    The interval-wise error notion targeted by Pini-Vantini IWT (Phase 2.3):
-    control of the *proportion* of the domain that is falsely excluded.
+    This is an empirical grid exclusion fraction. Interval-wise testing instead
+    concerns the probability of any false rejection within each true-null
+    interval. This helper does not measure or certify that probability.
     """
     lower = np.asarray(lower)
     upper = np.asarray(upper)

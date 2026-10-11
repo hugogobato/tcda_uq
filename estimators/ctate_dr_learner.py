@@ -35,7 +35,7 @@ the pseudo-outcome curves: for design row ``z(x) = [1, f(x)]`` and design matrix
 
 where ``psi_{i,d}`` is unit ``i``'s pseudo-outcome curve and ``P`` is the
 Fourier projection (the response smoothing). The weights ``a(x)`` (summing to 1
-because ``Z`` carries an intercept) and the second-stage residual curves
+when the intercept design has full column rank) and the second-stage residual curves
 ``r_{i,d} = P psi_{i,d} - tau_hat_d(., X_i)`` are exactly what the multiplier-
 bootstrap confidence band consumes. In the marginal case ``a_i = 1/n`` and the
 construction reduces to the TATE multiplier band.
@@ -59,6 +59,11 @@ def _fourier_design(tseq, n_basis):
     linear-in-x second stage is well specified against that truth.
     """
     tseq = np.asarray(tseq, dtype=float)
+    if tseq.ndim != 1 or len(tseq) < 2 or not np.isfinite(tseq).all() or not np.all(np.diff(tseq) > 0):
+        raise ValueError("tseq must be a finite, strictly increasing one-dimensional grid")
+    if isinstance(n_basis, bool) or int(n_basis) != n_basis or n_basis < 1:
+        raise ValueError("n_basis must be a positive integer")
+    n_basis = int(n_basis)
     t0, t1 = tseq[0], tseq[-1]
     u = (tseq - t0) / (t1 - t0)
     cols = [np.ones_like(u)]
@@ -109,7 +114,7 @@ class SecondStageFit:
 
 
 class CTATEDRLearner:
-    """Functional DR-learner estimator of the CTATE tau_d(t, x) (Phase 3.2).
+    """Functional DR-learner estimator of the CTATE tau_d(t, x).
 
     Usage::
 
@@ -121,6 +126,10 @@ class CTATEDRLearner:
     supplied via ``cross_fit_result=`` to avoid recomputation); the second stage
     is a Fourier function-on-scalar regression of the cross-fitted pseudo-outcome
     curves on ``feature_fn(X)`` (default: identity, i.e. linear in X).
+    This working regression estimates a projected conditional mean. Inference
+    for the unprojected target requires negligible feature and Fourier bias.
+    Rank-deficient designs retain a pseudoinverse point estimate, while the
+    public confidence routine returns an unbounded band.
     """
 
     def __init__(
@@ -154,8 +163,17 @@ class CTATEDRLearner:
         **cross_fit_kwargs,
     ):
         phi, A, X = sample
+        phi, A = np.asarray(phi, dtype=float), np.asarray(A)
         X = np.asarray(X, dtype=float)
         self.tseq = np.asarray(tseq, dtype=float)
+        if phi.ndim != 3 or min(phi.shape) < 1 or not np.isfinite(phi).all():
+            raise ValueError("outcomes must be finite with shape [n, degree, grid]")
+        if X.ndim != 2 or len(X) != len(phi) or not np.isfinite(X).all():
+            raise ValueError("covariates must be finite with one row per outcome")
+        if A.shape != (len(phi),) or not np.isin(A, [0, 1]).all():
+            raise ValueError("treatment must be a binary vector with one entry per outcome")
+        if self.tseq.shape != (phi.shape[-1],):
+            raise ValueError("tseq must match the outcome grid")
         self.n_hom_dim = phi.shape[-2]
 
         if cross_fit_result is None:
@@ -165,13 +183,28 @@ class CTATEDRLearner:
         self.cross_fit_result_ = cross_fit_result
 
         # align pseudo-outcomes (cross-fit reorders units) with covariates
-        order = cross_fit_result.order
+        order = np.asarray(cross_fit_result.order)
+        if order.dtype.kind not in 'iu' or order.shape != (len(phi),) or not np.array_equal(np.sort(order), np.arange(len(phi))):
+            raise ValueError("cross-fit order must be a permutation of the sample indices")
+        if not np.array_equal(np.asarray(cross_fit_result.tseq), self.tseq):
+            raise ValueError("cross-fit scores and second stage must use the same filtration grid")
+        if len(cross_fit_result.scores) != self.n_hom_dim:
+            raise ValueError("cross-fit scores must match outcome degrees")
+        for score in cross_fit_result.scores:
+            if np.asarray(score).shape != (len(phi), len(self.tseq)) or not np.isfinite(score).all():
+                raise ValueError("cross-fit scores must be finite with shape [n, grid]")
         self.X_ = X[order]                                   # [n, d]
         self.pseudo_ = cross_fit_result.scores               # list of [n, res]
 
         B = _fourier_design(self.tseq, self.n_basis)          # [res, K]
         Bpinv = np.linalg.pinv(B)                             # [K, res]
         Z = self._design(self.X_)                             # [n, p+1]
+        if not np.isfinite(Z).all():
+            raise ValueError("second-stage features must be finite")
+        self.design_rank_ = int(np.linalg.matrix_rank(Z))
+        self.design_columns_ = Z.shape[1]
+        self.design_singular_ = self.design_rank_ < self.design_columns_
+        self.inference_scope_ = "fixed covariate; requires negligible nuisance, projection and working-model bias"
         M = np.linalg.pinv(Z)                                 # [p+1, n]
 
         self.stages_ = []

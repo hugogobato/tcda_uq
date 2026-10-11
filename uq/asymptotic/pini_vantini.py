@@ -1,37 +1,11 @@
-"""Pini-Vantini interval-wise testing (IWT) band for the TATE (Phase 2.3).
+"""Native interval-wise testing p-values on a prespecified finite grid.
 
-Pini & Vantini (2017), *Interval-wise testing for functional data*, build two
-p-value functions from a family of interval statistics and control error at two
-resolutions:
-
-  * the **unadjusted** ``p(t) = limsup_{I -> t} p_I`` controls the *point-wise*
-    error rate (their eq. 6);
-  * the **adjusted** ``p_tilde(t) = sup_{I ∋ t} p_I`` controls the *interval-wise*
-    error rate (their eq. 7): for every interval ``I`` on which the null holds,
-    ``P[for all t in I, p_tilde(t) <= alpha] <= alpha``.
-
-Here the null is ``H0: psi_d = ref`` (default ``ref = 0`` -- the "no topological
-effect" null that mirrors Corollary 5.4, but now *localised* to intervals of the
-filtration axis). We replace PV's permutation test (they assume two i.i.d.
-samples) by the **parametric bootstrap of the Gaussian limit** that the TATE
-paper attributes to Pini & Vantini: by Theorem 5.2 ``sqrt(n)(psi_hat - psi)``
-converges to a mean-zero Gaussian process whose law is resampled by the
-multiplier bootstrap of the cross-fitted EIF. The interval statistic is the
-``|I|``-normalised studentised L^2 statistic (their eq. 3),
-
-    T_I = (1/|I|) * sum_{s in I} [ sqrt(n) (psi_hat(s) - ref(s)) / sigma_hat(s) ]^2 ,
-
-whose ``|I|`` normalisation is exactly what keeps long intervals from dominating
-(so the adjusted band lies *between* the pointwise and the simultaneous band,
-rather than collapsing onto the simultaneous one).
-
-Two entry points:
-  * :func:`iwt_pvalues`    -- the faithful IWT object: unadjusted + adjusted
-    p-value functions (and the alpha-thresholded significant regions).
-  * :func:`pini_vantini_band` -- the induced interval-wise confidence band
-    ``psi_hat(t) +/- (sigma_hat(t)/sqrt(n)) * k_tilde(t)``, whose guarantee is the
-    interval-wise error control above (documented, and validated in Phase 2.6);
-    it is *not* a simultaneous band -- that is :mod:`.multiplier_bootstrap`.
+For valid interval-null p-values, adjusted p-values are the maximum over all
+tested intervals containing a point. This controls any false rejection within a
+true-null interval, conditional on validity of its interval test. The Gaussian
+AIPW bootstrap implemented here requires its own process assumptions. It is not
+a permutation test and does not yield a confidence band without inversion.
+The legacy envelope helpers are deprecated numerical heuristics.
 """
 
 from __future__ import annotations
@@ -41,7 +15,8 @@ from dataclasses import dataclass
 import numpy as np
 
 from ...metrics import Band
-from .covariance import eif_pointwise_sd
+from ._validation import validate_alpha, validate_bootstrap, validate_process, pointwise_scale
+import warnings
 from .multiplier_bootstrap import _draw_multipliers
 
 
@@ -69,6 +44,7 @@ class IWTResult:
     p_unadjusted: np.ndarray   # [res]  point-wise error control (eq. 6)
     p_adjusted: np.ndarray     # [res]  interval-wise error control (eq. 7)
     alpha: float
+    status: str = "ok"
 
     def significant(self, adjusted: bool = True):
         """Boolean mask of grid points where the null is rejected at ``alpha``."""
@@ -84,7 +60,7 @@ def iwt_pvalues(
     ref=0.0,
     alpha: float = 0.05,
     n_boot: int = 2000,
-    multiplier: str = "rademacher",
+    multiplier: str = "gaussian",
     variance=None,
     rng=None,
 ) -> IWTResult:
@@ -102,36 +78,36 @@ def iwt_pvalues(
     Returns:
         :class:`IWTResult`.
     """
+    validate_alpha(alpha)
+    validate_bootstrap(n_boot, multiplier)
     rng = np.random.default_rng(rng)
-    phi = np.asarray(influence, dtype=float)
-    phi = phi - phi.mean(axis=0, keepdims=True)
+    phi, estimate = validate_process(influence, estimate, tseq)
     n, res = phi.shape
-    estimate = np.asarray(estimate, dtype=float)
     ref = np.broadcast_to(np.asarray(ref, dtype=float), (res,))
-
-    sd = (
-        eif_pointwise_sd(phi)
-        if variance is None
-        else np.sqrt(np.maximum(np.asarray(variance, dtype=float), 1e-12))
-    )
+    if not np.isfinite(ref).all():
+        raise ValueError("ref must be finite")
+    sd = pointwise_scale(phi, variance)
+    if np.any(sd == 0):
+        # No variance floor: abstain from rejection on the requested grid.
+        return IWTResult(np.asarray(tseq, float), np.ones(res), np.ones(res),
+                         alpha, status="zero_variance_no_rejection")
 
     # observed studentised deviation and its square
     d2 = (np.sqrt(n) * (estimate - ref) / sd) ** 2                 # [res]
-    # bootstrap studentised process under H0
-    xi = _draw_multipliers(multiplier, (n_boot, n), rng)          # [B, n]
-    W = (xi @ phi) / np.sqrt(n) / sd                              # [B, res]
-    W2 = W ** 2
-
-    # interval means of the squared statistics via prefix sums
-    d2_cum = np.concatenate([[0.0], np.cumsum(d2)])              # [res+1]
-    W2_cum = np.concatenate(
-        [np.zeros((n_boot, 1)), np.cumsum(W2, axis=1)], axis=1
-    )                                                            # [B, res+1]
-    T_obs, j_idx, k_idx = _interval_means(d2_cum)               # [n_int]
-    T_boot, _, _ = _interval_means(W2_cum)                     # [B, n_int]
-
-    # interval p-values  p_I = P_boot( T_I^boot >= T_I^obs )
-    p_I = (T_boot >= T_obs[None, :]).mean(axis=0)              # [n_int]
+    d2_cum = np.concatenate([[0.0], np.cumsum(d2)])
+    T_obs, j_idx, k_idx = _interval_means(d2_cum)
+    exceedances = np.zeros(T_obs.size, dtype=np.int64)
+    # Bound each interval-statistic matrix to about 32 MB. Draws still follow
+    # the same independent multiplier law and interval family.
+    batch = max(1, min(128, 4_000_000 // max(1, T_obs.size)))
+    for start in range(0, n_boot, batch):
+        size = min(batch, n_boot-start)
+        xi = _draw_multipliers(multiplier, (size, n), rng)
+        W2 = ((xi @ phi) / np.sqrt(n) / sd) ** 2
+        prefix = np.concatenate([np.zeros((size, 1)), np.cumsum(W2, axis=1)], axis=1)
+        T_boot, _, _ = _interval_means(prefix)
+        exceedances += np.count_nonzero(T_boot >= T_obs[None, :], axis=0)
+    p_I = exceedances / n_boot
 
     # unadjusted p(t) = p of the singleton interval {t};
     # adjusted p_tilde(t) = max over intervals containing t.
@@ -159,35 +135,26 @@ def pini_vantini_band(
     *,
     alpha: float = 0.05,
     n_boot: int = 2000,
-    multiplier: str = "rademacher",
+    multiplier: str = "gaussian",
     variance=None,
     rng=None,
 ) -> Band:
-    """Interval-wise confidence band induced by the IWT parametric bootstrap.
+    """Deprecated heuristic interval, without an asserted coverage level.
 
-    Half-width ``h(t) = (sigma_hat(t)/sqrt(n)) * k_tilde(t)`` with the adjusted
-    critical function ``k_tilde(t) = sqrt( max_{I ∋ t} c_I )``, where ``c_I`` is
-    the ``(1-alpha)`` quantile of the ``|I|``-normalised studentised bootstrap
-    statistic ``(1/|I|) sum_{s in I} W_b(s)^2``. Because the ``|I|`` normalisation
-    dilutes long intervals, ``k_tilde`` is dominated by short intervals near ``t``
-    and the band lies between the pointwise and simultaneous bands.
-
-    **Guarantee.** This is the band dual to the IWT adjusted p-value function: it
-    controls the *interval-wise* error rate (Pini-Vantini eq. 7), not the
-    simultaneous coverage. Use :mod:`.multiplier_bootstrap` for a simultaneous
-    band. The claim is validated empirically in Phase 2.6.
+    This critical-function envelope is not explicit inversion of interval-wise
+    tests. It remains callable for reproducing legacy numerical analyses, and
+    returns ``Band(kind=None, level=None)``. Use `iwt_pvalues` for inference.
     """
+    warnings.warn("pini_vantini_band is a deprecated heuristic, without confidence-band coverage or IWT inversion; use iwt_pvalues/tate_test", FutureWarning, stacklevel=2)
+    validate_alpha(alpha)
+    validate_bootstrap(n_boot, multiplier)
     rng = np.random.default_rng(rng)
-    phi = np.asarray(influence, dtype=float)
-    phi = phi - phi.mean(axis=0, keepdims=True)
+    phi, estimate = validate_process(influence, estimate, tseq)
     n, res = phi.shape
-    estimate = np.asarray(estimate, dtype=float)
-
-    sd = (
-        eif_pointwise_sd(phi)
-        if variance is None
-        else np.sqrt(np.maximum(np.asarray(variance, dtype=float), 1e-12))
-    )
+    sd = pointwise_scale(phi, variance)
+    if np.any(sd == 0):
+        return Band(tseq=tseq, lower=np.full(res, -np.inf), upper=np.full(res, np.inf),
+                    center=estimate, level=None, kind=None)
 
     xi = _draw_multipliers(multiplier, (n_boot, n), rng)
     W2 = ((xi @ phi) / np.sqrt(n) / sd) ** 2                     # [B, res]
@@ -206,13 +173,13 @@ def pini_vantini_band(
         lower=estimate - half,
         upper=estimate + half,
         center=estimate,
-        level=1.0 - alpha,
-        kind="confidence",
+        level=None,
+        kind=None,
     )
 
 
 def pini_vantini_bands(cross_fit_result, *, alpha: float = 0.05, **kwargs):
-    """One interval-wise band per homology dim from a :class:`CrossFitResult`."""
+    """Deprecated heuristic intervals per degree, without coverage guarantees."""
     influence = cross_fit_result.influence()
     tseq = cross_fit_result.tseq
     return [

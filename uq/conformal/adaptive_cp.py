@@ -1,48 +1,9 @@
-"""Covariate-adaptive / conditional conformal for the ITTE (Phase 5).
+"""Covariate-adaptive widths under training-frozen score rules.
 
-The Phase-4 composed band :class:`~tcda_uq.uq.conformal.ITTEConformal` is
-*marginally* valid: ``P(delta_{n+1,d}(.) in C(X_{n+1}, .)) >= 1 - alpha`` where the
-probability averages over ``X``. Its **center** ``mu_hat_a(., x)`` moves with ``x``,
-but its **width** ``k_a * s_a(t)`` is essentially constant in ``x`` (the modulation
-``s_a(t)`` is global; ``k_a`` only shifts through the weak-overlap ``+inf`` atom).
-So the band is *not* adapted to ``x``: it is equally wide in easy and hard regions
-of covariate space, and its coverage, while correct on average, can be too high in
-low-noise regions and too low in high-noise ones (**conditional** miscoverage).
-
-Phase 5 makes the prediction band **adapt to ``X``** -- the conformal counterpart of
-the CTATE (Phase 3). Exact conditional coverage ``P(. | X = x) = 1 - alpha`` at every
-``x`` is impossible in finite samples with a distribution-free guarantee (Vovk 2012;
-Lei & Wasserman 2014; Foygel Barber et al. 2021), so we target *approximate*
-conditional coverage via two orthogonal, composable mechanisms:
-
-  * **(A) Locally-scaled (normalized) scores** -- CQR / mean-absolute-deviation
-    normalization (Lei et al. 2018; Romano et al. 2019). Divide each score by a
-    fitted local difficulty ``sigma_hat_a(x)``, so the half-width becomes
-    ``k_a * s_a(t) * sigma_hat_a(x)`` -- *X-dependent by construction*. Because
-    ``sigma_hat_a`` is frozen on the nuisance-training split (disjoint from
-    calibration), the scores stay exchangeable and **marginal** validity is exact;
-    the win is efficiency and better conditional coverage.
-
-  * **(B) Kernel-localized conformal quantile** -- weight the calibration scores by
-    a covariate-space kernel ``K_h(x, X_i)`` (Vovk 2012 "conditional validity";
-    Lei & Wasserman 2014; Guan 2023 "localized CP"), so the quantile ``k_a(x)`` is
-    driven by calibration units *near* ``x``. This composes multiplicatively with
-    the Phase-4.2 propensity likelihood-ratio weights (both are just weights fed to
-    :func:`~tcda_uq.uq.conformal.weighted_cp.weighted_conformal_radius`), so causal
-    reweighting and localization coexist. Localization buys approximate conditional
-    coverage at the cost of *exact* marginal validity (the price of conditioning).
-
-Mechanism (A) is on by default (``local_scale=True``); (B) is optional
-(``localize=True``). Arms are still composed at ``alpha/2`` by interval arithmetic
-(Phase 4.3), so the output is a simultaneous-in-``t`` **prediction** band whose width
-now varies with ``x`` -- the Phase-5 exit criterion.
-
-Phase 5.2 adds :class:`ConformalMetaLearner`: a *conformal meta-learner* (Alaa et al.
-2023) that conformalizes the DR-learner pseudo-outcome directly, giving an
-adaptive-by-construction CATE-level prediction band; see its docstring for the
-honest can-/cannot-claim framing. Phase 5.3's confidence-vs-prediction contrast at a
-fixed ``x`` is served by :func:`ctate_prediction_band` paired with
-:func:`~tcda_uq.uq.asymptotic.ctate_bands.ctate_confidence_band`.
+Independent global and local scales preserve the weighted split-conformal target
+scope when ratios are exact. Learned ratios require TV qualification. The optional
+kernel-localized quantile is experimental and has no general conditional-coverage
+guarantee. ConformalMetaLearner predicts a fitted pseudo-outcome, not the ITTE.
 """
 
 from __future__ import annotations
@@ -57,7 +18,10 @@ from ...estimators.nuisance import (
     predict_functional_regression,
 )
 from ...metrics import Band
-from .composition import fit_split_nuisances
+from .composition import fit_split_nuisances, _indices
+from ...estimators.nuisance import validate_sample
+from ..asymptotic._validation import validate_alpha
+from .weighted_cp import ConformalArm, weighted_conformal_radius
 from .functional_cp import modulation, residual_curves, sup_norm_score
 from .weighted_cp import propensity_weights
 
@@ -75,7 +39,8 @@ class LocalScale:
     Romano et al. 2019): it makes the band wider where the outcome is harder to
     predict and tighter where it is easier, while -- crucially -- keeping the
     calibration scores exchangeable (``sigma_hat_a`` is a fixed function, fit on data
-    disjoint from calibration), so **marginal coverage stays exact**.
+    disjoint from calibration), the exact-ratio marginal coverage lower bound is preserved.
+    Learned propensity ratios still require total-variation qualification.
 
     Args:
         estimator: an sklearn regressor (default :class:`RandomForestRegressor`)
@@ -88,6 +53,8 @@ class LocalScale:
     def __init__(self, estimator=None, floor_quantile: float = 0.1, random_state: int = 0):
         self._estimator = estimator
         self.floor_quantile = float(floor_quantile)
+        if not np.isfinite(self.floor_quantile) or not 0 <= self.floor_quantile <= 1:
+            raise ValueError("floor_quantile must lie in [0,1]")
         self.random_state = random_state
         self.floor_ = 1e-8
         self.model_ = None
@@ -96,6 +63,8 @@ class LocalScale:
     def fit(self, X, m):
         X = np.atleast_2d(np.asarray(X, dtype=float))
         m = np.asarray(m, dtype=float)
+        if X.ndim != 2 or m.ndim != 1 or X.shape[0] != m.size or not m.size or not np.isfinite(X).all() or not np.isfinite(m).all() or np.any(m < 0):
+            raise ValueError("local scale requires finite independent training covariates and nonnegative magnitudes")
         self.floor_ = max(float(np.quantile(m, self.floor_quantile)), 1e-8)
         # constant fallback when there is too little data to regress difficulty
         self.const_ = max(float(np.mean(m)), self.floor_)
@@ -117,6 +86,8 @@ class LocalScale:
             out = np.full(X.shape[0], self.const_)
         else:
             out = np.asarray(self.model_.predict(X), dtype=float)
+        if not np.isfinite(out).all():
+            raise ValueError("local scale predictions must be finite")
         return np.maximum(out, self.floor_)
 
 
@@ -203,40 +174,28 @@ def localized_weighted_radius(scores, alpha, W_calib, w_new):
     Returns:
         ``[m]`` radii (``+inf`` where the atom alone exceeds ``alpha``).
     """
-    scores = np.asarray(scores, dtype=float)
-    W_calib = np.atleast_2d(np.asarray(W_calib, dtype=float))
-    w_new = np.atleast_1d(np.asarray(w_new, dtype=float))
-    n = scores.shape[0]
-
-    order = np.argsort(scores, kind="mergesort")
-    s_sorted = scores[order]                          # [n] ascending
-    Wc = W_calib[:, order]                            # [m, n]
-    Wcum = np.cumsum(Wc, axis=1)                       # [m, n]
-    Wtot = Wcum[:, -1]                                 # [m]
-
-    thresh = (1.0 - alpha) * (Wtot + w_new)           # [m]
-    # first index j (per row) with Wcum[t, j] >= thresh[t]
-    ge = Wcum >= thresh[:, None]                       # [m, n]
-    has = ge.any(axis=1)
-    idx = np.where(has, ge.argmax(axis=1), n)          # n -> +inf
-    radius = np.where(idx >= n, np.inf, s_sorted[np.clip(idx, 0, n - 1)])
-    return radius
+    W = np.atleast_2d(np.asarray(W_calib, dtype=float))
+    wn = np.atleast_1d(np.asarray(w_new, dtype=float))
+    if W.ndim != 2 or W.shape != (wn.size, np.asarray(scores).size):
+        raise ValueError("localized weights must have shape [m, n_scores]")
+    return np.array([weighted_conformal_radius(scores, alpha, row, atom)
+                     for row, atom in zip(W, wn)])
 
 
 # ===========================================================================
 # Adaptive arm  (composition of mechanisms A + B on one arm)
 # ===========================================================================
-class AdaptiveConformalArm:
+class AdaptiveConformalArm(ConformalArm):
     """Covariate-adaptive split-CP for one arm ``a``, homology dim ``d`` (Phase 5.1).
 
     Extends :class:`~tcda_uq.uq.conformal.weighted_cp.ConformalArm` with the two
     Phase-5 adaptivity mechanisms:
 
       * a fitted :class:`LocalScale` ``sigma_hat_a`` divides the nonconformity scores
-        and multiplies the band half-width (mechanism A -- X-dependent width, exact
-        marginal validity);
+        and multiplies the band half-width (mechanism A -- X-dependent width, preserving the marginal
+        target scope when weights are actual likelihood ratios);
       * optional kernel localization of the conformal quantile at band time
-        (mechanism B -- approximate conditional coverage).
+        (mechanism B -- experimental, no general conditional guarantee).
 
     Produces a **prediction** band for ``phi^a_d(., x)`` at any ``x``.
 
@@ -249,7 +208,7 @@ class AdaptiveConformalArm:
             (falls back to the un-normalized :class:`ConformalArm` behavior).
         localize: enable kernel localization (mechanism B).
         bandwidth: kernel bandwidth on standardized covariates (default: the
-            median heuristic on the calibration covariates).
+            median heuristic on independent training covariates).
         modulation_kind, floor: global modulation ``s_a(t)`` (see functional_cp).
         weighted: apply propensity likelihood-ratio weights (Layer 2).
         propensity_feature_fn: ``X -> features`` map matching the propensity model.
@@ -265,73 +224,55 @@ class AdaptiveConformalArm:
         local_scale: LocalScale | None = None,
         localize: bool = False,
         bandwidth: float | None = None,
-        modulation_kind: str = "pointwise-sd",
+        modulation_kind: str = "constant",
         floor: float = 0.0,
         weighted: bool = True,
         propensity_feature_fn=None,
+        modulation_residuals=None,
+        modulation_scale=None,
+        weight_fn=None,
+        target="full",
+        propensity_fn=None,
+        weights_known=False,
+        localization_reference=None,
     ):
-        phi, A, X = calib_sample
-        A = np.asarray(A)
-        self.nuisance = nuisance
-        self.d = d
-        self.a = a
-        self.weighted = weighted
-        self.localize = localize
-        self.local_scale = local_scale
-        self.tseq = np.asarray(nuisance.tseq, dtype=float)
-        self._feat = propensity_feature_fn if propensity_feature_fn is not None else (lambda z: z)
-
-        mask = A == a
-        self.Xa = np.atleast_2d(np.asarray(X, dtype=float))[mask]     # [n_a, p]
-        phi_a = np.asarray(phi, dtype=float)[mask, d, :]
-        mu_a = nuisance.predict_mu(self.Xa)[d][a]
-        R = residual_curves(phi_a, mu_a)                             # [n_a, res]
-
-        self.s = modulation(R, modulation_kind, floor=floor)         # [res] global shape
-        raw = np.atleast_1d(sup_norm_score(R, self.s))               # [n_a]
-        # mechanism A: normalize by the local difficulty at each calibration unit
-        if local_scale is not None:
-            self.sigma_calib = local_scale.predict(self.Xa)          # [n_a]
+        super().__init__(nuisance, calib_sample, d, a,
+                         modulation_kind=modulation_kind, floor=floor, weighted=weighted,
+                         propensity_feature_fn=propensity_feature_fn,
+                         modulation_residuals=modulation_residuals,
+                         modulation_scale=modulation_scale, weight_fn=weight_fn,
+                         target=target, propensity_fn=propensity_fn, weights_known=weights_known)
+        self.localize, self.local_scale = localize, local_scale
+        self.Xa = np.asarray(calib_sample[2], float)[self.calib_index_]
+        self.sigma_calib = np.ones(self.Xa.shape[0]) if local_scale is None or self.Xa.shape[0] == 0 else np.asarray(local_scale.predict(self.Xa), float)
+        if self.sigma_calib.shape != self.scores.shape or not np.isfinite(self.sigma_calib).all() or np.any(self.sigma_calib <= 0):
+            raise ValueError("local_scale must return finite strictly positive [m] values")
+        self.scores = self.scores / self.sigma_calib
+        if localize:
+            if localization_reference is None:
+                raise ValueError("localization needs an independent training localization_reference")
+            self.localization_reference = np.asarray(localization_reference, float)
+            self.bandwidth = median_bandwidth(self.localization_reference) if bandwidth is None else bandwidth
+            if not np.isfinite(self.bandwidth) or self.bandwidth <= 0:
+                raise ValueError("bandwidth must be finite and positive")
+            self.coverage_scope_ = "experimental localized quantile; no general marginal or conditional guarantee"
         else:
-            self.sigma_calib = np.ones(self.Xa.shape[0])
-        self.scores = raw / self.sigma_calib
-
-        if weighted:
-            self.w_calib = propensity_weights(self._pi(self.Xa), a)
-        else:
-            self.w_calib = np.ones(self.scores.shape[0])
-
-        self.bandwidth = (
-            bandwidth if bandwidth is not None
-            else (median_bandwidth(self.Xa) if localize else np.inf)
-        )
-
-    # ------------------------------------------------------------------ nuisance
-    def _pi(self, X):
-        return self.nuisance.prop_model.predict_proba(self._feat(np.atleast_2d(X)))[:, 1]
-
-    def _w_new(self, X_new):
-        if not self.weighted:
-            return np.ones(X_new.shape[0])
-        return propensity_weights(self._pi(X_new), self.a)
-
-    # ------------------------------------------------------------------- predict
-    def center(self, X_new):
-        """Predicted potential-outcome silhouette ``mu_hat_a(., x)``: ``[m, res]``."""
-        X_new = np.atleast_2d(np.asarray(X_new, dtype=float))
-        return self.nuisance.predict_mu(X_new)[self.d][self.a]
+            self.bandwidth = np.inf
 
     def _sigma_new(self, X_new):
         if self.local_scale is None:
             return np.ones(np.atleast_2d(X_new).shape[0])
-        return self.local_scale.predict(X_new)
+        sig = np.asarray(self.local_scale.predict(X_new), float)
+        if sig.shape != (np.atleast_2d(X_new).shape[0],) or not np.isfinite(sig).all() or np.any(sig <= 0):
+            raise ValueError("local scale must return finite strictly positive [m] predictions")
+        return sig
 
     def radius(self, X_new, alpha: float):
         """Adaptive conformal radius/radii at ``X_new`` (array ``[m]``)."""
         X_new = np.atleast_2d(np.asarray(X_new, dtype=float))
         w_new = self._w_new(X_new)
         if self.localize:
-            Kw = kernel_weights(self.Xa, X_new, self.bandwidth, self.Xa)   # [m, n_a]
+            Kw = kernel_weights(self.Xa, X_new, self.bandwidth, self.localization_reference)   # [m, n_a]
             W_calib = Kw * self.w_calib[None, :]
             return localized_weighted_radius(self.scores, alpha, W_calib, w_new)
         from .weighted_cp import weighted_conformal_radius
@@ -395,7 +336,7 @@ class AdaptiveITTEConformal:
         n_basis: int = 5,
         propensity_estimator=None,
         propensity_feature_fn=None,
-        modulation_kind: str = "pointwise-sd",
+        modulation_kind: str = "constant",
         floor: float = 0.0,
         weighted: bool = True,
         local_scale: bool = True,
@@ -406,6 +347,10 @@ class AdaptiveITTEConformal:
         nuisance: NuisanceFit | None = None,
         calib_index=None,
         train_index=None,
+        target="full",
+        weight_fn=None,
+        propensity_fn=None,
+        weights_known=False,
     ):
         """Fit the covariate-adaptive ITTE conformal predictor.
 
@@ -418,18 +363,16 @@ class AdaptiveITTEConformal:
                 scales should be trained from (needed to fit ``sigma_hat_a`` on the
                 nuisance-training split); required if ``local_scale`` and ``nuisance``.
         """
-        phi, A, X = sample
-        phi = np.asarray(phi, dtype=float)
-        A = np.asarray(A)
-        X = np.atleast_2d(np.asarray(X, dtype=float))
-        tseq = np.asarray(tseq, dtype=float)
+        phi, A, X, tseq = validate_sample(sample, tseq)
+        if not np.isfinite(calib_frac) or not 0 < calib_frac < 1:
+            raise ValueError("calib_frac must be strictly between 0 and 1")
         n = phi.shape[0]
         n_hom_dim = phi.shape[-2]
 
         if nuisance is None:
             rng = np.random.default_rng(random_state)
             perm = rng.permutation(n)
-            n_cal = int(round(calib_frac * n))
+            n_cal = min(max(int(round(calib_frac * n)), 1), n-1)
             cal_idx = np.sort(perm[:n_cal])
             tr_idx = np.sort(perm[n_cal:])
             nuisance = fit_split_nuisances(
@@ -440,43 +383,50 @@ class AdaptiveITTEConformal:
         else:
             if calib_index is None:
                 raise ValueError("supplying `nuisance` also requires `calib_index`")
-            cal_idx = np.asarray(calib_index)
-            if local_scale and train_index is None:
+            cal_idx = _indices(calib_index, n, "calib_index")
+            if (local_scale or localize or modulation_kind != "constant") and train_index is None:
                 raise ValueError("`local_scale=True` with a pre-fit `nuisance` needs "
                                  "`train_index` (the nuisance-training units)")
-            tr_idx = None if train_index is None else np.asarray(train_index)
+            tr_idx = None if train_index is None else _indices(train_index, n, "train_index")
+            if tr_idx is not None and np.intersect1d(cal_idx, tr_idx).size:
+                raise ValueError("training and calibration indices must be disjoint")
 
         calib = (phi[cal_idx], A[cal_idx], X[cal_idx])
         train = None if tr_idx is None else (phi[tr_idx], A[tr_idx], X[tr_idx])
 
-        # fit the per-arm/per-dim local difficulty on the *training* split
-        scales0 = [None] * n_hom_dim
-        scales1 = [None] * n_hom_dim
-        if local_scale:
-            for d in range(n_hom_dim):
-                # base modulation shape from the training residuals (a fixed function)
-                for a, store in ((0, scales0), (1, scales1)):
-                    Aa = np.asarray(train[1])
-                    m = Aa == a
-                    phi_a = train[0][m, d, :]
-                    mu_a = nuisance.predict_mu(np.atleast_2d(train[2])[m])[d][a]
-                    s_shape = modulation(residual_curves(phi_a, mu_a),
-                                         modulation_kind, floor=floor)
-                    store[d] = fit_local_scale(train, nuisance, d, a, s_shape,
-                                               estimator=scale_estimator)
+        # Both global modulation and optional local scale are fixed on training.
+        scales0, scales1 = [None]*n_hom_dim, [None]*n_hom_dim
+        shapes = {}
+        for d in range(n_hom_dim):
+            for a, store in ((0, scales0), (1, scales1)):
+                if train is None:
+                    s_shape = np.ones(tseq.size)
+                else:
+                    mask = train[1] == a
+                    Xa = train[2][mask]
+                    R = residual_curves(train[0][mask, d, :], nuisance.predict_mu(Xa)[d][a])
+                    s_shape = modulation(R, modulation_kind, floor=floor)
+                shapes[d, a] = s_shape
+                if local_scale:
+                    store[d] = fit_local_scale(train, nuisance, d, a, s_shape, estimator=scale_estimator)
 
         arm_kw = dict(
             modulation_kind=modulation_kind, floor=floor, weighted=weighted,
             propensity_feature_fn=propensity_feature_fn,
-            localize=localize, bandwidth=bandwidth,
+            localize=localize, bandwidth=bandwidth, target=target, weight_fn=weight_fn,
+            propensity_fn=propensity_fn, weights_known=weights_known,
+            localization_reference=None if train is None else train[2],
         )
-        arms0 = [AdaptiveConformalArm(nuisance, calib, d, 0, local_scale=scales0[d], **arm_kw)
+        arms0 = [AdaptiveConformalArm(nuisance, calib, d, 0, local_scale=scales0[d], modulation_scale=shapes[d, 0], **arm_kw)
                  for d in range(n_hom_dim)]
-        arms1 = [AdaptiveConformalArm(nuisance, calib, d, 1, local_scale=scales1[d], **arm_kw)
+        arms1 = [AdaptiveConformalArm(nuisance, calib, d, 1, local_scale=scales1[d], modulation_scale=shapes[d, 1], **arm_kw)
                  for d in range(n_hom_dim)]
         model = cls(arms0, arms1, tseq)
         model.nuisance_ = nuisance
         model.calib_index_ = cal_idx
+        model.target_ = arms0[0].target_
+        model.weights_known_ = arms0[0].weights_known_
+        model.coverage_scope_ = arms0[0].coverage_scope_
         return model
 
     def band_bounds(self, X_new, alpha: float, d: int = 0):
@@ -484,6 +434,7 @@ class AdaptiveITTEConformal:
 
         Returns ``(lower, upper, center)`` each ``[m, resolution]``.
         """
+        validate_alpha(alpha)
         l1, u1, c1 = self.arms1[d].band_bounds(X_new, alpha / 2.0)
         l0, u0, c0 = self.arms0[d].band_bounds(X_new, alpha / 2.0)
         center = c1 - c0
@@ -505,37 +456,13 @@ class AdaptiveITTEConformal:
 # Phase 5.2 -- conformal meta-learner (Alaa et al. 2023)
 # ===========================================================================
 class ConformalMetaLearner:
-    """Conformal meta-learner for the (topological) CATE (Phase 5.2; Alaa et al. 2023).
+    """Experimental split-conformal prediction for a fitted pseudo-outcome draw.
 
-    Rather than composing two per-arm bands (the Phase-4 route), a *conformal
-    meta-learner* conformalizes the **DR-learner pseudo-outcome directly**. The
-    pseudo-outcome for the topological effect is the per-unit AIPW/EIF score curve
-
-        psi_{i,d}(t) = mu_hat_1(t, X_i) - mu_hat_0(t, X_i)
-                       + A_i/pi (phi_i - mu_hat_1) - (1-A_i)/(1-pi) (phi_i - mu_hat_0),
-
-    whose conditional mean is the CTATE ``tau_d(., x)`` (Kim & Lee eq. 8). Fitting a
-    function-on-scalar regression ``tau_hat_d(., x)`` of ``psi`` on ``X`` (the
-    :class:`~tcda_uq.estimators.CTATEDRLearner`) and split-conformalizing the residual
-    sup-norm score
-
-        S_i = max_t | psi_{i,d}(t) - tau_hat_d(t, X_i) | / (s(t) * sigma_hat(X_i))
-
-    gives a band ``tau_hat_d(., x) +/- k * s(t) * sigma_hat(x)`` -- **adaptive to ``x``
-    by construction** (centered at the CATE estimate, width normalized by the local
-    scale). One band, no arm Bonferroni.
-
-    **Can-claim / cannot-claim (kept honest).** This band is a finite-sample,
-    marginally-valid **prediction** band for a *draw of the pseudo-outcome* ``psi``.
-    ``E[psi | X = x] = tau_d(., x)`` (the CTATE), so it is centered correctly and is a
-    legitimate meta-learner route to individual-effect inference (Alaa et al. 2023),
-    and it is naturally covariate-adaptive. But ``psi`` is **not** the ITTE ``delta_i``
-    itself: its spread carries the inverse-propensity inflation of the EIF, not the
-    clean aleatoric spread of ``delta``. So its coverage of the *true* ``delta`` is
-    only *approximate* and can be conservative under weak overlap -- it is offered as
-    an adaptive **alternative/benchmark** to the composed :class:`AdaptiveITTEConformal`
-    band, not a replacement for it. (For the mean ``tau`` itself, use the Phase-3
-    confidence band -- CP covers a draw, not an expectation.)
+    Conditional on training, a frozen nuisance transform maps each observed unit
+    to a pseudo-outcome. This object's prediction target is that transformed draw,
+    which is distinct from both the mean CTATE and the unobserved individual effect.
+    No ITTE or CTATE coverage theorem is claimed. The mean identity requires correct
+    nuisance assumptions and does not identify the pseudo-outcome with the ITTE.
     """
 
     def __init__(self, learner, scores, s, local_scale, tseq, *, weighted, feat):
@@ -559,7 +486,7 @@ class ConformalMetaLearner:
         propensity_estimator=None,
         propensity_feature_fn=None,
         feature_fn=None,
-        modulation_kind: str = "pointwise-sd",
+        modulation_kind: str = "constant",
         floor: float = 0.0,
         local_scale: bool = True,
         scale_estimator=None,
@@ -574,18 +501,16 @@ class ConformalMetaLearner:
         """
         from ...estimators import CTATEDRLearner
 
-        phi, A, X = sample
-        phi = np.asarray(phi, dtype=float)
-        A = np.asarray(A)
-        X = np.atleast_2d(np.asarray(X, dtype=float))
-        tseq = np.asarray(tseq, dtype=float)
+        phi, A, X, tseq = validate_sample(sample, tseq)
+        if not np.isfinite(calib_frac) or not 0 < calib_frac < 1:
+            raise ValueError("calib_frac must lie strictly between 0 and 1")
         n = phi.shape[0]
         n_hom = phi.shape[-2]
         feat = propensity_feature_fn if propensity_feature_fn is not None else (lambda z: z)
 
         rng = np.random.default_rng(random_state)
         perm = rng.permutation(n)
-        n_cal = int(round(calib_frac * n))
+        n_cal = min(max(int(round(calib_frac * n)), 1), n-1)
         cal_idx = np.sort(perm[:n_cal])
         tr_idx = np.sort(perm[n_cal:])
         train = (phi[tr_idx], A[tr_idx], X[tr_idx])
@@ -602,18 +527,25 @@ class ConformalMetaLearner:
         reg = fit_functional_regression(train, tseq, n_basis=n_basis)
         prop = fit_propensity(feat(train[2]), train[1], propensity_estimator)
         mu_cal = predict_functional_regression(reg, Xcal, tseq)      # list (mu0, mu1)
-        pi_cal = prop.predict_proba(feat(Xcal))[:, 1]
+        pi_cal = np.clip(prop.predict_proba(feat(Xcal))[:, 1], .01, .99)
         psi_cal = aipw_scores(pi_cal, mu_cal, (phi[cal_idx], A[cal_idx], Xcal))  # list [n_cal, res]
 
+        mu_train = predict_functional_regression(reg, train[2], tseq)
+        pi_train = np.clip(prop.predict_proba(feat(train[2]))[:, 1], .01, .99)
+        pi_cal = np.clip(pi_cal, .01, .99)
+        psi_train = aipw_scores(pi_train, mu_train, train)
+        tau_train = learner.predict(train[2])
         tau_cal = learner.predict(Xcal)                              # [n_cal, hom, res]
 
         scores, s_list, scale_list = [], [], []
         for d in range(n_hom):
             R = psi_cal[d] - tau_cal[:, d, :]                        # [n_cal, res]
-            s_shape = modulation(R, modulation_kind, floor=floor)
+            R_train = psi_train[d] - tau_train[:, d, :]
+            s_shape = modulation(R_train, modulation_kind, floor=floor)
+            raw_train = np.atleast_1d(sup_norm_score(R_train, s_shape))
             raw = np.atleast_1d(sup_norm_score(R, s_shape))
             if local_scale:
-                ls = LocalScale(estimator=scale_estimator).fit(Xcal, raw)
+                ls = LocalScale(estimator=scale_estimator).fit(train[2], raw_train)
                 sig = ls.predict(Xcal)
                 scale_list.append(ls)
                 scores.append(raw / sig)
@@ -625,6 +557,9 @@ class ConformalMetaLearner:
         model = cls(learner, scores, s_list, scale_list, tseq,
                     weighted=False, feat=feat)
         model.calib_index_ = cal_idx
+        model.nuisance_ = NuisanceFit(reg, prop, tseq, propensity_feature_fn)
+        model.pseudo_outcome_propensity_clip_ = .01
+        model.coverage_scope_ = "prediction for the frozen fitted pseudo-outcome transform only"
         return model
 
     def band_bounds(self, X_new, alpha: float, d: int = 0):
@@ -653,20 +588,11 @@ class ConformalMetaLearner:
 # Phase 5.3 -- CTATE-level prediction band (pairs with the Phase-3 confidence band)
 # ===========================================================================
 def ctate_prediction_band(model, x, d: int = 0, *, alpha: float = 0.1) -> Band:
-    """CTATE-level **prediction** band for a draw at fixed ``x`` (Phase 5.3).
+    """Legacy adapter to model.band, with that model's marginal target scope.
 
-    A thin adapter that returns the adaptive ITTE band at ``x`` as the *prediction*
-    counterpart of :func:`~tcda_uq.uq.asymptotic.ctate_bands.ctate_confidence_band`
-    (which bands the *mean* ``tau_d(., x)``). Putting the two side by side at a fixed
-    ``x`` makes the confidence-vs-prediction distinction concrete: the confidence band
-    shrinks at ``1/sqrt(n)`` onto ``tau``; this prediction band keeps a positive
-    aleatoric width and covers an individual ``delta`` drawn at ``x``.
-
-    Args:
-        model: a fitted :class:`AdaptiveITTEConformal` or :class:`ConformalMetaLearner`.
-        x: covariate value (1-D).
-        d: homology dimension.
-        alpha: 1 - target coverage.
+    This name does not assert conditional coverage at a fixed x, nor prediction
+    of the conditional mean. Composed arm models predict individual effects;
+    ConformalMetaLearner predicts a fitted pseudo-outcome instead.
     """
     band = model.band(np.atleast_2d(np.asarray(x, dtype=float)), alpha, d)
     band.kind = "prediction"

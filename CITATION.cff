@@ -9,7 +9,7 @@ authors:
   - family-names: Diamantis
     given-names: Ioannis
     email: i.diamantis@maastrichtuniversity.nl
-abstract: "Python library for uncertainty quantification of topological treatment effects across TATE, CTATE, and ITTE estimands."
+abstract: "Python library and reproducibility materials for uncertainty quantification of topological treatment effects across TATE, CTATE, and ITTE estimands."
 keywords:
   - causal inference
   - topological data analysis
@@ -17,5 +17,6 @@ keywords:
   - conformal prediction
   - functional data analysis
 license: MIT
-version: 0.0.1
-date-released: 2026-07-03
+version: 0.1.0
+date-released: 2026-10-11
+repository-code: "https://github.com/hugogobato/tcda_uq"
