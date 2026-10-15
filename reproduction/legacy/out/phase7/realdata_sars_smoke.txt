@@ -1,0 +1,18 @@
+Using local SARS-CoV-2 CT dataset at: notebooks/SARS_Dataset
+Loaded SARS-CoV-2 CT images: COVID=80, non-COVID=80
+
+SARS Phase 7B demo
+dim     estimand       method       metric      value
+  0         TATE         AIPW           L1     0.0001
+ROW level=7B_SARS estimand=TATE uncertainty=point method=AIPW n=80 scenario=SARS dim=0 coverage= mean_width= inf_pct= extra=L1=0.0001424
+  0        CTATE          mu1       rel_l1     1.0345
+ROW level=7B_SARS estimand=CTATE_mean uncertainty=point method=DRLearner n=80 scenario=SARS_mu1 dim=0 coverage= mean_width= inf_pct= extra=rel_l1=1.035
+  0        CTATE          mid       rel_l1     0.8010
+ROW level=7B_SARS estimand=CTATE_mean uncertainty=point method=DRLearner n=80 scenario=SARS_mid dim=0 coverage= mean_width= inf_pct= extra=rel_l1=0.801
+  0        CTATE          mu2       rel_l1     0.9124
+ROW level=7B_SARS estimand=CTATE_mean uncertainty=point method=DRLearner n=80 scenario=SARS_mu2 dim=0 coverage= mean_width= inf_pct= extra=rel_l1=0.9124
+  0         ITTE   overlap_cp        width        inf
+ROW level=7B_SARS estimand=ITTE uncertainty=qualitative_prediction method=overlap_cp n=80 scenario=SARS dim=0 coverage= mean_width=inf inf_pct=100 extra=no_honest_counterfactuals
+SARS CTATE/ITTE rows are qualitative only: per-patient counterfactual coverage is not claimed.
+
+GEOM-Drugs 7B.3 skipped: val_data.pickle is still unavailable.

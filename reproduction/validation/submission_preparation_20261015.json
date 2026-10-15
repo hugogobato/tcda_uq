@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-15",
+  "scope": "Repository preparation for the accompanying paper; no arXiv submission performed",
+  "fast_tests": {
+    "passed": 106,
+    "deselected_slow": 5,
+    "seconds": 64.7
+  },
+  "frozen_records": {
+    "production_replications": 11200,
+    "pacce_mean_replays": 1400,
+    "source_hashes_and_checkpoint_identities": "PASS"
+  },
+  "additional_public_artifacts": {
+    "files": 425,
+    "clinical_aggregate_files": 44,
+    "checksums": "PASS",
+    "clinical_release_allowlist": "PASS"
+  },
+  "wheel": {
+    "build": "PASS",
+    "installed_import_and_simulator_smoke": "PASS"
+  },
+  "documentation_local_links": "PASS",
+  "paper_files": "Manuscript, compiled manuscript PDF, and arXiv source archive remain outside the repository",
+  "clinical_exclusions": [
+    "raw clinical inputs",
+    "subject identifiers and identifier lists",
+    "patient-level manifests and arrays",
+    "clinical ITTE curves and prediction outputs"
+  ]
+}

@@ -1,0 +1,30 @@
+#   20/200 reps (24s)
+#   40/200 reps (36s)
+#   60/200 reps (55s)
+#   80/200 reps (68s)
+#   100/200 reps (86s)
+#   120/200 reps (101s)
+#   140/200 reps (119s)
+#   160/200 reps (135s)
+#   180/200 reps (154s)
+#   200/200 reps (168s)
+Phase 4.5.1 conservatism decomposition | target=0.90 | n=500 | overlap=1.0 | misspec=none | reps=200 | m_test=200
+
+Coverage ladder (each row a nonconformity rung; gaps attribute the slack):
+dim    arm@a  arm@a/2  both@a/2    ITTE  ITTE+grid
+  0    0.902    0.952     0.907   0.997      0.998
+  1    0.901    0.953     0.908   0.997      0.998
+
+Attribution of the coverage gap (percentage points above the 0.90 target), averaged over dims:
+  base per-arm CP (sup-norm + modulation + weighting + discreteness) :  +0.16 pp
+  alpha -> alpha/2 per-arm level inflation (half the Bonferroni budget):  +5.09 pp
+  Bonferroni union: 'both covered' minus single-arm (a REDUCTION)      :  -4.53 pp
+  interval-arithmetic slack (delta covered w/o both arms covered)      :  +8.99 pp
+  --------------------------------------------------------------------
+  total: empirical ITTE coverage minus target                         :  +9.71 pp
+
+Width + grid-slack effect (mean over dims):
+  mean per-arm width @ a/2      : 1.6176
+  mean ITTE width               : 3.2354
+  mean ITTE width + grid slack  : 3.3448 (whole-interval guarantee, L=2)
+  ITTE inf%                     : 0.7

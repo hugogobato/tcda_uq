@@ -1,0 +1,25 @@
+{
+  "case": "pacce_sld_only",
+  "production_replications_requested": 200,
+  "pilot_replications": 4,
+  "pilot_workers": 2,
+  "pilot_oracle_n": 200,
+  "pilot_profile_mc": 50,
+  "pilot_oracle_seconds": 0.5984291060012765,
+  "pilot_replication_wall_seconds": 4.918959841001197,
+  "median_replication_seconds": 2.4302715194971825,
+  "min_replication_seconds": 2.34440313000232,
+  "max_replication_seconds": 2.4548339850007324,
+  "projected_production_oracle_n": 10000,
+  "projected_production_profile_mc": 3000,
+  "projected_oracle_seconds": 33.512029936071485,
+  "projected_local_four_worker_minutes_range": [
+    2.6081004326850232,
+    3.486486118578094
+  ],
+  "projected_two_worker_minutes": 4.6576670331021885,
+  "parent_max_rss_kib": 255436,
+  "children_max_rss_kib": 183196,
+  "available_logical_cpus": 8,
+  "caveat": "Few-replication extrapolation, not a guaranteed runtime; excludes package installation and file download. Low-MC pilot truth must never be reported as coverage evidence. Other workloads and Colab CPU speed may change timing."
+}

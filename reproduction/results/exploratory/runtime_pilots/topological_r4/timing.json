@@ -1,0 +1,26 @@
+{
+  "case": "topological_r4",
+  "production_replications_requested": 200,
+  "pilot_replications": 4,
+  "pilot_workers": 2,
+  "pilot_oracle_n": 200,
+  "pilot_profile_mc": 50,
+  "pilot_oracle_seconds": 2.370816200003901,
+  "pilot_replication_wall_seconds": 16.665630056006194,
+  "median_replication_seconds": 8.242669959498016,
+  "min_replication_seconds": 8.196209492998605,
+  "max_replication_seconds": 8.363439504995767,
+  "projected_production_oracle_n": 10000,
+  "projected_production_profile_mc": 3000,
+  "profile_count": 3,
+  "projected_oracle_seconds": 128.70145085735462,
+  "projected_local_four_worker_minutes_range": [
+    9.089036704291825,
+    12.065042071435789
+  ],
+  "projected_two_worker_minutes": 16.03304922762774,
+  "parent_max_rss_kib": 255768,
+  "children_max_rss_kib": 176488,
+  "available_logical_cpus": 8,
+  "caveat": "Few-replication extrapolation, not a guaranteed runtime; excludes package installation and file download. Low-MC pilot truth must never be reported as coverage evidence. Other workloads and Colab CPU speed may change timing."
+}

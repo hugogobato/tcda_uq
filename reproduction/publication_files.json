@@ -1,0 +1,2207 @@
+{
+  "snapshot_date": "2026-10-15",
+  "scope": "Additional publication artifacts. Frozen primary and remaining production records are independently verified by verify_saved_results.py.",
+  "files": [
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/manifest.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/manifest.json",
+      "sha256": "916b37be289203a228cdfa06d7b09d4dd610be57f6ec3f69b65d0ea0c6d62333"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000000.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000000.json",
+      "sha256": "9c971f3cfe87932083dc6fe7ffab921a18739a363e65ceed16a48607e6f40823"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000001.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000001.json",
+      "sha256": "dad912f4c14e957ca28f86a56bdeb47f8d1764024e1fb42538084072409e352e"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000002.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000002.json",
+      "sha256": "c301bd0ead59e7b1b98a5cb40b35f071518673a94f28f7a230bcce375ce948f5"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000003.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000003.json",
+      "sha256": "863dfabec735e6d59090a4c2944402dd078cb581c0647f46d24a90b87b100802"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000004.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000004.json",
+      "sha256": "1a9b17a3d5ce42cd9331e89a8428c97799f9c5e3fe50dff5e4791a4e18f3ce4e"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000005.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000005.json",
+      "sha256": "c1413b0e8aa7fa27b6e903d4dc3bc2679d9aeaa1392aecbce49f124aa1287a51"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000006.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000006.json",
+      "sha256": "6560ff6373ad1003774cfa9d1e8591dcd76e8d7a406f39f20b171a3bbdbd42ee"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000007.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000007.json",
+      "sha256": "30bdd511b4c2744e028f0e3c8a1a7c6d7721ed5cde3290edbb901fca9c5276a2"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000008.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000008.json",
+      "sha256": "41e78374eee5c0dfa6a69aeab8dfef75106e458d7f6838a5460039011b5f622f"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000009.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000009.json",
+      "sha256": "aacf80ee76c045b4987a09fa808f198f9c9ab9984355b59bd53b39d95c189f12"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000010.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000010.json",
+      "sha256": "8d9d97ce3f3f2fce6bf67f9d93b3c6c3d96190a7b400b5dc09ce6884ff1079de"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000011.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000011.json",
+      "sha256": "3b431641631c7b88a6c1e2f7e5269689cbe1db201aeb3bb3669e67b22b3ba97c"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000012.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000012.json",
+      "sha256": "9533c156e2fdb44f62cd1d3dc13f71b8072d59c819f22ee1af3368969b4acd87"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000013.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000013.json",
+      "sha256": "d104b873a2616ab6d26716a230c6686079ac3d8999de9203ada18d8ce72775af"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000014.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000014.json",
+      "sha256": "4329b56c17705921c93e4a86b22d5a733ae2f8924c6dab768da03fd6a9fd837f"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000015.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000015.json",
+      "sha256": "6fd9352eabee8518957ab53300fe1d357862feeb2c4a11c3e95480c71bd765b8"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000016.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000016.json",
+      "sha256": "2fee14df3fac2bcef0d7bbe4855277d3c9310f2138a799aa9f9123a7df0f24c7"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000017.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000017.json",
+      "sha256": "0d291b0b5f2e0a39cb0079deae3c95958de44250579e3040671764cf9251c242"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000018.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000018.json",
+      "sha256": "2a60352f6c50443d9c9b7f5173ffd3d0633427fe0b6c3a42171ec2e833103531"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000019.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000019.json",
+      "sha256": "1e665da63b901c27b3d24a4345cdc6c8848bd51932e27a66ed718bcf871682db"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000020.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000020.json",
+      "sha256": "0f7f966a4b0fbd4ba5f8feb7ccae5e62eb49b7712a9448ae50fe0120840e5f02"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000021.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000021.json",
+      "sha256": "fd541d249ceb8fee3a5f6f4c54c18249e7991a36b1eb8c71a1cafc919df00096"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000022.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000022.json",
+      "sha256": "7a05412f06b537f69f971082df748c382908ac449477db420880ceba7c4a18a0"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000023.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000023.json",
+      "sha256": "ef5bde2780804d964f78a9b51baa37a192183f1c2dff3f2cab386fd79d527691"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000024.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000024.json",
+      "sha256": "b6fe7a1ebb5a3e31e256b3730bfc8a8057843475c9dc004385b8286766d30cd6"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000025.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000025.json",
+      "sha256": "291227087fa78f628daf9ac29a53f57fcaa22606f9a688290fd625c1efeb28e7"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000026.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000026.json",
+      "sha256": "d877860e523c1eeaa84d863516ce2d90bbfa9fa2aabf8f77798431ced2a52fd3"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000027.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000027.json",
+      "sha256": "4900225824eb7387c35a099851f7979f188c4a5712313f1ada2c7d81bb0f3848"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000028.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000028.json",
+      "sha256": "108b5c634b5708ac7aaa8c14be2c658f857e878e8aaf10c6fff460cf85ed4db4"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000029.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000029.json",
+      "sha256": "37b9e77a50e362d78d7f19242ad9ffee43ef9564a51e83a281d760bf452c6349"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000030.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000030.json",
+      "sha256": "7f78521c4f81f72d9c11b03323a8e8a1595ebab0a77b11d391dc5d70005b1e70"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000031.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000031.json",
+      "sha256": "4cb547fb94ff80b06d5861a3fa1fc5f37654467bb087fa7e1436f71301e2e15f"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000032.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000032.json",
+      "sha256": "c31e9e062c2e3bfa26f89a0445778eac488937c12452a55dc3edb8e2a8e49ffb"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000033.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000033.json",
+      "sha256": "6abc612592025454afd21f9fcc6ef85f2eae58f277c11a4239b8a01ca076881e"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000034.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000034.json",
+      "sha256": "3fb8c190b264debbd9da47055836951d8c06934ae9ccc2e2fed970e52eb9ecad"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000035.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000035.json",
+      "sha256": "7c643868205e97825f967b3aed48bf7b9317ed0d88a922e02013908dbb01a44b"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000036.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000036.json",
+      "sha256": "5cd45ceda7ff32fba57d2e4927d09bdb880106b8969c2b39ca8ca7f7909edbdf"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000037.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000037.json",
+      "sha256": "94a7876927deb6bf8a270f7f989dbc6955c47956172735cb013bf19f0242bede"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000038.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000038.json",
+      "sha256": "eea19e2a213b91e33f7c398d3531715c8154884972da1a1b47e4340013a20966"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000039.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000039.json",
+      "sha256": "dad2f0842ec0a048d1a25a99c62bde4e4a83e2115998d9ea629132bc7dec0ad0"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000040.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000040.json",
+      "sha256": "28d6ac53d411f757174313a0edb214a55bb58ca6707de95af66e15e2402ce48b"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000041.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000041.json",
+      "sha256": "9f20b3e4edf8bbf6c0ded61b97f9854906264d019e6814f8572f4df25de6f610"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000042.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000042.json",
+      "sha256": "f87dfcb4c13cdc6bb1e467422a4416a898c990e337ff705c513c68e446d526c9"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000043.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000043.json",
+      "sha256": "25765d265e97a22324b6e16e87de2aa51940195e85cc55fc70a6c33383545906"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000044.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000044.json",
+      "sha256": "4073eb377f1b55fa33f9d0a4c21a32f45e1fc1ea3b7372af1fe6aec15beed5e4"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000045.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000045.json",
+      "sha256": "f8093cc605c08bdfa11f3a30fe5dbd157959dc5088f5e3dcb7ae24b0b10faf7d"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000046.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000046.json",
+      "sha256": "5b01d4aa5c89ce8cf5a1d9fb8b6d92f948677ff8e4e6ca3d221995d648f3ab3c"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/rep_000047.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/rep_000047.json",
+      "sha256": "ece38f3ee6cb6e8a8689f52cb26bda4746b1030fc7c83eba6c1a0161c9896475"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/truth.npz",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/truth.npz",
+      "sha256": "ee44fe837cf18d4f132b4135e36a82f71026d1cb8d4719db84f4b420638f065c"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_scale4/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/production/topological_scale4/truth_metadata.json",
+      "sha256": "a2413de7444c59e502114b5362098044e73049df4aa55a9c326445eb85e60b21"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_runtime_pilot/manifest.json",
+      "original_path": "revision_20261010/rerun/production/topological_runtime_pilot/manifest.json",
+      "sha256": "51f7a377da5f5867753987eeff984528395d42498ed349b65e9f5a17d8066195"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_runtime_pilot/rep_000000.json",
+      "original_path": "revision_20261010/rerun/production/topological_runtime_pilot/rep_000000.json",
+      "sha256": "bae0130764521416c4da44d239569ee56d4938ecdb13477ac495b6196f76c513"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_runtime_pilot/rep_000001.json",
+      "original_path": "revision_20261010/rerun/production/topological_runtime_pilot/rep_000001.json",
+      "sha256": "441c85b419c6e611e9332bb585e991d1697510ca60641e77affa2f04f942a3ee"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_runtime_pilot/replication_records.csv",
+      "original_path": "revision_20261010/rerun/production/topological_runtime_pilot/replication_records.csv",
+      "sha256": "d0d556ce5d027174674ac5db057f0bc7d1c0929d34ecd8e17c379f36d0b9ad02"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_runtime_pilot/summary.csv",
+      "original_path": "revision_20261010/rerun/production/topological_runtime_pilot/summary.csv",
+      "sha256": "865fd68ff46373cc4dbf6da769f55d2911844f65649ace953ca4174bcae2ba93"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_runtime_pilot/truth.npz",
+      "original_path": "revision_20261010/rerun/production/topological_runtime_pilot/truth.npz",
+      "sha256": "0a82647f9ff454e4ec991ac9efb728270a846edccc5ee7882fbb5d5b56ea3ffd"
+    },
+    {
+      "path": "reproduction/results/exploratory/production/topological_runtime_pilot/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/production/topological_runtime_pilot/truth_metadata.json",
+      "sha256": "c898d5ee2d6ffbea2f7bbe9829efb83ea89d3bf8a97e730fa58d0b7353e923c9"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_bias/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_bias/manifest.json",
+      "sha256": "c268606f754094bd3d63d8f94f12342015a5d8094f2a8ab885492b7900383d03"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_bias/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_bias/oracle_timing.json",
+      "sha256": "d711809e3b6480fc42f8279e8549b7e015ed28bf416fbdd899924f5d30fae188"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_bias/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_bias/rep_000000.json",
+      "sha256": "f5507c5e494280ecd20e350003a088e31b64dad926b92ce0d95a49f16a9cf03e"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_bias/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_bias/rep_000001.json",
+      "sha256": "dcb22a74d4794c3e2f15db96854b26eba7aefb07a584a0b572334b0aefd26164"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_bias/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_bias/rep_000002.json",
+      "sha256": "25ea4d51a38d81bc209113a75dd9bf0b379d9dd8026af46f2e0738d282fcfffc"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_bias/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_bias/rep_000003.json",
+      "sha256": "b6cb238fa436b61ee726f38b238e76e210f17cfb41e7bb8b60414072677178cc"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_bias/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_bias/timing.json",
+      "sha256": "84330c9e6e04a69c80ff2d39203b9c2eb04a0066c62e313c5eef872e0df0b5d3"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_bias/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_bias/truth.npz",
+      "sha256": "fd0a693e4816d1e2a72c3699a148eec763608a08f94a4cf49c6185ed8df84706"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_bias/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_bias/truth_metadata.json",
+      "sha256": "96c41fd824e6e48d494fac6210c29b09791d135d4d2ff93038b9488a43e4e108"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_degree3/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_degree3/manifest.json",
+      "sha256": "8470f6e64890129186504b2b171705e6a6dfbd58bc9468e2eeb1a1f668cf1474"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_degree3/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_degree3/oracle_timing.json",
+      "sha256": "615058dc257d128c67906ef41bafebd82b68e39fa7070569494f5aacb8f37214"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_degree3/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_degree3/rep_000000.json",
+      "sha256": "ce533ec7b547a93177052a6c8834882c203d242f8b68aba825b622959c4546ba"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_degree3/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_degree3/rep_000001.json",
+      "sha256": "92f14eb08c69165b22207041cd0426403bc5aaabcb1b7cbfc7ced75cf022cf13"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_degree3/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_degree3/rep_000002.json",
+      "sha256": "be76286cd55e4bb327510c22fdaf88ed790ba2fc1c0ee3aacab20164531ed78f"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_degree3/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_degree3/rep_000003.json",
+      "sha256": "743e17b64fc9059912378f32ca8ee436db8329bade50d88381cc469f09ed39e8"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_degree3/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_degree3/timing.json",
+      "sha256": "ad16115ec7a8246f3ad45d4e805afd25808f7017b218feebfb7bfc88e5298b74"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_degree3/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_degree3/truth.npz",
+      "sha256": "d06745bcc64b2a4333b7258c2ed55a79d41418c27f3238d76f3d7aad5129f4fe"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_degree3/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_degree3/truth_metadata.json",
+      "sha256": "96c41fd824e6e48d494fac6210c29b09791d135d4d2ff93038b9488a43e4e108"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_sensitivity/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_sensitivity/manifest.json",
+      "sha256": "4f03e6011e98fc01f35886e4ca41245a4c44d7eef95017968d2b56803392a2aa"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_sensitivity/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_sensitivity/oracle_timing.json",
+      "sha256": "079a305af74d4b368592dc18227a957926543d74cc7673e83e162f5eb8c5eae8"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_sensitivity/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_sensitivity/rep_000000.json",
+      "sha256": "2b6a36ee4850d43740ad73f2f156f5697e76b532b01ee92bb37f6d0699a0b42c"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_sensitivity/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_sensitivity/rep_000001.json",
+      "sha256": "6677aacfa055746745cb28d28062057375906773f95dfbe8bfa044826d0c5271"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_sensitivity/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_sensitivity/rep_000002.json",
+      "sha256": "5d6901f5373a3f9b417240ef9796b1c8dd245a63f43796e43ed6d65392146361"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_sensitivity/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_sensitivity/rep_000003.json",
+      "sha256": "3f224394b8385567b2c81b6fb60ae466ee0bf59bcb07266da71046962c129391"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_sensitivity/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_sensitivity/timing.json",
+      "sha256": "f6e66b59d86ce4e5744d3c3acb8a027369dfa590c2d90d860bb9a167349d0c83"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_sensitivity/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_sensitivity/truth.npz",
+      "sha256": "438026c82fe29e797924705553e9d0c01e0484c4e15621f9bab924cb66bb5228"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/functional_sensitivity/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/functional_sensitivity/truth_metadata.json",
+      "sha256": "96c41fd824e6e48d494fac6210c29b09791d135d4d2ff93038b9488a43e4e108"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/interrupted_attempt_truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/interrupted_attempt_truth.npz",
+      "sha256": "755687142159a7f32153258c9286516affaf309ef599a500d589332db464852f"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/interrupted_attempt_truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/interrupted_attempt_truth_metadata.json",
+      "sha256": "4425b5f95b2772a9d6bf3ed57ab2c917f7d001e4dbd2dbb1f1019d120a4301e9"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/manifest.json",
+      "sha256": "f559005f6a8f7654db3cdd2377de27ceb1dad38959195544fd57c8e2cf133bd4"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/oracle_timing.json",
+      "sha256": "32cff6fd12a35a15dc47fdd105da61b63b25e76731b7072f168663503ec78ebe"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/rep_000000.json",
+      "sha256": "944625731c82bb7fcf33ade2b2fb427c1fbd40722a8cdfe634bf988da31249b8"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/rep_000001.json",
+      "sha256": "4258cb873a003f18a971310c748127b5615339e3a829376c80017adad857fa75"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/rep_000002.json",
+      "sha256": "914a7257a19364af4def0cfaa9bd1f556f72c8ca6d0f4dd14dbc8a0e4909840d"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/rep_000003.json",
+      "sha256": "7312425b259dffdbae99d3128e0c6bb1545a209569933c89747d4a6d0d9e47e9"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/timing.json",
+      "sha256": "aa14270afa302a7129a44ba427ba8ab72612f3d619da6713db7e6665ccd657ea"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/truth.npz",
+      "sha256": "755687142159a7f32153258c9286516affaf309ef599a500d589332db464852f"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/orbit_full/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/orbit_full/truth_metadata.json",
+      "sha256": "4425b5f95b2772a9d6bf3ed57ab2c917f7d001e4dbd2dbb1f1019d120a4301e9"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_dropout_arm/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_dropout_arm/manifest.json",
+      "sha256": "41d1bdf5561212b80ef8be3a47865392bcd3307636b0fe5f29e460820e4d04bc"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_dropout_arm/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_dropout_arm/oracle_timing.json",
+      "sha256": "76d475bd1665296ebcd38815b6d8ab967f615aec42ffdd79500c23e7417e86b7"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_dropout_arm/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_dropout_arm/rep_000000.json",
+      "sha256": "f37daeff10832b8b83d1ec5c7de14382c160fe6476983f96e1e3cc9046ade2c7"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_dropout_arm/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_dropout_arm/rep_000001.json",
+      "sha256": "d313ecc1e67a935eb7794b95cfdeb2a00dd5e4afccd08ee310aeac2a835ff7b5"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_dropout_arm/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_dropout_arm/rep_000002.json",
+      "sha256": "6a97383ea66e66581900698ad1b0c7b545bed91bfc435545f9ddf9460c776a28"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_dropout_arm/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_dropout_arm/rep_000003.json",
+      "sha256": "55e23e1bf6afdb9245e1dff7f99b0cd8afe8292042fc0204a601347aa0a4e039"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_dropout_arm/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_dropout_arm/timing.json",
+      "sha256": "ff956456270db957443ef5cc83fb1ba96ee0efeff4d4c755bcdf2557e27a238e"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_dropout_arm/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_dropout_arm/truth.npz",
+      "sha256": "e9c5e121a00dfe0b112ccc66bb056cb5e04322dd2d046cf93416c897e43eb4ed"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_dropout_arm/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_dropout_arm/truth_metadata.json",
+      "sha256": "96c41fd824e6e48d494fac6210c29b09791d135d4d2ff93038b9488a43e4e108"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_irregular_visits/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_irregular_visits/manifest.json",
+      "sha256": "817ff9051bcdb9614092dbd267600e069194d02ddd382f83a44fff51d06b9c43"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_irregular_visits/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_irregular_visits/oracle_timing.json",
+      "sha256": "a97d0fb8c6a27b12739caa803ed0c0986250b780e6ae5dd7a68327afa1ad34bf"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_irregular_visits/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_irregular_visits/rep_000000.json",
+      "sha256": "6f4b2ece4924bdfd2a6ac4937765ebfccc0d3eb3d1f97c3e736c61b0905576cb"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_irregular_visits/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_irregular_visits/rep_000001.json",
+      "sha256": "5a5a3131907cf84df51c7d124b217f6952cf17e106039a9b9a28cc5882786932"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_irregular_visits/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_irregular_visits/rep_000002.json",
+      "sha256": "7455e30e8a5fe4479726389109cad09fa2f088990168a5add82f1d36bfdb0f7b"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_irregular_visits/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_irregular_visits/rep_000003.json",
+      "sha256": "7ebb19ba541b1433886045021264856727310ac02c67dea45ed5ab8548b432ef"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_irregular_visits/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_irregular_visits/timing.json",
+      "sha256": "bde7d6632f1b51319c00153b4bfe5a35ddaa4071327cd602c4970dccf27a8595"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_irregular_visits/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_irregular_visits/truth.npz",
+      "sha256": "e9c5e121a00dfe0b112ccc66bb056cb5e04322dd2d046cf93416c897e43eb4ed"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_irregular_visits/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_irregular_visits/truth_metadata.json",
+      "sha256": "96c41fd824e6e48d494fac6210c29b09791d135d4d2ff93038b9488a43e4e108"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_nuisance_misp/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_nuisance_misp/manifest.json",
+      "sha256": "48d257bc0c68d3b461ad9ea51608747afc713de9471a2c27ca2821826046ce5e"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_nuisance_misp/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_nuisance_misp/oracle_timing.json",
+      "sha256": "db6d5cead0b8d44456837e04183b76bce6f7a42a4bb9c0c766c31c9f567e218e"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_nuisance_misp/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_nuisance_misp/rep_000000.json",
+      "sha256": "6356fa79a3d1127a4969f07e3ac3d65a68714c77c6bd6e2029d58d11b372767f"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_nuisance_misp/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_nuisance_misp/rep_000001.json",
+      "sha256": "9e5ca731932faa41814e7f2e46b274572838155120c07d9425049000c1af7721"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_nuisance_misp/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_nuisance_misp/rep_000002.json",
+      "sha256": "da8ce61b00559200731d860c325bf489bfc03b16700d901c0ab26718a1b868bf"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_nuisance_misp/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_nuisance_misp/rep_000003.json",
+      "sha256": "c647c77064998df7a777547ce0efb3efde45a14b1145352c93ae5d8a7f7718ac"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_nuisance_misp/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_nuisance_misp/timing.json",
+      "sha256": "434c96a149e705db4455008c8ff8488c7f5972c6670f993577753e9ed13e8622"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_nuisance_misp/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_nuisance_misp/truth.npz",
+      "sha256": "f872a762fd9f86416495c2920ec9e19eb6257fa118f41e0ff292d8a5ef4305f4"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_nuisance_misp/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_nuisance_misp/truth_metadata.json",
+      "sha256": "7a152c42a286006653befd50ca2fc92388ac21191d5ddfbb243b7de8cbeb413d"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_null/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_null/manifest.json",
+      "sha256": "bb1c3730b025f3d547aa908813b801788211a5385622054e67f91a4e9509225e"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_null/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_null/oracle_timing.json",
+      "sha256": "8ac2e8319b4871e3b3fc6a82c33203b1ad192b94ddf58d0137de10755e7c93bd"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_null/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_null/rep_000000.json",
+      "sha256": "29767b4b6aefb216fa24d3b727ef557d41feebecdce1fbccdb0b36f72963751f"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_null/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_null/rep_000001.json",
+      "sha256": "2e8a04066738faf8ac905ec488dc2b31cebfdab77aff8c8854cf95d896b14aee"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_null/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_null/rep_000002.json",
+      "sha256": "4e4180261976ac0aacedea6c12b6a961e7262f1aaf5af8d0179ce865e7335c7c"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_null/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_null/rep_000003.json",
+      "sha256": "a6693a73c2e0a073c9f8235f1cfcf8641a11ec5eeed7572174d885f835f3dae8"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_null/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_null/timing.json",
+      "sha256": "6156d09d7ad04d3fd7bea866ad460ff130e208af4162e897d1be2f837f568393"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_null/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_null/truth.npz",
+      "sha256": "e9c5e121a00dfe0b112ccc66bb056cb5e04322dd2d046cf93416c897e43eb4ed"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_null/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_null/truth_metadata.json",
+      "sha256": "96c41fd824e6e48d494fac6210c29b09791d135d4d2ff93038b9488a43e4e108"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_sld_only/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_sld_only/manifest.json",
+      "sha256": "76d29671676adaee46dbc3bcdcecb9fb631ce17e63438f20f83949b5dc3b78e8"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_sld_only/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_sld_only/oracle_timing.json",
+      "sha256": "e34125595eff2746d2a348a99648932fe33c39b28e5f562e5aaba8509ca90806"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_sld_only/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_sld_only/rep_000000.json",
+      "sha256": "ac30b9be843691b0997cb6e2884872549183a6c402c42d992a35cea61c0472ba"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_sld_only/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_sld_only/rep_000001.json",
+      "sha256": "2f6c58fb8e5ab5cbc3f9bc6e15657c9c94d3240a1a94301dbd8f1c1a5abc3317"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_sld_only/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_sld_only/rep_000002.json",
+      "sha256": "6fed7aa80b9c6ab0d318baa7f4d2dad758971892802cb91f424967a58a96e45f"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_sld_only/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_sld_only/rep_000003.json",
+      "sha256": "2f77fb46eb7fcea0472aa11daec4a7ddc0c5f5d9762f04a5ccf3e0a740a3c42e"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_sld_only/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_sld_only/timing.json",
+      "sha256": "6676839b26823f06694a56cecba08f11a61f544326b03f4097c3bf40acbe2be8"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_sld_only/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_sld_only/truth.npz",
+      "sha256": "c231a2aa9074d1eb43db3bca7e506fb2bf1efd6d1aff1ecaa3c84c00081900db"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_sld_only/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_sld_only/truth_metadata.json",
+      "sha256": "0016633d4318d087beab0509f56f26c37fef472aad1cd7bff0de682db00cf822"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/interrupted_attempt_truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/interrupted_attempt_truth.npz",
+      "sha256": "cfb7080b093a66e32e93c523879d1cb2b5676453cea58b5eaf5074a8ef9d7d14"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/interrupted_attempt_truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/interrupted_attempt_truth_metadata.json",
+      "sha256": "f01f9467ce9f681debd926ca917ffcb6835d640314b1e604c3ba1fca4ad33af7"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/manifest.json",
+      "sha256": "45fcf40bd1db3b3c5a51153e7be5567a208163c9f215df3e7d72274432ac80df"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/oracle_timing.json",
+      "sha256": "9665159d44277ea0a5bd1e5744cf9f9396ff3b4b2d7e40ee113d4760ff7fed76"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/rep_000000.json",
+      "sha256": "bdf8fc07126b3387945e418353ad833e1f756db03919cc75cbe9dca7ffae0e34"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/rep_000001.json",
+      "sha256": "034cf8569229f62c2e97e063a005e58e99a2fa0941e2c341e8f1486e9b34f5af"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/rep_000002.json",
+      "sha256": "857cc856f7f5cf0560e44988d5ecd6bda6b634735fd82db7b34e0dfd4275948d"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/rep_000003.json",
+      "sha256": "db31db65c48ded02e01bffbe0196746447dff37bb18d2ba6d4c3dfceebeb7290"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/timing.json",
+      "sha256": "4c5f41f617c77453d79c03b99abb293bef5024720bdef3656902cba26541802c"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/truth.npz",
+      "sha256": "cfb7080b093a66e32e93c523879d1cb2b5676453cea58b5eaf5074a8ef9d7d14"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_favorable/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_favorable/truth_metadata.json",
+      "sha256": "f01f9467ce9f681debd926ca917ffcb6835d640314b1e604c3ba1fca4ad33af7"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_null/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_null/manifest.json",
+      "sha256": "6a5b0a465cab8de5ac41b77b62ded1006f6345294466e7d4b261ab24f174b210"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_null/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_null/oracle_timing.json",
+      "sha256": "3607ef39566832691b0c482954016521ff7813bf8b012b909dab8b63dc4e9f53"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_null/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_null/rep_000000.json",
+      "sha256": "20fc5ffef17a5ad2cb01b33ac3da94ecc5dd28d8387cf643e8dd98b30410c805"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_null/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_null/rep_000001.json",
+      "sha256": "ca237eb733ec952ae41180b1fde66a6370b0ee8a2fefbbcd6e62b1a5bd5e6bad"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_null/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_null/rep_000002.json",
+      "sha256": "aa46c863ff407bb0f725302ee70e6c396efc5ab849fe1d861ad86beabb8d1c2d"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_null/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_null/rep_000003.json",
+      "sha256": "df52777bdedc2dc8f21672d03f4611cdba3c8d4de787d5280f068307819e4166"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_null/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_null/timing.json",
+      "sha256": "f3f7b31145cdf7543d018715ef5fd3c252ab5beda7a9125955dd28bd1e7be0c0"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_null/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_null/truth.npz",
+      "sha256": "e5fec44e5f426f8eb5c54f8a31270be1a9d4f2a79735af3bf03325f0ce82d352"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/pacce_topo_null/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/pacce_topo_null/truth_metadata.json",
+      "sha256": "4d2f4ae352a28eb36dc78ec3c22be061bf142eabf6c3199d9b2ee559f1028141"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r1/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r1/manifest.json",
+      "sha256": "d840c36f3c2f290f3c7ffe765c8543fbb6a81bff026cfb53e6e0fe137f07be5b"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r1/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r1/oracle_timing.json",
+      "sha256": "20f9b7fe5b673737ede9ccf8175de7ea0a0dc44ac23fea6cf42ebdd75c666021"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r1/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r1/rep_000000.json",
+      "sha256": "6c02333490ec83637200fc5e188d1c7a79d5edb199c5132aaa4ada5e740d8851"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r1/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r1/rep_000001.json",
+      "sha256": "25659e3a060e4c6a6c3cea6bbb1a1d563e32c675d93f102047afb8bdf3651f7b"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r1/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r1/rep_000002.json",
+      "sha256": "ca416b66809f7cff33ce9651ad950fe71a256d72bcce30a97893761ae7c21743"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r1/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r1/rep_000003.json",
+      "sha256": "9ab35bf3a551399cd738f79c73cfc8aaca00e87502f14f41d3786eb9303123c1"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r1/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r1/timing.json",
+      "sha256": "4fafb9832f943ecb18724397fd0c19467623909e263b0f1efa0458a8c369a316"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r1/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r1/truth.npz",
+      "sha256": "7242a98e6334101867853b01eeabd973313391fd5e98c706fa850412d6056e91"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r1/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r1/truth_metadata.json",
+      "sha256": "000646fe2f14557b2ac43b112207ddc9bfca63b53b88f99863053c918af97be8"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r2/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r2/manifest.json",
+      "sha256": "114cd3b267e2bc698ee8c21f2d61b6c4904b6a3398b571cb0038af4e148293ce"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r2/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r2/oracle_timing.json",
+      "sha256": "4a610f27d83685f1935bd5ab9da71161764e4ea2d64db383e92994a823ddeec4"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r2/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r2/rep_000000.json",
+      "sha256": "0b42ef5599b6ff71bf07e9f4a82c5001b23764b9a4dbb7b548e08663c4bf6b2c"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r2/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r2/rep_000001.json",
+      "sha256": "2f976fadaa1dee5becb630eebbe63e1a11a888ac3da2cf3b267003fad2bbd90e"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r2/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r2/rep_000002.json",
+      "sha256": "9b312fdf2da46b99d8b39258b22155bfa40a19f0d6855f8beb3d756c090bf563"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r2/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r2/rep_000003.json",
+      "sha256": "eb2613a1b8a1de6488a08fe03b5efa595ae95a5e03c566cdab8656b77eb34a54"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r2/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r2/timing.json",
+      "sha256": "a984b6b2ffe771bc361e50e426bc370da3517ba4324623934fce93872b600473"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r2/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r2/truth.npz",
+      "sha256": "a4bba26cee2c35e94014c142e2e3c369fd3140c34e1c10f0606ed46ed32146fe"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r2/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r2/truth_metadata.json",
+      "sha256": "16d6d34ec3e5ed1daff19b15303d355f139fd2f77344bcc4943cc9db2fc310a3"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r4/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r4/manifest.json",
+      "sha256": "fcf92b37712c86925375f0e4bb97205dcf2063cffcadabc9330a8dfe4bda0788"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r4/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r4/oracle_timing.json",
+      "sha256": "890e0eacf7f8fc60d83c82502a4fe4b70e14951d8c37068d0977e1d0e51a85d1"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r4/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r4/rep_000000.json",
+      "sha256": "9808d460bb2bc81e6340aeb81c05a5ceebbe28779285deaeb15db120ca324c7a"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r4/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r4/rep_000001.json",
+      "sha256": "fa225f5bc896e552d060f2217c25b8413caa46cfe78e81620b258697135ffb54"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r4/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r4/rep_000002.json",
+      "sha256": "df13821347558e2f4b409e4401873561882961e86b8013410424f47b957cd583"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r4/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r4/rep_000003.json",
+      "sha256": "1c58c1e0fe495919e852896740432ad66200422d63e60bf15efd956e88e9c2aa"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r4/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r4/timing.json",
+      "sha256": "680a30b1f6272822ebb6f950c7e21fde2a25b5721df36203fddd246d5150f016"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r4/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r4/truth.npz",
+      "sha256": "53d667c482b27c366f24de4391eda77ca7820aba67fb3768d9d656cffde288aa"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r4/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r4/truth_metadata.json",
+      "sha256": "963dd83edeae66181c0c2d5e95cdd978265c8dee2d0ea5b5124110fd8d3a4703"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r5/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r5/manifest.json",
+      "sha256": "97d9090e0e9d095b5f9395f6e3300fb8f64d33d29f2b528f78924e4d9dccba11"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r5/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r5/oracle_timing.json",
+      "sha256": "01d4235e2864d31925945667171c17e1375235d89785d57043828f8f3995a03b"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r5/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r5/rep_000000.json",
+      "sha256": "8feaf2d5b61a65ce758e88ef20a714386198e85743050a7f4581566cb97117c1"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r5/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r5/rep_000001.json",
+      "sha256": "acbd6d5a9743e97da92b781a8c0456b6600067a6e7bf66729ebbc38e007020ca"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r5/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r5/rep_000002.json",
+      "sha256": "3fa9a9a6d4796b571e811c345f1214d28751a97b1dbd04073c69bfb4ab71e8a6"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r5/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r5/rep_000003.json",
+      "sha256": "67496af219b8b595cfe24a7aa644b191cfeb754f33ca10465b7cda49352187e6"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r5/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r5/timing.json",
+      "sha256": "5309e1dbfc7e85ed4cea7344b15fe6fb4ac2751d732c11d3103559f2ec8c1402"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r5/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r5/truth.npz",
+      "sha256": "205459262507cd2ad2cdc5cf8dfd136c43f35429d074d1668eceb98a01195260"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_r5/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_r5/truth_metadata.json",
+      "sha256": "79368fcf8aac52ec66d3909229c354565ef30585351d8593a0b5387d0e56de07"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_sensitivity/manifest.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_sensitivity/manifest.json",
+      "sha256": "8b27d76c71d565801b587c54e7c12127d0cd760364d82622d1776d6f4522c3c0"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_sensitivity/oracle_timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_sensitivity/oracle_timing.json",
+      "sha256": "84d03c6aa43dd1308b3b61acf5bdd3cbd2bfdf9f05f195f3bba54187217eaff0"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_sensitivity/rep_000000.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_sensitivity/rep_000000.json",
+      "sha256": "e6bda6f9c5382eb118ba40308f5999994d7bea99a457d16c977f02be4f3c9bb2"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_sensitivity/rep_000001.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_sensitivity/rep_000001.json",
+      "sha256": "5dbed7f2906effa75830fe97e338323a557df06a6eab8edfe4db9eb568e10d36"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_sensitivity/rep_000002.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_sensitivity/rep_000002.json",
+      "sha256": "6f015ae140d82d3347910baafa2e84164ce95c1e754cfdff43dd6359c9066526"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_sensitivity/rep_000003.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_sensitivity/rep_000003.json",
+      "sha256": "572ca5984ca0f33e7cd83bd22639d93956688b00190847360c478f636e57252b"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_sensitivity/timing.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_sensitivity/timing.json",
+      "sha256": "566a86d1dc59abe8d525bb6860e1da043b735aa20d691a072e4fb5a04b7f1100"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_sensitivity/truth.npz",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_sensitivity/truth.npz",
+      "sha256": "c5d5a1a8f401c2aa79293811b60c5783b0af4e76f92245fc606ca2c997979c6d"
+    },
+    {
+      "path": "reproduction/results/exploratory/runtime_pilots/topological_sensitivity/truth_metadata.json",
+      "original_path": "revision_20261010/rerun/runtime_pilots_20261011/topological_sensitivity/truth_metadata.json",
+      "sha256": "c9f7f8ad026b92df542ef578a24d215cae1e1f1718d9c48374507d13bd039010"
+    },
+    {
+      "path": "reproduction/legacy/out/phase3/aggregated.txt",
+      "original_path": "experiments/out/phase3/aggregated.txt",
+      "sha256": "9995f7ccb6afa16edf2d20e8b014687937eaf127724a59d993592a2f6c95b471"
+    },
+    {
+      "path": "reproduction/legacy/out/phase3/shard0.txt",
+      "original_path": "experiments/out/phase3/shard0.txt",
+      "sha256": "75983131abce28ee2c6d6741a801ae6d2f1ff9e3c02073faf87d875544a5c116"
+    },
+    {
+      "path": "reproduction/legacy/out/phase3/shard1.txt",
+      "original_path": "experiments/out/phase3/shard1.txt",
+      "sha256": "d64ff38f560af9fae3b6b09a5b47b5fb77892d00cfd2047abe11c5a7a6f0b03c"
+    },
+    {
+      "path": "reproduction/legacy/out/phase3/shard2.txt",
+      "original_path": "experiments/out/phase3/shard2.txt",
+      "sha256": "1f6730bb1430e2d837e990f2215299a16b7d9d59ae72bf2bdad8f79c0e647468"
+    },
+    {
+      "path": "reproduction/legacy/out/phase3/shard3.txt",
+      "original_path": "experiments/out/phase3/shard3.txt",
+      "sha256": "22e4243dcd452ec97356541af233d2296aff4a69b8089867ac0255a315191eea"
+    },
+    {
+      "path": "reproduction/legacy/out/phase4/dr_both.txt",
+      "original_path": "experiments/out/phase4/dr_both.txt",
+      "sha256": "a78d5776bfdf4497f3410df37d830e343313827f5765c873eb732dd223bc9e9b"
+    },
+    {
+      "path": "reproduction/legacy/out/phase4/dr_mu.txt",
+      "original_path": "experiments/out/phase4/dr_mu.txt",
+      "sha256": "e35de41bf9972e45d5bc95b143131dc0dfdd27101f6462efe2d14d909104b2bc"
+    },
+    {
+      "path": "reproduction/legacy/out/phase4/dr_none.txt",
+      "original_path": "experiments/out/phase4/dr_none.txt",
+      "sha256": "7d500ff17dd72e03a6d2e220c40483db2dddba7ac5565a0bdb1e9af9187fd669"
+    },
+    {
+      "path": "reproduction/legacy/out/phase4/dr_pi.txt",
+      "original_path": "experiments/out/phase4/dr_pi.txt",
+      "sha256": "f09e86db741e7e4b7ec557e19668328af2b29417224d64549afc878d10fe6fd4"
+    },
+    {
+      "path": "reproduction/legacy/out/phase4/overlap_1.0.txt",
+      "original_path": "experiments/out/phase4/overlap_1.0.txt",
+      "sha256": "c037ea4120ab19d9c0668bd1343483fcb1cba6d90d0e02c3112f4a0cbc116dc3"
+    },
+    {
+      "path": "reproduction/legacy/out/phase4/overlap_2.5.txt",
+      "original_path": "experiments/out/phase4/overlap_2.5.txt",
+      "sha256": "58d53b0c90f89b68bf7e0f853b98cfadb811d86376796b958f2901bf69688b75"
+    },
+    {
+      "path": "reproduction/legacy/out/phase4/overlap_4.0.txt",
+      "original_path": "experiments/out/phase4/overlap_4.0.txt",
+      "sha256": "647bd0191dcb9f9489c86a9697f0f75aad0b8c017220a8a259dcf8634e103f05"
+    },
+    {
+      "path": "reproduction/legacy/out/phase4/wellspec.txt",
+      "original_path": "experiments/out/phase4/wellspec.txt",
+      "sha256": "a7a99fbd16d468464b24c477b02c46b12d00ec250deec26f4f373043340e68e3"
+    },
+    {
+      "path": "reproduction/legacy/out/phase4/wp4_probe.txt",
+      "original_path": "experiments/out/phase4/wp4_probe.txt",
+      "sha256": "0451885e6ff52e248857b628416e849d31fd99e93cf08b1e2be0a03243617ba3"
+    },
+    {
+      "path": "reproduction/legacy/out/phase45/arms.txt",
+      "original_path": "experiments/out/phase45/arms.txt",
+      "sha256": "d118f46561e660fc01f4eccdd4fe650135012d55f2cc53e51220cab9905dd868"
+    },
+    {
+      "path": "reproduction/legacy/out/phase45/decompose.txt",
+      "original_path": "experiments/out/phase45/decompose.txt",
+      "sha256": "aff6574693c598d6ebbe6c395688edb03c2fb228becd03912e92e0859a111065"
+    },
+    {
+      "path": "reproduction/legacy/out/phase45/finite.txt",
+      "original_path": "experiments/out/phase45/finite.txt",
+      "sha256": "c61de2cb1f09b3209cb4c6564ff7e4d02d57bd5c83f2e61db369a9dbfb63a609"
+    },
+    {
+      "path": "reproduction/legacy/out/phase45/modulation.txt",
+      "original_path": "experiments/out/phase45/modulation.txt",
+      "sha256": "14a8cbbdae1cf3665cb1118e572a5f3001a102fcc1f29c8e9582edea58d24a4f"
+    },
+    {
+      "path": "reproduction/legacy/out/phase45/overlap.txt",
+      "original_path": "experiments/out/phase45/overlap.txt",
+      "sha256": "aa2216a1e7ddec982dcf148180b7ce5f326c5e6428fd0e460fb184fcac921a52"
+    },
+    {
+      "path": "reproduction/legacy/out/phase4_run.log",
+      "original_path": "experiments/out/phase4_run.log",
+      "sha256": "ee084c5b284cb4d10cb20a7003dff664e9ca38e239ced164936e9ffa2a661887"
+    },
+    {
+      "path": "reproduction/legacy/out/phase5/final_pytest.txt",
+      "original_path": "experiments/out/phase5/final_pytest.txt",
+      "sha256": "7c9d1138f7aed8a0623d35a7757874c11a8dace53494b6e467ea668ff2e95f94"
+    },
+    {
+      "path": "reproduction/legacy/out/phase5/final_pytest2.txt",
+      "original_path": "experiments/out/phase5/final_pytest2.txt",
+      "sha256": "9e79b926770d69cb5c295de97de76b8fea292d2029857d5efd35a176403ffc62"
+    },
+    {
+      "path": "reproduction/legacy/out/phase5/hetero.txt",
+      "original_path": "experiments/out/phase5/hetero.txt",
+      "sha256": "df39086cb8e1bdc0f4eea70632a9582f0b607b337c644f3596724abf9407c72a"
+    },
+    {
+      "path": "reproduction/legacy/out/phase5/homo.txt",
+      "original_path": "experiments/out/phase5/homo.txt",
+      "sha256": "b99bf5397ec9c97a84721d15fbca3c79631cfad68ebd3b30288bb1ae86040eb5"
+    },
+    {
+      "path": "reproduction/legacy/out/phase5/run.log",
+      "original_path": "experiments/out/phase5/run.log",
+      "sha256": "f2fed11b4502e379f49e11ae515b490be2628f03556ef470ac6b623b648f5a3b"
+    },
+    {
+      "path": "reproduction/legacy/out/phase6/_bridge.log",
+      "original_path": "experiments/out/phase6/_bridge.log",
+      "sha256": "bf42bccdd837d947ef517cbc030bb337156aa0531c06f5fbdeeb09ec0946ee4f"
+    },
+    {
+      "path": "reproduction/legacy/out/phase6/_degree.log",
+      "original_path": "experiments/out/phase6/_degree.log",
+      "sha256": "366bfe7e698d26fdcd501f673bbc6ff7de9f05562a7367e0628a82faba724aab"
+    },
+    {
+      "path": "reproduction/legacy/out/phase6/_rstudy.log",
+      "original_path": "experiments/out/phase6/_rstudy.log",
+      "sha256": "1c8157d8e05a8fc7da291db992fb2805a6ab2b67eb734f1964cdbc0877ed7aaa"
+    },
+    {
+      "path": "reproduction/legacy/out/phase6/_stabilized.log",
+      "original_path": "experiments/out/phase6/_stabilized.log",
+      "sha256": "5e049284512f97a5ea8e8d8dcecd96668ae09f77701ce8ee3ee508be730559e2"
+    },
+    {
+      "path": "reproduction/legacy/out/phase6/bridge.txt",
+      "original_path": "experiments/out/phase6/bridge.txt",
+      "sha256": "ee6f8f96b48883f0c9b8a74fa76e1eedd3cf772f74c1add946ad5fb4c44985e5"
+    },
+    {
+      "path": "reproduction/legacy/out/phase6/degree_multiplicity.txt",
+      "original_path": "experiments/out/phase6/degree_multiplicity.txt",
+      "sha256": "f367cf3086e187f6eea300411f6a4d90bc87a72bf2cef846402d144aeb1b2f97"
+    },
+    {
+      "path": "reproduction/legacy/out/phase6/r_study.txt",
+      "original_path": "experiments/out/phase6/r_study.txt",
+      "sha256": "f4390186014799863a187261fa59a31cb7b0a3a4b40374e5a7af5dd4a03dbc19"
+    },
+    {
+      "path": "reproduction/legacy/out/phase6/stabilized_overlap.txt",
+      "original_path": "experiments/out/phase6/stabilized_overlap.txt",
+      "sha256": "e90c2ed12b9a3898261d917e9af1bc93eab9dcac503722d093a96fc683925007"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures/orbit_ctate_h0.png",
+      "original_path": "experiments/out/phase7/figures/orbit_ctate_h0.png",
+      "sha256": "39ff06a91839f43eeaeba19a291daec3f12121a53da6cc1c2d296c658d6c3d9d"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures/orbit_ctate_h1.png",
+      "original_path": "experiments/out/phase7/figures/orbit_ctate_h1.png",
+      "sha256": "a5c7042f435fe07c37a5376f796685381dab5dbcc799c14a19e0c51b4e6bbca6"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures/orbit_itte_h0.png",
+      "original_path": "experiments/out/phase7/figures/orbit_itte_h0.png",
+      "sha256": "8c7cb1ea8d757344d088fdd55faf92cada84d9851084d71ac3c63ac3971b7aed"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures/orbit_itte_h0_grid.png",
+      "original_path": "experiments/out/phase7/figures/orbit_itte_h0_grid.png",
+      "sha256": "10ed0acff0992a67c2eafb53ed651c59b57ae9fcb96a79d7a7c3c45b04d73af5"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures/orbit_itte_h1.png",
+      "original_path": "experiments/out/phase7/figures/orbit_itte_h1.png",
+      "sha256": "8f6aed8fffbb8cfddfe94e9e2d45cab0be744718545e408ad07eaf3ac0171575"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures/orbit_itte_h1_grid.png",
+      "original_path": "experiments/out/phase7/figures/orbit_itte_h1_grid.png",
+      "sha256": "e3bcfde7c1877c6fcb8eebe0c79de7d4f009f4e4da8cff7d5f7d10219990751f"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures/orbit_tate.png",
+      "original_path": "experiments/out/phase7/figures/orbit_tate.png",
+      "sha256": "9d6ac189e2d1f2322f7fb9e254ca26e00e27fd1b3eb4b56b3ac55d6fa6edb96b"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_sars/full/sars_ctate_h0.png",
+      "original_path": "experiments/out/phase7/figures_sars/full/sars_ctate_h0.png",
+      "sha256": "0d64721ea7c01895af68e4b32561a516af4d96aa9b3a6b96ab3fffd41cef8646"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_sars/full/sars_itte_center_vs_tate.png",
+      "original_path": "experiments/out/phase7/figures_sars/full/sars_itte_center_vs_tate.png",
+      "sha256": "b906f8a306a18d67237933c2d8defa10dd76ef8a823ad94b5ed3570e8846b918"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_sars/full/sars_itte_h0.png",
+      "original_path": "experiments/out/phase7/figures_sars/full/sars_itte_h0.png",
+      "sha256": "c8f814c866c082c68afff1dd251c62b2ce454c9676698bd96a2c420d72003006"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_sars/full/sars_itte_h0_grid.png",
+      "original_path": "experiments/out/phase7/figures_sars/full/sars_itte_h0_grid.png",
+      "sha256": "1ea1abf988e4ea78424b07fec497207048eba01bcf76fea2c95b5c5456054b2f"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_sars/full/sars_tate.png",
+      "original_path": "experiments/out/phase7/figures_sars/full/sars_tate.png",
+      "sha256": "229bf7f471179ac39a7062af1a59ad30701d9e5ce99d37fb81800ebabe145ec1"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_sars/smoke/sars_ctate_h0.png",
+      "original_path": "experiments/out/phase7/figures_sars/smoke/sars_ctate_h0.png",
+      "sha256": "20f21005832f5473041f24d8a2d19bebe6db053ca5e4d8f551f6e10906faf73b"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_sars/smoke/sars_itte_h0.png",
+      "original_path": "experiments/out/phase7/figures_sars/smoke/sars_itte_h0.png",
+      "sha256": "8d1f10b8add803a40dc37e44e3bb62b1faf446af277cb04bb036b4ad958f3be8"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_sars/smoke/sars_itte_h0_grid.png",
+      "original_path": "experiments/out/phase7/figures_sars/smoke/sars_itte_h0_grid.png",
+      "sha256": "33e1bc22b10ea8e332f3467807b1e70d0ec17a2ed7a6afbcbe1d7cba640f4207"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_sars/smoke/sars_tate.png",
+      "original_path": "experiments/out/phase7/figures_sars/smoke/sars_tate.png",
+      "sha256": "52252816ec8b279756fc0dfa6dea066ac4fd05a2a013b6f1cfab9dec23d5c4d8"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_smoke/orbit_itte_h0.png",
+      "original_path": "experiments/out/phase7/figures_smoke/orbit_itte_h0.png",
+      "sha256": "b0a2483bcb10e788e8a1d5495fe4095eccd7c8b2d522a21fb0f16fa86b97c208"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_smoke/orbit_itte_h1.png",
+      "original_path": "experiments/out/phase7/figures_smoke/orbit_itte_h1.png",
+      "sha256": "71f10baea8817164a3e02f9fee7826f4720729591aaa174eac48d9215ecceffe"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/figures_smoke/orbit_tate.png",
+      "original_path": "experiments/out/phase7/figures_smoke/orbit_tate.png",
+      "sha256": "6c91a6ead89ac4e1dfbcd96eb9c52f2a77d302cf7d6381a8cb153da7259d978c"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/master_table.csv",
+      "original_path": "experiments/out/phase7/master_table.csv",
+      "sha256": "e6b72df8950431404cc87ac1bdfb710674e556f8799a477570b15eae27b56baa"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/master_table.md",
+      "original_path": "experiments/out/phase7/master_table.md",
+      "sha256": "6b2598ca8da53e7f877e60afaef27bf0e1fc21369503f971195666f1530a88ee"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase2_aggregated.txt",
+      "original_path": "experiments/out/phase7/phase2_aggregated.txt",
+      "sha256": "3ab897a30fc0b7d1f072e7d91c8f8af1bb33ea9b5977b439effb536114e3100a"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase2_shard0.txt",
+      "original_path": "experiments/out/phase7/phase2_shard0.txt",
+      "sha256": "b471591d116472c19b607e1ecda03a533c1947497cd87747a88710df70948f91"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase2_shard1.txt",
+      "original_path": "experiments/out/phase7/phase2_shard1.txt",
+      "sha256": "83c19d2139106c474d4923bf25b7eff3beff0904422cdea4ae1fd54e789854dc"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase2_shard2.txt",
+      "original_path": "experiments/out/phase7/phase2_shard2.txt",
+      "sha256": "55af90e528577ca4913b2d5388c56583cc7d74a2c0b535f595a56869865b0d7f"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase2_shard3.txt",
+      "original_path": "experiments/out/phase7/phase2_shard3.txt",
+      "sha256": "5e8e4936dd3de7df44b06ec9f32291ab187621d13c8ba0bbe72215c531cad69b"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase2_shard4.txt",
+      "original_path": "experiments/out/phase7/phase2_shard4.txt",
+      "sha256": "c3372cd44a490d9f42a8f23b66a24b174c45f096360f20126f62270fe417d30b"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase2_shard5.txt",
+      "original_path": "experiments/out/phase7/phase2_shard5.txt",
+      "sha256": "3bfa30717dc8c37d0198896572f0188a7276921f919a77ae440befbee7383ede"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase2_shard6.txt",
+      "original_path": "experiments/out/phase7/phase2_shard6.txt",
+      "sha256": "ab9a35ad7ddb8a04255eb99d039fe9f425f52f5d8921743bdc3b86058e0ba7c4"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase3_aggregated.txt",
+      "original_path": "experiments/out/phase7/phase3_aggregated.txt",
+      "sha256": "90ce1e1afcc186cc42c041d5a5c43c9e36c68b28f3a7e7afc2e914703b10a0e3"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase3_shard0.txt",
+      "original_path": "experiments/out/phase7/phase3_shard0.txt",
+      "sha256": "83853377de1ba890f052b0d78830ff09a45b071baa53a4827c265f2cb81e09b9"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase3_shard1.txt",
+      "original_path": "experiments/out/phase7/phase3_shard1.txt",
+      "sha256": "b7e68e54fe8dea4f132d5b57033e7960a9588febb8264902c9ce8f6cab3ac5bf"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase3_shard2.txt",
+      "original_path": "experiments/out/phase7/phase3_shard2.txt",
+      "sha256": "6624787c877d84cfedc9a596917bf86c932b8a8240a6347a35aaf73745988131"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase3_shard3.txt",
+      "original_path": "experiments/out/phase7/phase3_shard3.txt",
+      "sha256": "06a686b79ab63a4d8a4fe4f39d8f3c9f10a89448e07c8dee216f44b675df8dad"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase3_shard4.txt",
+      "original_path": "experiments/out/phase7/phase3_shard4.txt",
+      "sha256": "9516a51da13a0b21bbd8817a2788ceb4241d159f8164364a0f90eff31a1e0eff"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase3_shard5.txt",
+      "original_path": "experiments/out/phase7/phase3_shard5.txt",
+      "sha256": "2bc306f73fd83683a42e294e4293904d890f918ed63c13818568e9078d348c7b"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase3_shard6.txt",
+      "original_path": "experiments/out/phase7/phase3_shard6.txt",
+      "sha256": "8e01a2ebca0fbdd0983b2553e638de6e6d83d68174a710d6f46e8b74698aa610"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase4_dr_both.txt",
+      "original_path": "experiments/out/phase7/phase4_dr_both.txt",
+      "sha256": "9d168ad00728ac709c49a3f9321d22a146377c245df97a38cc37a9a254db7d08"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase4_dr_mu.txt",
+      "original_path": "experiments/out/phase7/phase4_dr_mu.txt",
+      "sha256": "1e236283a4266fa1a2fc851136cd2b9da9a175b20c3b07e7fd0b6fbd3826746f"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase4_dr_none.txt",
+      "original_path": "experiments/out/phase7/phase4_dr_none.txt",
+      "sha256": "584a0e172a4c6106c140710fd6218ad35ecb82a6d1cf07ad8869bfc587560823"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase4_dr_pi.txt",
+      "original_path": "experiments/out/phase7/phase4_dr_pi.txt",
+      "sha256": "97b351381545fd18af40fa96666134bfe63e1d07dcf83e2f0e04a8b7c24b51fd"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase4_overlap_1.0.txt",
+      "original_path": "experiments/out/phase7/phase4_overlap_1.0.txt",
+      "sha256": "917ff25357e388962d18e8ac72dd66be19a9ce4f8bf5570b31f7baebd0daefae"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase4_overlap_2.5.txt",
+      "original_path": "experiments/out/phase7/phase4_overlap_2.5.txt",
+      "sha256": "36700ce568895563865de38111d8eb1571f5b8168504a1428f0048bd9a614f40"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase4_overlap_4.0.txt",
+      "original_path": "experiments/out/phase7/phase4_overlap_4.0.txt",
+      "sha256": "232afd49a3b0b34d33027697ad2dae37975c355252f2d5ece6a9f3a8d7d9ad55"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase4_wellspec.txt",
+      "original_path": "experiments/out/phase7/phase4_wellspec.txt",
+      "sha256": "02612ddb3ff4e4ad263b7fc2628199649480311f68fa37fef50fc3b7a1668f0d"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase5_hetero.txt",
+      "original_path": "experiments/out/phase7/phase5_hetero.txt",
+      "sha256": "b6afb7087018586ad6aedd17a499bec6e53f6370368134d81b41696dc9abcec2"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/phase5_homo.txt",
+      "original_path": "experiments/out/phase7/phase5_homo.txt",
+      "sha256": "71f304da233dd1a55bed10134120946919a652c79a941f88aa055b998cf18769"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/realdata_orbit.txt",
+      "original_path": "experiments/out/phase7/realdata_orbit.txt",
+      "sha256": "458b6dca0b5d1ee5995f40c1f51083d404d270e8a753f43f6ab6fd39bf7a90c2"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/realdata_orbit_n40.txt",
+      "original_path": "experiments/out/phase7/realdata_orbit_n40.txt",
+      "sha256": "4d4cb581e715b1b5c987e10f7469c75b93a30c14ecc5ae2a7c52315d4a49619e"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/realdata_orbit_smoke.txt",
+      "original_path": "experiments/out/phase7/realdata_orbit_smoke.txt",
+      "sha256": "328a04c01e8ca58f2e4dccc5509b21f08c734cc16acef8ff2e519d4329bbc4e0"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/realdata_sars.txt",
+      "original_path": "experiments/out/phase7/realdata_sars.txt",
+      "sha256": "93bf8bd7d51a9f25ca2bc2758f124b026554e07e789b669fa5a7fe12fc124f2d"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/realdata_sars_smoke.txt",
+      "original_path": "experiments/out/phase7/realdata_sars_smoke.txt",
+      "sha256": "2798ebe07103e2fe766d65e0687d577f6a6f682d3ce42ca35d67d99e018096e2"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/stabilized_overlap.txt",
+      "original_path": "experiments/out/phase7/stabilized_overlap.txt",
+      "sha256": "3431f7f3db3f5152d77df8531d61801b9b277ec210ebe1a8149b24c9681ded55"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7/verdict.md",
+      "original_path": "experiments/out/phase7/verdict.md",
+      "sha256": "166fdb8a4b396db9f8f2eb18cd2323026817dc738ca3f17d043984ea25ff7378"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7_level_b/level_b.csv",
+      "original_path": "experiments/out/phase7_level_b/level_b.csv",
+      "sha256": "a3461a19a4bf4eb3b84040fa2b4fbf3ce50e6de1eed8e93b955d07e05a13412e"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7_level_b/level_b.log",
+      "original_path": "experiments/out/phase7_level_b/level_b.log",
+      "sha256": "44b1a02411c0079758b90360911ec478f56ef9e113b2aa326774f7f2d3233ec1"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7_level_b/level_b.md",
+      "original_path": "experiments/out/phase7_level_b/level_b.md",
+      "sha256": "19b27bc55a50b82629eddb86aefc032cea991d6e9aedb33d30aa3a44127e9926"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7_level_b/level_b.txt",
+      "original_path": "experiments/out/phase7_level_b/level_b.txt",
+      "sha256": "0baf19f97234d52107842e1fb03625b79850a48da22b347dd182b89d875be40b"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7_regime/regime_analysis.csv",
+      "original_path": "experiments/out/phase7_regime/regime_analysis.csv",
+      "sha256": "c9d7145493bff7a25a978042abc1d27aa3b6e8063e244e8cd44be10cf63aa321"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7_regime/regime_analysis.log",
+      "original_path": "experiments/out/phase7_regime/regime_analysis.log",
+      "sha256": "c7c594ae25d1b13960448da10dfa88e4a31a9c448060b4bc1e5238e4cf09fba8"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7_regime/regime_analysis.md",
+      "original_path": "experiments/out/phase7_regime/regime_analysis.md",
+      "sha256": "6a4739b82aac793fbecdd25b503ab626f60ea04da91983e861636829cde14dd5"
+    },
+    {
+      "path": "reproduction/legacy/out/phase7_regime/regime_analysis.txt",
+      "original_path": "experiments/out/phase7_regime/regime_analysis.txt",
+      "sha256": "de698c6e2b3625f3860f9246693b56df66f9f8f486e4e7b9203af0183c2cda3a"
+    },
+    {
+      "path": "reproduction/legacy/out/wp10/stabilized_overlap.txt",
+      "original_path": "experiments/out/wp10/stabilized_overlap.txt",
+      "sha256": "0c30e17a1ec632aa50fe9e769cccb5a60e6080df56d4254426115dcb5fce09a1"
+    },
+    {
+      "path": "reproduction/legacy/out/wp10/wp1_phase2_probe.txt",
+      "original_path": "experiments/out/wp10/wp1_phase2_probe.txt",
+      "sha256": "5a17e404ded9858a0229a921084d6213492f7593fa98f2964bb067551ee95753"
+    },
+    {
+      "path": "reproduction/legacy/out/wp10/wp4_probe.txt",
+      "original_path": "experiments/out/wp10/wp4_probe.txt",
+      "sha256": "ed963d4baa9824c6866cffcf98a2b4afcf0b136b4a90b266fd26b2767eeed4bf"
+    },
+    {
+      "path": "reproduction/legacy/figures/orbit_reproduction.png",
+      "original_path": "experiments/figures/orbit_reproduction.png",
+      "sha256": "2403f56d2512f2cc456bfaf3fae03adaafaf3eaac72546b02cbc3c80728c2809"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase2_coverage_results.txt",
+      "original_path": "experiments/figures/phase2_coverage_results.txt",
+      "sha256": "4bfc085c983e98740865a5836c941af8ae0cb83c03cacbb6900730a78d740b70"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase2_coverage_results_monolithic_50_100.txt",
+      "original_path": "experiments/figures/phase2_coverage_results_monolithic_50_100.txt",
+      "sha256": "1a1008b78e8b1b2b88d286b7d6871232b0dfd5a13b939faabba709baf3d2d813"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase2_shards/phase2_coverage_shard_0.log",
+      "original_path": "experiments/figures/phase2_shards/phase2_coverage_shard_0.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase2_shards/phase2_coverage_shard_0.txt",
+      "original_path": "experiments/figures/phase2_shards/phase2_coverage_shard_0.txt",
+      "sha256": "2a21a6a626ecebf7f09d69065473e83b7a8039322bdb557e3f1c38fe5b110658"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase2_shards/phase2_coverage_shard_1.log",
+      "original_path": "experiments/figures/phase2_shards/phase2_coverage_shard_1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase2_shards/phase2_coverage_shard_1.txt",
+      "original_path": "experiments/figures/phase2_shards/phase2_coverage_shard_1.txt",
+      "sha256": "bb515ed80eaebb107fb7465ea139ed55a676de3a14bcf5095b8314a5274211fa"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase2_shards/phase2_coverage_shard_2.log",
+      "original_path": "experiments/figures/phase2_shards/phase2_coverage_shard_2.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase2_shards/phase2_coverage_shard_2.txt",
+      "original_path": "experiments/figures/phase2_shards/phase2_coverage_shard_2.txt",
+      "sha256": "3d12638f08335dc56e0dcb6424db403e46eea0262b21835bffedd4bd1f49c77e"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase2_shards/phase2_coverage_shard_3.log",
+      "original_path": "experiments/figures/phase2_shards/phase2_coverage_shard_3.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase2_shards/phase2_coverage_shard_3.txt",
+      "original_path": "experiments/figures/phase2_shards/phase2_coverage_shard_3.txt",
+      "sha256": "775746f24109457b051163be27d8a23136495fa6bb3d22509cca7cf8de2d6e0f"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase45/phase45_conservatism_waterfall.png",
+      "original_path": "experiments/figures/phase45/phase45_conservatism_waterfall.png",
+      "sha256": "aec3dc736012d34d4a33707205c577b21134683ccb5c4c2ba8419aa26eb930e2"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase45/phase45_modulation_width.png",
+      "original_path": "experiments/figures/phase45/phase45_modulation_width.png",
+      "sha256": "7869689461b2d7862ea57afb412663a72a7bcad72d6a6cf85450456b7b4f7ab2"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase45/phase45_overlap_diagnostics.png",
+      "original_path": "experiments/figures/phase45/phase45_overlap_diagnostics.png",
+      "sha256": "a050988c3a2e8fe3b4dcaa35745f67f2e6e9a1113a41800070edc56c054cdad2"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase5/phase5_adaptive_width.png",
+      "original_path": "experiments/figures/phase5/phase5_adaptive_width.png",
+      "sha256": "f1dc3cf46ab2a29c6db2ed79a6975adebe713d397964c98621fb42372cdbc666"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase5/phase5_confidence_vs_prediction.png",
+      "original_path": "experiments/figures/phase5/phase5_confidence_vs_prediction.png",
+      "sha256": "d78b04ff59a51a2cb00cc426671f7daafb4d04633e6cf558ad1888c1cbcfc430"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase6/phase6_bridge.png",
+      "original_path": "experiments/figures/phase6/phase6_bridge.png",
+      "sha256": "d941aefd45904c95ccfaf6bc37d1f66fd92cb3a9458054599ba409e6e36e0b9d"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase6/phase6_degree_multiplicity.png",
+      "original_path": "experiments/figures/phase6/phase6_degree_multiplicity.png",
+      "sha256": "ca0f97672f15481421ceff8edf6b7b0610d59d1b00bca69f10bd1cc39c5c4488"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase6/phase6_r_study.png",
+      "original_path": "experiments/figures/phase6/phase6_r_study.png",
+      "sha256": "5c37aaba89cd571b72abb3786751423fdb1892e713b710d4eadcf2dd3180bf06"
+    },
+    {
+      "path": "reproduction/legacy/figures/phase6/phase6_stabilized_overlap.png",
+      "original_path": "experiments/figures/phase6/phase6_stabilized_overlap.png",
+      "sha256": "f47fcaeb84ceca3f8460dcf4cfa8240c131f05ed6b82d94425b760c40840bdaf"
+    },
+    {
+      "path": "reproduction/legacy/experiments/__init__.py",
+      "original_path": "experiments/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reproduction/legacy/experiments/aggregate_phase2_coverage.py",
+      "original_path": "experiments/aggregate_phase2_coverage.py",
+      "sha256": "f5b2e11cc5844d46a2aebd9200ba06b8cbb7e78b06b01b448b592a2116814db4"
+    },
+    {
+      "path": "reproduction/legacy/experiments/aggregate_phase3_coverage.py",
+      "original_path": "experiments/aggregate_phase3_coverage.py",
+      "sha256": "a884cb1fbe5d240c7d056922dd0e346416b43dbafbc729f8f314065d55a11313"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase2_coverage.py",
+      "original_path": "experiments/phase2_coverage.py",
+      "sha256": "c901438549478c15a5526c8461ffcbeea69a821628619c9832e2d7483e0a2580"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase3_ctate_coverage.py",
+      "original_path": "experiments/phase3_ctate_coverage.py",
+      "sha256": "39c99d77238589cfc9f3416a495b3dd2d446d04572557c6ba8c87ffe964fcf9f"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase45_figures.py",
+      "original_path": "experiments/phase45_figures.py",
+      "sha256": "b3364a2076d3951f70b96505a4fd440b2121379a1a07d3951e6c38034cb0a7f7"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase45_itte_diagnostics.py",
+      "original_path": "experiments/phase45_itte_diagnostics.py",
+      "sha256": "54f731f06c7443f79efe3be0805795ebc046cf58e75650541c1b319a43097259"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase4_itte_coverage.py",
+      "original_path": "experiments/phase4_itte_coverage.py",
+      "sha256": "e7dcef9f49e3873ab4ef6e6de3bc7998ba9ea6195cc9a71094e8a8f52379b35c"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase5_adaptive_coverage.py",
+      "original_path": "experiments/phase5_adaptive_coverage.py",
+      "sha256": "101739304b3fd702c79ac37e18be12ca23ba2ba250528715e9fac5cf86be120d"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase5_figures.py",
+      "original_path": "experiments/phase5_figures.py",
+      "sha256": "48d227828871b478cb040e7f65b5e030a6c434ae1348a75d6b0d063250a5b9f6"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase6_bridge.py",
+      "original_path": "experiments/phase6_bridge.py",
+      "sha256": "b7a460f39bb527aed3bfd3ea1fc2eb6c4294fec9d1e1093b6f0acc08e4f83c91"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase6_degree_multiplicity.py",
+      "original_path": "experiments/phase6_degree_multiplicity.py",
+      "sha256": "6317f3c8dedd81d63e323a5362809ad6f97b3a6058a1f7c37a6e56dc4f1ca527"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase6_figures.py",
+      "original_path": "experiments/phase6_figures.py",
+      "sha256": "a54fc9b582de852c3f64ce9329a8cc877670c14f1f22d5bbcf2e4e457e374ab9"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase6_r_study.py",
+      "original_path": "experiments/phase6_r_study.py",
+      "sha256": "12e9110535d394ddf76a110e377816ef748ec8e97c92282c4c1b5bb247f3022e"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase6_stabilized_overlap.py",
+      "original_path": "experiments/phase6_stabilized_overlap.py",
+      "sha256": "37358cd3fccb19c6c885967dedf663880d319230efc5e7db82a1520a5dafd4d9"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase7_build_master_table.py",
+      "original_path": "experiments/phase7_build_master_table.py",
+      "sha256": "5cd64aab74c6f0f2e71b74d9007477e109cef667ebda14271036ea51541b2666"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase7_level_b.py",
+      "original_path": "experiments/phase7_level_b.py",
+      "sha256": "43c9cf74cdb8d9cad3f008de649499ce2d0f717e77e139d9b1b7c4d719a917f6"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase7_realdata_demo.py",
+      "original_path": "experiments/phase7_realdata_demo.py",
+      "sha256": "a9b518832db9ea9470396c7c0cb1fe5e6b7a680a90d0ca78a9e8493876771ed1"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase7_regime_analysis.py",
+      "original_path": "experiments/phase7_regime_analysis.py",
+      "sha256": "c07e3d07ec4aed3cce9a1480c3c87407beaa32d415a9e2dc3202ec7298b75147"
+    },
+    {
+      "path": "reproduction/legacy/experiments/phase7_run_cpu.py",
+      "original_path": "experiments/phase7_run_cpu.py",
+      "sha256": "0e9931918891f545f3ac691a52c15250b9fdcc78f46d7b04a63815896ce2342a"
+    },
+    {
+      "path": "reproduction/legacy/experiments/plot_simulation_sections.py",
+      "original_path": "experiments/plot_simulation_sections.py",
+      "sha256": "676cd98d7f364b7a0a0bb2fe23ef90738005bf062eef083b2d70ef4fface91ff"
+    },
+    {
+      "path": "reproduction/legacy/experiments/reproduce_orbit.py",
+      "original_path": "experiments/reproduce_orbit.py",
+      "sha256": "422aa11ae3aba9b8b13bac62153a5394bb60c7f2c1ee345fca2a2a842f859212"
+    },
+    {
+      "path": "reproduction/legacy/experiments/reproduce_sarscov2.py",
+      "original_path": "experiments/reproduce_sarscov2.py",
+      "sha256": "a5513ad8dc3c5392ff053f4dff8f2da2aa8ec97d7e8be7942e8073bc5bda2a3a"
+    },
+    {
+      "path": "reproduction/legacy/experiments/run_p2_shards.sh",
+      "original_path": "experiments/run_p2_shards.sh",
+      "sha256": "bc314b56f7cc298eebe4c5791f919bbc4cdd67e17276e772fb8fb1296f35d38c"
+    },
+    {
+      "path": "reproduction/legacy/experiments/run_phase4.sh",
+      "original_path": "experiments/run_phase4.sh",
+      "sha256": "31033b9403a5a07b0c685ed1a33d61b1aa7690a767222c39837c9056dbf47c1c"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis3/adjusted_selected_contrast.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis3/adjusted_selected_contrast.csv",
+      "sha256": "c95a52ede7af426402fc4ea039db9dbffa67ac92c70dfe2415f7c94559c51ee3",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis3/fixed_profile_diagnostics.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis3/fixed_profile_diagnostics.csv",
+      "sha256": "d30e339b98c158be1d6301f4ecfebbad29d6ee01e14e1001c8d5f477917e8b35",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis3/selection_weight_sensitivity.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis3/selection_weight_sensitivity.csv",
+      "sha256": "1e67b3199c81cfd0f3389ec5a14beff031ac51e3bb6c2ebf1dcf440f3d9043f8",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis3/scope.json",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis3/scope.json",
+      "sha256": "c52863f60be46b249cf68161ded9d083111430acce4c02f8dd4d4bef4310e5b1",
+      "transformation": "explicit aggregate-field allowlist; pilot_ids and conformal output omitted"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis3/manifest.json",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis3/manifest.json",
+      "sha256": "987c0f697d5921530318bbb934c8fd87b3e79bea39f4efaf7c16f5efa801d90f",
+      "transformation": "input-file fingerprints and local data/output paths removed"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis5/adjusted_selected_contrast.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis5/adjusted_selected_contrast.csv",
+      "sha256": "c95a52ede7af426402fc4ea039db9dbffa67ac92c70dfe2415f7c94559c51ee3",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis5/fixed_profile_diagnostics.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis5/fixed_profile_diagnostics.csv",
+      "sha256": "a778c3a632d6a6e99aaa8e0e2cf16311ce4b6fd041f4627a1bc8419f944cae2a",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis5/selection_weight_sensitivity.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis5/selection_weight_sensitivity.csv",
+      "sha256": "1e67b3199c81cfd0f3389ec5a14beff031ac51e3bb6c2ebf1dcf440f3d9043f8",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis5/scope.json",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis5/scope.json",
+      "sha256": "c52863f60be46b249cf68161ded9d083111430acce4c02f8dd4d4bef4310e5b1",
+      "transformation": "explicit aggregate-field allowlist; pilot_ids and conformal output omitted"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis5/manifest.json",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis5/manifest.json",
+      "sha256": "4ed3a1f2e56400ecba77fc2e42870c2acdae36b76b03c58ef45216638b4184e5",
+      "transformation": "input-file fingerprints and local data/output paths removed"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis9/adjusted_selected_contrast.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis9/adjusted_selected_contrast.csv",
+      "sha256": "c95a52ede7af426402fc4ea039db9dbffa67ac92c70dfe2415f7c94559c51ee3",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis9/fixed_profile_diagnostics.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis9/fixed_profile_diagnostics.csv",
+      "sha256": "5161a098c593691d0eb8d355758cb2e22fa05f3c184327a20c1aa13a15121dec",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis9/selection_weight_sensitivity.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis9/selection_weight_sensitivity.csv",
+      "sha256": "1e67b3199c81cfd0f3389ec5a14beff031ac51e3bb6c2ebf1dcf440f3d9043f8",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis9/scope.json",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis9/scope.json",
+      "sha256": "c52863f60be46b249cf68161ded9d083111430acce4c02f8dd4d4bef4310e5b1",
+      "transformation": "explicit aggregate-field allowlist; pilot_ids and conformal output omitted"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_pilot_grid1_basis9/manifest.json",
+      "original_path": "revision_20261010/rerun/production/pacce_pilot_grid1_basis9/manifest.json",
+      "sha256": "16adfab67c5d7487eb70fb56ae2c5aed1c67c171c4892c51f9011f53c7557dcf",
+      "transformation": "input-file fingerprints and local data/output paths removed"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis3/adjusted_selected_contrast.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis3/adjusted_selected_contrast.csv",
+      "sha256": "eb6f5760dc4c6264a6255bff0dbddfa60e1c4e974cfbad43375b6f115edbb5c9",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis3/fixed_profile_diagnostics.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis3/fixed_profile_diagnostics.csv",
+      "sha256": "4e4f49b0dae0f689454a27e3e9e29523382501420c40e0b8549372bb56e6cac2",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis3/selection_weight_sensitivity.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis3/selection_weight_sensitivity.csv",
+      "sha256": "262756bbe1633c42b6fefda103bc29be1afebc00610c6f04b8ed0fc3012403d8",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis3/scope.json",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis3/scope.json",
+      "sha256": "67be95cce4407926120bffd312e01d1184397f343d987b3c2b2a35f1781358c5",
+      "transformation": "explicit aggregate-field allowlist; pilot_ids and conformal output omitted"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis3/manifest.json",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis3/manifest.json",
+      "sha256": "43649514717dc316c7f832ad0fe4a653e0171fce6798f92d28c60bfb11382008",
+      "transformation": "input-file fingerprints and local data/output paths removed"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis5/adjusted_selected_contrast.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis5/adjusted_selected_contrast.csv",
+      "sha256": "eb6f5760dc4c6264a6255bff0dbddfa60e1c4e974cfbad43375b6f115edbb5c9",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis5/fixed_profile_diagnostics.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis5/fixed_profile_diagnostics.csv",
+      "sha256": "a1aadffb39b89c4db1dd9368cbd4b36a155457c169984e812186b718e26cd041",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis5/selection_weight_sensitivity.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis5/selection_weight_sensitivity.csv",
+      "sha256": "262756bbe1633c42b6fefda103bc29be1afebc00610c6f04b8ed0fc3012403d8",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis5/scope.json",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis5/scope.json",
+      "sha256": "67be95cce4407926120bffd312e01d1184397f343d987b3c2b2a35f1781358c5",
+      "transformation": "explicit aggregate-field allowlist; pilot_ids and conformal output omitted"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis5/manifest.json",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis5/manifest.json",
+      "sha256": "74dcc71178f91a9d95169152f2af5c6e2480fdf39d651851b5579a872fa4604b",
+      "transformation": "input-file fingerprints and local data/output paths removed"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis9/adjusted_selected_contrast.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis9/adjusted_selected_contrast.csv",
+      "sha256": "eb6f5760dc4c6264a6255bff0dbddfa60e1c4e974cfbad43375b6f115edbb5c9",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis9/fixed_profile_diagnostics.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis9/fixed_profile_diagnostics.csv",
+      "sha256": "0dc2b34f01771b54a727aa977cbb9d8be2d408b1b09c5d82625c5dbe2406f4b3",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis9/selection_weight_sensitivity.csv",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis9/selection_weight_sensitivity.csv",
+      "sha256": "262756bbe1633c42b6fefda103bc29be1afebc00610c6f04b8ed0fc3012403d8",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis9/scope.json",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis9/scope.json",
+      "sha256": "67be95cce4407926120bffd312e01d1184397f343d987b3c2b2a35f1781358c5",
+      "transformation": "explicit aggregate-field allowlist; pilot_ids and conformal output omitted"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/split_sample/pacce_selected_basis9/manifest.json",
+      "original_path": "revision_20261010/rerun/production/pacce_selected_basis9/manifest.json",
+      "sha256": "9f7cf5b83af2ef75555690e780c1da55d35d432ea9b86b318a70566cc37c9af6",
+      "transformation": "input-file fingerprints and local data/output paths removed"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/tate_estimates.csv",
+      "original_path": "results/pacce/tate_estimates.parquet",
+      "sha256": "fafcae70b6d1fad6392bff08e8f43e9f7bb34e32adf0536dd319e7f90a5be024",
+      "transformation": "aggregate Parquet table exported to CSV at 17 significant digits"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/sldfun_tate_estimates.csv",
+      "original_path": "results/pacce/sldfun_tate_estimates.parquet",
+      "sha256": "0e58a8370f51ae5169e18a9aa9d431a3598547f693fa1dac0d35b6399e077b66",
+      "transformation": "aggregate Parquet table exported to CSV at 17 significant digits"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/ctate_curves.csv",
+      "original_path": "results/pacce/ctate_curves.parquet",
+      "sha256": "5b72bfa4e29b60064b463ec753fd5d9740b2d91bd271ef62f58609344e97ac32",
+      "transformation": "aggregate Parquet table exported to CSV at 17 significant digits"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/tate_test.csv",
+      "original_path": "results/pacce/tate_test.csv",
+      "sha256": "5ca873edb5cfb3a01572786250ef6e1337b607f3b9e30d70bf8c2833e0db0681",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/sldfun_tate_test.csv",
+      "original_path": "results/pacce/sldfun_tate_test.csv",
+      "sha256": "84c5989233466a7ab6d01a42e034295269830731884cef1f3dae4c5764b66f61",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/conventional_benchmark.csv",
+      "original_path": "results/pacce/conventional_benchmark.csv",
+      "sha256": "4cd9245dc1f5499d22a519f44744f2400f4d67788b69022bcb43864bc67bb764",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/baseline_balance.csv",
+      "original_path": "results/pacce/baseline_balance.csv",
+      "sha256": "999aa56329bbe0d2bcae0f8d1c7f5d6016b677538b62b3ba6ab068ca61611082",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/domain_subject_counts.csv",
+      "original_path": "results/pacce/domain_subject_counts.csv",
+      "sha256": "76178a4b6fa80946ff6dcc35f7fc646774bedfaa3e632bbf54f99ddfd39edbdc",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/placebo_checks.csv",
+      "original_path": "results/pacce/placebo_checks.csv",
+      "sha256": "719741aba5eabd2ed2e8a5b94282c6840bfc23ae390c43028d18be090d407cc3",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/sensitivity_forest.csv",
+      "original_path": "results/pacce/sensitivity_forest.csv",
+      "sha256": "0e2f7d96474f3c645ab27bfa469e4424f58a7bd274a10bac3a763e39d4cff3e6",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/missingness_theory_checks.csv",
+      "original_path": "results/pacce/missingness_theory_checks.csv",
+      "sha256": "11b549833ee6db8c5a07f91952240640c157103c76a2095c3f520e01cde2fc96",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/topology_preprocessing_sensitivity.csv",
+      "original_path": "results/pacce/topology_preprocessing_sensitivity.csv",
+      "sha256": "15966374b78ebec6b77207aaac75beeaa00a30396076adc624d4a7b943366b09",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/ctate_profiles.yaml",
+      "original_path": "results/pacce/ctate_profiles.yaml",
+      "sha256": "4eb96c52810cbb0985926890448f9cb5203498af71368f531d30c43302829eb3",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/main_cohort/ctate_profile_summary.csv",
+      "original_path": "results/pacce/ctate_itte_results_summary.csv",
+      "sha256": "4d864e5652fd9a48492aed0e9d9985ac4f239bfe2c34e0d1bd9a71cf1f596d0e",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_missingness_sensitivity.py",
+      "original_path": "experiments/pacce_missingness_sensitivity.py",
+      "sha256": "479ecd032b1f2183769c45072203dde2f9c57f3ae74e1d6cda285bbb4023dd5a",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_p0_audit.py",
+      "original_path": "experiments/pacce_p0_audit.py",
+      "sha256": "9d48eba8d7ae51aeeb8486893df32f22b2cd4a7571a6a3e388f3e2e8a3c632c6",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_p1_lock.py",
+      "original_path": "experiments/pacce_p1_lock.py",
+      "sha256": "1f6c91d8659ec8cdb4e25778f19c5c6297f6b737c64e1755757a2a3c1494d189",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_p1_smoke.py",
+      "original_path": "experiments/pacce_p1_smoke.py",
+      "sha256": "ed08e7a129fbed2fbac883ae292caf0fb5a2c39407e13ba3ab62d4e8b51fe243",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_p2_aggregate.py",
+      "original_path": "experiments/pacce_p2_aggregate.py",
+      "sha256": "70b272a09abe3af7c13c2357ec762b4e53b1cda0449425798ffa6b3b9c2dc45b",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_p2_chunk.py",
+      "original_path": "experiments/pacce_p2_chunk.py",
+      "sha256": "f56fbca8435c01e34a8db02e4235730c1b0389701b256f6a47df6fd2a8e19b71",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_p3_benchmark.py",
+      "original_path": "experiments/pacce_p3_benchmark.py",
+      "sha256": "23bf3f3ea2dab45025792ff8125640e70d90c3634274ea64912da6fed27e60ce",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_p3_controls.py",
+      "original_path": "experiments/pacce_p3_controls.py",
+      "sha256": "629989f15218c10edde051987413a2fd1f4582fd287d9ebafa8967f1014af141",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_p3_ctate_results.py",
+      "original_path": "experiments/pacce_p3_ctate_results.py",
+      "sha256": "2e4d7fc307fedde557c6050d0566778b2170e92e3043ff15a0db4ab9ecfaa133",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_p3_reports.py",
+      "original_path": "experiments/pacce_p3_reports.py",
+      "sha256": "92e196147c1e3f741b8ea6f2ff97767c489cc2049512ce31bc8f29fed9a07ff3",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_p3_topology.py",
+      "original_path": "experiments/pacce_p3_topology.py",
+      "sha256": "ece5866be24fa59159e39cfaefce0914d48f71086ee7e85b02a2cccaab696100",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/legacy/experiments/pacce_simulation.py",
+      "original_path": "experiments/pacce_simulation.py",
+      "sha256": "7e0a5ce056b001d04186f01cf4b728d2f843378db71b3b30934b67969104c847",
+      "transformation": "byte-identical"
+    },
+    {
+      "path": "reproduction/figures/orbit_tate.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/orbit_tate.png",
+      "sha256": "9d6ac189e2d1f2322f7fb9e254ca26e00e27fd1b3eb4b56b3ac55d6fa6edb96b",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/pacce_pilot_contrast.pdf",
+      "original_path": "revision_20261010/Final_Manuscript/figures/pacce_pilot_contrast.pdf",
+      "sha256": "20496a2167f7a2206c58cd3c7b6a9c164ecdf6caf7cad0178b7f0f9a2e0916a3",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/pacce_selected_contrast.pdf",
+      "original_path": "revision_20261010/Final_Manuscript/figures/pacce_selected_contrast.pdf",
+      "sha256": "ff00c2f26ca0fe0a2f4950c8235703e3118380747b34b8bb8f2a378f9d145b49",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/phase45_conservatism_waterfall.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/phase45_conservatism_waterfall.png",
+      "sha256": "aec3dc736012d34d4a33707205c577b21134683ccb5c4c2ba8419aa26eb930e2",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/phase45_modulation_width.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/phase45_modulation_width.png",
+      "sha256": "7869689461b2d7862ea57afb412663a72a7bcad72d6a6cf85450456b7b4f7ab2",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/phase45_overlap_diagnostics.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/phase45_overlap_diagnostics.png",
+      "sha256": "a050988c3a2e8fe3b4dcaa35745f67f2e6e9a1113a41800070edc56c054cdad2",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/phase5_confidence_vs_prediction.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/phase5_confidence_vs_prediction.png",
+      "sha256": "d78b04ff59a51a2cb00cc426671f7daafb4d04633e6cf558ad1888c1cbcfc430",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/phase6_bridge.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/phase6_bridge.png",
+      "sha256": "d941aefd45904c95ccfaf6bc37d1f66fd92cb3a9458054599ba409e6e36e0b9d",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/phase6_degree_multiplicity.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/phase6_degree_multiplicity.png",
+      "sha256": "ca0f97672f15481421ceff8edf6b7b0610d59d1b00bca69f10bd1cc39c5c4488",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/phase6_r_study.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/phase6_r_study.png",
+      "sha256": "5c37aaba89cd571b72abb3786751423fdb1892e713b710d4eadcf2dd3180bf06",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/phase6_stabilized_overlap.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/phase6_stabilized_overlap.png",
+      "sha256": "f47fcaeb84ceca3f8460dcf4cfa8240c131f05ed6b82d94425b760c40840bdaf",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/remaining_orbit_population.pdf",
+      "original_path": "revision_20261010/Final_Manuscript/figures/remaining_orbit_population.pdf",
+      "sha256": "92e72bdc0f6eba0b80120a76163e4a7c316c2d1559290af06bb1c11098c58a9f",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/remaining_weight_sensitivity.pdf",
+      "original_path": "revision_20261010/Final_Manuscript/figures/remaining_weight_sensitivity.pdf",
+      "sha256": "a6b97776a5581385278dcb61086ad5471e5502db37c96a92f22cd5c4f9fad084",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/sars_ctate_h0.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/sars_ctate_h0.png",
+      "sha256": "0d64721ea7c01895af68e4b32561a516af4d96aa9b3a6b96ab3fffd41cef8646",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/sars_itte_h0.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/sars_itte_h0.png",
+      "sha256": "c8f814c866c082c68afff1dd251c62b2ce454c9676698bd96a2c420d72003006",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/sars_tate.png",
+      "original_path": "revision_20261010/Final_Manuscript/figures/sars_tate.png",
+      "sha256": "229bf7f471179ac39a7062af1a59ad30701d9e5ce99d37fb81800ebabe145ec1",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/sim_bounded_benchmark.pdf",
+      "original_path": "revision_20261010/Final_Manuscript/figures/sim_bounded_benchmark.pdf",
+      "sha256": "af01dc1179ff81d0912cf1c859c60d01cc5caaca24c1d785964acf9de902d689",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/figures/sim_stress_diagnostics.pdf",
+      "original_path": "revision_20261010/Final_Manuscript/figures/sim_stress_diagnostics.pdf",
+      "sha256": "e3dc0efc97a5d40b64f8c4980a6782a42d75ee5c7046f939cd57d36757b9c119",
+      "transformation": "byte-identical figure; PACCE figures are aggregate mean contrasts only"
+    },
+    {
+      "path": "reproduction/legacy/verified/verified_tate_aggregate.csv",
+      "original_path": "revision_20261010/audit/verified_tate_aggregate.csv",
+      "sha256": "458e5914714090bac2a5111b276775b8c4e3cecd9817bd5cee9e68a27533d834",
+      "transformation": "byte-identical independently checked legacy aggregate"
+    },
+    {
+      "path": "reproduction/legacy/verified/verified_ctate_aggregate.csv",
+      "original_path": "revision_20261010/audit/verified_ctate_aggregate.csv",
+      "sha256": "e93799c91a5874408ca14f7b538c2379f6240cd8505c02a1076a70a03fc9aa41",
+      "transformation": "byte-identical independently checked legacy aggregate"
+    }
+  ]
+}

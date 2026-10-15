@@ -1,0 +1,31 @@
+Phase 6.4 degree multiplicity | target=0.90 | n=600 | n_hom=3 | reps=200 | m_test=200 | overlap-stabilized band
+#   overlap 1.0: 25/200 (121s)
+#   overlap 1.0: 50/200 (212s)
+#   overlap 1.0: 75/200 (304s)
+#   overlap 1.0: 100/200 (398s)
+#   overlap 1.0: 125/200 (469s)
+#   overlap 1.0: 150/200 (546s)
+#   overlap 1.0: 175/200 (622s)
+#   overlap 1.0: 200/200 (696s)
+
+-- overlap = 1.0 --
+     scheme  joint_cov  joint_inf%  total_width                  per-dim cov                per-dim width
+      joint      0.999         0.0       11.124            1.000 1.000 1.000            3.711 3.697 3.717
+ bonferroni      0.999         0.0       11.721            1.000 1.000 1.000            3.923 3.899 3.899
+      sidak      0.999         0.0       11.636            1.000 0.999 1.000            3.893 3.871 3.872
+
+#   overlap 2.5: 25/200 (97s)
+#   overlap 2.5: 50/200 (169s)
+#   overlap 2.5: 75/200 (249s)
+#   overlap 2.5: 100/200 (345s)
+#   overlap 2.5: 125/200 (446s)
+#   overlap 2.5: 150/200 (541s)
+#   overlap 2.5: 175/200 (617s)
+#   overlap 2.5: 200/200 (695s)
+
+-- overlap = 2.5 --
+     scheme  joint_cov  joint_inf%  total_width                  per-dim cov                per-dim width
+      joint      0.999         0.0       11.260            1.000 1.000 1.000            3.757 3.739 3.763
+ bonferroni      1.000        36.0       12.006            1.000 1.000 1.000            4.016 4.006 3.985
+      sidak      1.000        29.6       11.940            1.000 1.000 1.000            3.992 3.984 3.964
+

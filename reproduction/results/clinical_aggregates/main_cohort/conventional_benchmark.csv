@@ -1,0 +1,14 @@
+benchmark,arm,n,value,estimate,denominator
+week12_modified_RECIST,B+C,421,response_rate,0.38699690402476783,evaluable=323
+week12_modified_RECIST,B+C,421,disease_control_rate,0.9226006191950464,evaluable=323
+week12_modified_RECIST,P+B+C,421,response_rate,0.3373860182370821,evaluable=329
+week12_modified_RECIST,P+B+C,421,disease_control_rate,0.8632218844984803,evaluable=329
+on_study_response_central,B+C,421,responder_rate,0.44418052256532065,all
+on_study_response_central,P+B+C,421,responder_rate,0.43705463182897863,all
+PFS_central_KM_median_days,B+C,421,median_pfs_days,360.0,
+PFS_central_KM_median_days,P+B+C,421,median_pfs_days,332.0,
+PFS_logrank,P+B+C vs B+C,842,O-E (panitu minus bev),23.321587714696715,"chi2=3.57, p=0.05896"
+AE_grade_severe_plus,B+C,421,subject_incidence,0.7363420427553444,n_severe=310
+AE_serious,B+C,421,subject_incidence,0.37292161520190026,n_serious=157
+AE_grade_severe_plus,P+B+C,421,subject_incidence,0.8836104513064132,n_severe=372
+AE_serious,P+B+C,421,subject_incidence,0.5961995249406176,n_serious=251

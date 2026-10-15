@@ -1,0 +1,135 @@
+scenario,n,prop_scale,tail,radius_tail_df,misspec,noise,loop_slope,estimand,uncertainty,method,dim,note,coverage,mean_width,inf_pct,reps,target_reps
+base,500,1.0,off,,none,0.08,1.2,TATE,confidence,multiplier,0,baseline topological DGP,0.9,0.06433355238348866,0.0,80,80
+base,500,1.0,off,,none,0.08,1.2,TATE,confidence,multiplier,1,baseline topological DGP,0.825,0.017024470320030523,0.0,80,80
+base,500,1.0,off,,none,0.08,1.2,TATE,confidence,pointwise,0,baseline topological DGP,0.825,0.048031008831070546,0.0,80,80
+base,500,1.0,off,,none,0.08,1.2,TATE,confidence,pointwise,1,baseline topological DGP,0.35,0.01091526365295795,0.0,80,80
+heavy_tail,500,1.0,t3,3.0,none,0.08,1.2,TATE,confidence,multiplier,0,heavy persistence-diagram tail,0.9625,0.06265896419194675,0.0,80,80
+heavy_tail,500,1.0,t3,3.0,none,0.08,1.2,TATE,confidence,multiplier,1,heavy persistence-diagram tail,0.925,0.04275433841117355,0.0,80,80
+heavy_tail,500,1.0,t3,3.0,none,0.08,1.2,TATE,confidence,pointwise,0,heavy persistence-diagram tail,0.85,0.04843065575045097,0.0,80,80
+heavy_tail,500,1.0,t3,3.0,none,0.08,1.2,TATE,confidence,pointwise,1,heavy persistence-diagram tail,0.6875,0.02890426941259333,0.0,80,80
+high_snr,500,1.0,off,,none,0.03,1.2,TATE,confidence,multiplier,0,low point-cloud jitter (high SNR),0.825,0.06623838226618672,0.0,80,80
+high_snr,500,1.0,off,,none,0.03,1.2,TATE,confidence,multiplier,1,low point-cloud jitter (high SNR),0.925,0.018644334242895202,0.0,80,80
+high_snr,500,1.0,off,,none,0.03,1.2,TATE,confidence,pointwise,0,low point-cloud jitter (high SNR),0.7,0.049578815009817714,0.0,80,80
+high_snr,500,1.0,off,,none,0.03,1.2,TATE,confidence,pointwise,1,low point-cloud jitter (high SNR),0.4625,0.011901392436391742,0.0,80,80
+large_n,1000,1.0,off,,none,0.08,1.2,TATE,confidence,multiplier,0,large sample,0.9875,0.045315597079503736,0.0,80,80
+large_n,1000,1.0,off,,none,0.08,1.2,TATE,confidence,multiplier,1,large sample,0.8875,0.01184967989579024,0.0,80,80
+large_n,1000,1.0,off,,none,0.08,1.2,TATE,confidence,pointwise,0,large sample,0.9,0.033550797013005965,0.0,80,80
+large_n,1000,1.0,off,,none,0.08,1.2,TATE,confidence,pointwise,1,large sample,0.425,0.00757995896029848,0.0,80,80
+low_snr,500,1.0,off,,none,0.22,1.2,TATE,confidence,multiplier,0,high point-cloud jitter (low SNR),0.975,0.0652583195760074,0.0,80,80
+low_snr,500,1.0,off,,none,0.22,1.2,TATE,confidence,multiplier,1,high point-cloud jitter (low SNR),0.925,0.01663872511997999,0.0,80,80
+low_snr,500,1.0,off,,none,0.22,1.2,TATE,confidence,pointwise,0,high point-cloud jitter (low SNR),0.875,0.04851921722600694,0.0,80,80
+low_snr,500,1.0,off,,none,0.22,1.2,TATE,confidence,pointwise,1,high point-cloud jitter (low SNR),0.525,0.010710341846459396,0.0,80,80
+misspec_both,800,1.0,off,,both,0.08,1.2,TATE,confidence,multiplier,0,both nuisances misspecified,0.9,0.009672592958034746,0.0,80,80
+misspec_both,800,1.0,off,,both,0.08,1.2,TATE,confidence,multiplier,1,both nuisances misspecified,0.0625,0.01154864953152705,0.0,80,80
+misspec_both,800,1.0,off,,both,0.08,1.2,TATE,confidence,pointwise,0,both nuisances misspecified,0.825,0.008028355714001532,0.0,80,80
+misspec_both,800,1.0,off,,both,0.08,1.2,TATE,confidence,pointwise,1,both nuisances misspecified,0.025,0.007730528512515225,0.0,80,80
+misspec_mu,800,1.0,off,,mu,0.08,1.2,TATE,confidence,multiplier,0,outcome model misspecified (constant),0.9625,0.01033033842894294,0.0,80,80
+misspec_mu,800,1.0,off,,mu,0.08,1.2,TATE,confidence,multiplier,1,outcome model misspecified (constant),0.6625,0.012279644257930353,0.0,80,80
+misspec_mu,800,1.0,off,,mu,0.08,1.2,TATE,confidence,pointwise,0,outcome model misspecified (constant),0.8375,0.008679367638137628,0.0,80,80
+misspec_mu,800,1.0,off,,mu,0.08,1.2,TATE,confidence,pointwise,1,outcome model misspecified (constant),0.0,0.008261176067020056,0.0,80,80
+misspec_pi,800,1.0,off,,pi,0.08,1.2,TATE,confidence,multiplier,0,propensity misspecified (constant),0.85,0.04665162003565751,0.0,80,80
+misspec_pi,800,1.0,off,,pi,0.08,1.2,TATE,confidence,multiplier,1,propensity misspecified (constant),0.6125,0.012361237494075427,0.0,80,80
+misspec_pi,800,1.0,off,,pi,0.08,1.2,TATE,confidence,pointwise,0,propensity misspecified (constant),0.775,0.034386183836139485,0.0,80,80
+misspec_pi,800,1.0,off,,pi,0.08,1.2,TATE,confidence,pointwise,1,propensity misspecified (constant),0.2125,0.007829209792834196,0.0,80,80
+small_n,200,1.0,off,,none,0.08,1.2,TATE,confidence,multiplier,0,small sample,0.9125,0.11176497422958598,0.0,80,80
+small_n,200,1.0,off,,none,0.08,1.2,TATE,confidence,multiplier,1,small sample,0.925,0.02976809691015885,0.0,80,80
+small_n,200,1.0,off,,none,0.08,1.2,TATE,confidence,pointwise,0,small sample,0.7625,0.08459820317170356,0.0,80,80
+small_n,200,1.0,off,,none,0.08,1.2,TATE,confidence,pointwise,1,small sample,0.475,0.01935790930150628,0.0,80,80
+strong_hetero,500,1.0,off,,none,0.08,2.6,TATE,confidence,multiplier,0,strong X-heterogeneity of the effect,0.9625,0.06605934681521383,0.0,80,80
+strong_hetero,500,1.0,off,,none,0.08,2.6,TATE,confidence,multiplier,1,strong X-heterogeneity of the effect,0.675,0.021363587485952903,0.0,80,80
+strong_hetero,500,1.0,off,,none,0.08,2.6,TATE,confidence,pointwise,0,strong X-heterogeneity of the effect,0.825,0.04898426420541907,0.0,80,80
+strong_hetero,500,1.0,off,,none,0.08,2.6,TATE,confidence,pointwise,1,strong X-heterogeneity of the effect,0.3125,0.013758412586223812,0.0,80,80
+very_heavy_tail,500,1.0,t2.5,2.5,none,0.08,1.2,TATE,confidence,multiplier,0,very heavy diagram tail,0.925,0.06266581762096216,0.0,80,80
+very_heavy_tail,500,1.0,t2.5,2.5,none,0.08,1.2,TATE,confidence,multiplier,1,very heavy diagram tail,0.8875,0.04194123080027139,0.0,80,80
+very_heavy_tail,500,1.0,t2.5,2.5,none,0.08,1.2,TATE,confidence,pointwise,0,very heavy diagram tail,0.7875,0.04819247008515411,0.0,80,80
+very_heavy_tail,500,1.0,t2.5,2.5,none,0.08,1.2,TATE,confidence,pointwise,1,very heavy diagram tail,0.4375,0.027948614421792018,0.0,80,80
+very_weak_overlap,500,5.0,off,,none,0.08,1.2,TATE,confidence,multiplier,0,very thin positivity,0.375,0.10044355522961305,0.0,80,80
+very_weak_overlap,500,5.0,off,,none,0.08,1.2,TATE,confidence,multiplier,1,very thin positivity,0.1875,0.022428472269455338,0.0,80,80
+very_weak_overlap,500,5.0,off,,none,0.08,1.2,TATE,confidence,pointwise,0,very thin positivity,0.2125,0.08408418760594608,0.0,80,80
+very_weak_overlap,500,5.0,off,,none,0.08,1.2,TATE,confidence,pointwise,1,very thin positivity,0.0375,0.015733471092596825,0.0,80,80
+weak_hetero,500,1.0,off,,none,0.08,0.4,TATE,confidence,multiplier,0,weak X-heterogeneity of the effect,0.9,0.06491171879098197,0.0,80,80
+weak_hetero,500,1.0,off,,none,0.08,0.4,TATE,confidence,multiplier,1,weak X-heterogeneity of the effect,0.875,0.014716675986804113,0.0,80,80
+weak_hetero,500,1.0,off,,none,0.08,0.4,TATE,confidence,pointwise,0,weak X-heterogeneity of the effect,0.7625,0.04834511117875813,0.0,80,80
+weak_hetero,500,1.0,off,,none,0.08,0.4,TATE,confidence,pointwise,1,weak X-heterogeneity of the effect,0.5,0.009592700975666535,0.0,80,80
+weak_overlap,500,3.0,off,,none,0.08,1.2,TATE,confidence,multiplier,0,thin positivity,0.7125,0.09558708139961078,0.0,80,80
+weak_overlap,500,3.0,off,,none,0.08,1.2,TATE,confidence,multiplier,1,thin positivity,0.65,0.022701661791744644,0.0,80,80
+weak_overlap,500,3.0,off,,none,0.08,1.2,TATE,confidence,pointwise,0,thin positivity,0.55,0.0744034549992684,0.0,80,80
+weak_overlap,500,3.0,off,,none,0.08,1.2,TATE,confidence,pointwise,1,thin positivity,0.2375,0.015292396371601175,0.0,80,80
+base,500,1.0,off,,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,0,held-out x; baseline topological DGP,0.16953125,0.032525240742401554,0.0,80,80
+base,500,1.0,off,,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,1,held-out x; baseline topological DGP,0.07421875,0.03536241856472733,0.0,80,80
+heavy_tail,500,1.0,t3,3.0,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,0,held-out x; heavy persistence-diagram tail,0.18515625,0.01108206448917637,0.0,80,80
+heavy_tail,500,1.0,t3,3.0,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,1,held-out x; heavy persistence-diagram tail,0.08072916666666666,0.0738900738182214,0.0,80,80
+high_snr,500,1.0,off,,none,0.03,1.2,CTATE_mean,confidence,ctate_dr,0,held-out x; low point-cloud jitter (high SNR),0.15807291666666665,0.027780104769207246,0.0,80,80
+high_snr,500,1.0,off,,none,0.03,1.2,CTATE_mean,confidence,ctate_dr,1,held-out x; low point-cloud jitter (high SNR),0.0265625,0.033293876326322205,0.0,80,80
+large_n,1000,1.0,off,,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,0,held-out x; large sample,0.0640625,0.021759330459500115,0.0,80,80
+large_n,1000,1.0,off,,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,1,held-out x; large sample,0.004166666666666667,0.022770912967936326,0.0,80,80
+low_snr,500,1.0,off,,none,0.22,1.2,CTATE_mean,confidence,ctate_dr,0,held-out x; high point-cloud jitter (low SNR),0.12526041666666668,0.03190018246208144,0.0,80,80
+low_snr,500,1.0,off,,none,0.22,1.2,CTATE_mean,confidence,ctate_dr,1,held-out x; high point-cloud jitter (low SNR),0.05052083333333333,0.02893846187785204,0.0,80,80
+small_n,200,1.0,off,,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,0,held-out x; small sample,0.29713541666666665,0.054698214015622824,0.0,80,80
+small_n,200,1.0,off,,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,1,held-out x; small sample,0.13880208333333333,0.06424659665240502,0.0,80,80
+strong_hetero,500,1.0,off,,none,0.08,2.6,CTATE_mean,confidence,ctate_dr,0,held-out x; strong X-heterogeneity of the effect,0.16536458333333334,0.03268064578314139,0.0,80,80
+strong_hetero,500,1.0,off,,none,0.08,2.6,CTATE_mean,confidence,ctate_dr,1,held-out x; strong X-heterogeneity of the effect,0.0140625,0.04215237083504013,0.0,80,80
+very_heavy_tail,500,1.0,t2.5,2.5,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,0,held-out x; very heavy diagram tail,0.178125,0.012037935392668299,0.0,80,80
+very_heavy_tail,500,1.0,t2.5,2.5,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,1,held-out x; very heavy diagram tail,0.07682291666666667,0.0728841438005187,0.0,80,80
+very_weak_overlap,500,5.0,off,,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,0,held-out x; very thin positivity,0.09244791666666666,0.03977446656057197,0.0,80,80
+very_weak_overlap,500,5.0,off,,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,1,held-out x; very thin positivity,0.03046875,0.035218734412015416,0.0,80,80
+weak_hetero,500,1.0,off,,none,0.08,0.4,CTATE_mean,confidence,ctate_dr,0,held-out x; weak X-heterogeneity of the effect,0.07786458333333333,0.03048065039083145,0.0,80,80
+weak_hetero,500,1.0,off,,none,0.08,0.4,CTATE_mean,confidence,ctate_dr,1,held-out x; weak X-heterogeneity of the effect,0.14114583333333333,0.0273716383719231,0.0,80,80
+weak_overlap,500,3.0,off,,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,0,held-out x; thin positivity,0.19609375,0.05031896696557394,0.0,80,80
+weak_overlap,500,3.0,off,,none,0.08,1.2,CTATE_mean,confidence,ctate_dr,1,held-out x; thin positivity,0.08567708333333333,0.05060253719870176,0.0,80,80
+base,500,1.0,off,,none,0.08,1.2,ITTE,prediction,conformal,0,baseline topological DGP,1.0,12.217161884695484,0.64375,80,80
+base,500,1.0,off,,none,0.08,1.2,ITTE,prediction,conformal,1,baseline topological DGP,0.998875,1.693658248726447,0.64375,80,80
+base,500,1.0,off,,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.0995625,0.06433355238348866,0.0,80,80
+base,500,1.0,off,,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0,0.017024470320030523,0.0,80,80
+heavy_tail,500,1.0,t3,3.0,none,0.08,1.2,ITTE,prediction,conformal,0,heavy persistence-diagram tail,1.0,14.110350435017875,1.00625,80,80
+heavy_tail,500,1.0,t3,3.0,none,0.08,1.2,ITTE,prediction,conformal,1,heavy persistence-diagram tail,0.999625,4.380823010366733,1.00625,80,80
+heavy_tail,500,1.0,t3,3.0,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.16875,0.06265896419194675,0.0,80,80
+heavy_tail,500,1.0,t3,3.0,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0018125000000000003,0.04275433841117355,0.0,80,80
+high_snr,500,1.0,off,,none,0.03,1.2,ITTE,prediction,conformal,0,low point-cloud jitter (high SNR),1.0,13.03777927197934,0.76875,80,80
+high_snr,500,1.0,off,,none,0.03,1.2,ITTE,prediction,conformal,1,low point-cloud jitter (high SNR),0.9994375000000002,1.783687855059973,0.76875,80,80
+high_snr,500,1.0,off,,none,0.03,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.10393749999999999,0.06623838226618672,0.0,80,80
+high_snr,500,1.0,off,,none,0.03,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0,0.018644334242895202,0.0,80,80
+large_n,1000,1.0,off,,none,0.08,1.2,ITTE,prediction,conformal,0,large sample,1.0,12.782981012389024,0.15625,80,80
+large_n,1000,1.0,off,,none,0.08,1.2,ITTE,prediction,conformal,1,large sample,0.999375,1.9497430225747294,0.15625,80,80
+large_n,1000,1.0,off,,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.0445,0.045315597079503736,0.0,80,80
+large_n,1000,1.0,off,,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0,0.01184967989579024,0.0,80,80
+low_snr,500,1.0,off,,none,0.22,1.2,ITTE,prediction,conformal,0,high point-cloud jitter (low SNR),1.0,10.736695379569433,0.76875,80,80
+low_snr,500,1.0,off,,none,0.22,1.2,ITTE,prediction,conformal,1,high point-cloud jitter (low SNR),0.9956875000000001,1.1682105644514689,0.76875,80,80
+low_snr,500,1.0,off,,none,0.22,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.0973125,0.0652583195760074,0.0,80,80
+low_snr,500,1.0,off,,none,0.22,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0,0.01663872511997999,0.0,80,80
+misspec_both,800,1.0,off,,both,0.08,1.2,ITTE,prediction,conformal,0,both nuisances misspecified,0.9721875000000001,0.3198267306532825,0.0,80,80
+misspec_both,800,1.0,off,,both,0.08,1.2,ITTE,prediction,conformal,1,both nuisances misspecified,0.9801874999999999,92.44423089112858,0.0,80,80
+misspec_both,800,1.0,off,,both,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.0009375,0.009672592958034746,0.0,80,80
+misspec_both,800,1.0,off,,both,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0,0.01154864953152705,0.0,80,80
+misspec_mu,800,1.0,off,,mu,0.08,1.2,ITTE,prediction,conformal,0,outcome model misspecified (constant),0.9720624999999998,0.3266318937323779,0.25625,80,80
+misspec_mu,800,1.0,off,,mu,0.08,1.2,ITTE,prediction,conformal,1,outcome model misspecified (constant),0.9806250000000001,50.09918211261954,0.25625,80,80
+misspec_mu,800,1.0,off,,mu,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.0029375,0.01033033842894294,0.0,80,80
+misspec_mu,800,1.0,off,,mu,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0,0.012279644257930353,0.0,80,80
+misspec_pi,800,1.0,off,,pi,0.08,1.2,ITTE,prediction,conformal,0,propensity misspecified (constant),1.0,13.090484151543933,0.0,80,80
+misspec_pi,800,1.0,off,,pi,0.08,1.2,ITTE,prediction,conformal,1,propensity misspecified (constant),0.9994375,1.8414808666636122,0.0,80,80
+misspec_pi,800,1.0,off,,pi,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.052000000000000005,0.04665162003565751,0.0,80,80
+misspec_pi,800,1.0,off,,pi,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0,0.012361237494075427,0.0,80,80
+small_n,200,1.0,off,,none,0.08,1.2,ITTE,prediction,conformal,0,small sample,1.0,10.373755130797125,6.85625,80,80
+small_n,200,1.0,off,,none,0.08,1.2,ITTE,prediction,conformal,1,small sample,0.99875,1.6024838587801895,6.85625,80,80
+small_n,200,1.0,off,,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.259125,0.11176497422958598,0.0,80,80
+small_n,200,1.0,off,,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0001875,0.02976809691015885,0.0,80,80
+strong_hetero,500,1.0,off,,none,0.08,2.6,ITTE,prediction,conformal,0,strong X-heterogeneity of the effect,1.0,9.380476066105288,0.68125,80,80
+strong_hetero,500,1.0,off,,none,0.08,2.6,ITTE,prediction,conformal,1,strong X-heterogeneity of the effect,0.9981249999999999,1.1830064236179267,0.68125,80,80
+strong_hetero,500,1.0,off,,none,0.08,2.6,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.12887500000000002,0.06605934681521383,0.0,80,80
+strong_hetero,500,1.0,off,,none,0.08,2.6,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0,0.021363587485952903,0.0,80,80
+very_heavy_tail,500,1.0,t2.5,2.5,none,0.08,1.2,ITTE,prediction,conformal,0,very heavy diagram tail,1.0,13.555409678564121,0.68125,80,80
+very_heavy_tail,500,1.0,t2.5,2.5,none,0.08,1.2,ITTE,prediction,conformal,1,very heavy diagram tail,0.9990625000000002,3.413943946046725,0.68125,80,80
+very_heavy_tail,500,1.0,t2.5,2.5,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.1431875,0.06266581762096216,0.0,80,80
+very_heavy_tail,500,1.0,t2.5,2.5,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0010624999999999999,0.04194123080027139,0.0,80,80
+very_weak_overlap,500,5.0,off,,none,0.08,1.2,ITTE,prediction,conformal,0,very thin positivity,1.0,10.859003264547562,45.6875,80,80
+very_weak_overlap,500,5.0,off,,none,0.08,1.2,ITTE,prediction,conformal,1,very thin positivity,0.9995625,1.6115615882099228,45.6875,80,80
+very_weak_overlap,500,5.0,off,,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.0504375,0.10044355522961305,0.0,80,80
+very_weak_overlap,500,5.0,off,,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.0010625,0.022428472269455338,0.0,80,80
+weak_hetero,500,1.0,off,,none,0.08,0.4,ITTE,prediction,conformal,0,weak X-heterogeneity of the effect,1.0,15.018877494131136,0.44375,80,80
+weak_hetero,500,1.0,off,,none,0.08,0.4,ITTE,prediction,conformal,1,weak X-heterogeneity of the effect,0.999,2.749319621029625,0.44375,80,80
+weak_hetero,500,1.0,off,,none,0.08,0.4,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.0880625,0.06491171879098197,0.0,80,80
+weak_hetero,500,1.0,off,,none,0.08,0.4,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,6.25e-05,0.014716675986804113,0.0,80,80
+weak_overlap,500,3.0,off,,none,0.08,1.2,ITTE,prediction,conformal,0,thin positivity,1.0,11.818585785332925,21.24375,80,80
+weak_overlap,500,3.0,off,,none,0.08,1.2,ITTE,prediction,conformal,1,thin positivity,0.999625,1.9329670092404796,21.24375,80,80
+weak_overlap,500,3.0,off,,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,0,TATE band applied to individual draws,0.1365,0.09558708139961078,0.0,80,80
+weak_overlap,500,3.0,off,,none,0.08,1.2,ITTE,wrong_confidence,multiplier_as_itte,1,TATE band applied to individual draws,0.00075,0.022701661791744644,0.0,80,80

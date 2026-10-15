@@ -2,7 +2,7 @@
 # Uses uv if available; falls back to the active Python otherwise.
 PY ?= python
 
-.PHONY: help install install-dev test test-slow test-all reproduce reproduce-quick notebooks clean
+.PHONY: help install install-dev test test-slow test-all reproduce reproduce-quick notebooks verify-publication clean
 
 help:
 	@echo "Targets:"
@@ -14,6 +14,7 @@ help:
 	@echo "  reproduce      run the finite-grid simulation diagnostics (scripts/reproduce_coverage.py)"
 	@echo "  reproduce-quick  fast smoke of the reproduction script"
 	@echo "  notebooks      execute the source tutorials in place"
+	@echo "  verify-publication  check saved results and submission artifact checksums"
 	@echo "  clean          remove caches and build artifacts"
 
 install:
@@ -39,6 +40,10 @@ reproduce-quick:
 
 notebooks:
 	$(PY) -m jupyter nbconvert --to notebook --execute --inplace notebooks/*.ipynb
+
+verify-publication:
+	$(PY) reproduction/verify_saved_results.py
+	$(PY) reproduction/verify_publication.py
 
 clean:
 	rm -rf .pytest_cache dist build *.egg-info

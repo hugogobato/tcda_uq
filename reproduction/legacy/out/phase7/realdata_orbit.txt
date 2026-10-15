@@ -1,0 +1,35 @@
+
+ORBIT Phase 7B demo
+dim     estimand       method       metric      value
+  0         TATE         AIPW           L1     0.0001
+ROW level=7B_ORBIT estimand=TATE uncertainty=point method=AIPW n=300 scenario=ORBIT dim=0 coverage= mean_width= inf_pct= extra=L1=6.424e-05
+  0         TATE    mult_boot        width     0.0003
+ROW level=7B_ORBIT estimand=TATE uncertainty=confidence method=mult_boot n=300 scenario=ORBIT dim=0 coverage=1 mean_width=0.0003371 inf_pct= extra=level=0.90_covers_semisynth_truth
+  1         TATE         AIPW           L1     0.0004
+ROW level=7B_ORBIT estimand=TATE uncertainty=point method=AIPW n=300 scenario=ORBIT dim=1 coverage= mean_width= inf_pct= extra=L1=0.0003772
+  1         TATE    mult_boot        width     0.0017
+ROW level=7B_ORBIT estimand=TATE uncertainty=confidence method=mult_boot n=300 scenario=ORBIT dim=1 coverage=1 mean_width=0.001736 inf_pct= extra=level=0.90_covers_semisynth_truth
+  0        CTATE          mu1       rel_l1     0.3734
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=point method=DRLearner n=300 scenario=ORBIT_mu1 dim=0 coverage= mean_width= inf_pct= extra=rel_l1=0.3734
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=confidence method=mult_boot n=300 scenario=ORBIT_mu1 dim=0 coverage= mean_width=0.0001493 inf_pct= extra=level=0.90
+  1        CTATE          mu1       rel_l1     0.3343
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=point method=DRLearner n=300 scenario=ORBIT_mu1 dim=1 coverage= mean_width= inf_pct= extra=rel_l1=0.3343
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=confidence method=mult_boot n=300 scenario=ORBIT_mu1 dim=1 coverage= mean_width=0.001732 inf_pct= extra=level=0.90
+  0        CTATE          mid       rel_l1     4.2139
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=point method=DRLearner n=300 scenario=ORBIT_mid dim=0 coverage= mean_width= inf_pct= extra=rel_l1=4.214
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=confidence method=mult_boot n=300 scenario=ORBIT_mid dim=0 coverage= mean_width=0.0005064 inf_pct= extra=level=0.90
+  1        CTATE          mid       rel_l1     0.5784
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=point method=DRLearner n=300 scenario=ORBIT_mid dim=1 coverage= mean_width= inf_pct= extra=rel_l1=0.5784
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=confidence method=mult_boot n=300 scenario=ORBIT_mid dim=1 coverage= mean_width=0.001752 inf_pct= extra=level=0.90
+  0        CTATE          mu2       rel_l1     8.5808
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=point method=DRLearner n=300 scenario=ORBIT_mu2 dim=0 coverage= mean_width= inf_pct= extra=rel_l1=8.581
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=confidence method=mult_boot n=300 scenario=ORBIT_mu2 dim=0 coverage= mean_width=0.00096 inf_pct= extra=level=0.90
+  1        CTATE          mu2       rel_l1     1.0472
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=point method=DRLearner n=300 scenario=ORBIT_mu2 dim=1 coverage= mean_width= inf_pct= extra=rel_l1=1.047
+ROW level=7B_ORBIT estimand=CTATE_mean uncertainty=confidence method=mult_boot n=300 scenario=ORBIT_mu2 dim=1 coverage= mean_width=0.003012 inf_pct= extra=level=0.90
+  0         ITTE   overlap_cp        width     0.1276
+ROW level=7B_ORBIT estimand=ITTE uncertainty=prediction method=overlap_cp n=300 scenario=ORBIT dim=0 coverage=1.000 mean_width=0.1276 inf_pct=0 extra=honest_counterfactuals
+  1         ITTE   overlap_cp        width     0.4223
+ROW level=7B_ORBIT estimand=ITTE uncertainty=prediction method=overlap_cp n=300 scenario=ORBIT dim=1 coverage=0.993 mean_width=0.4223 inf_pct=0 extra=honest_counterfactuals
+
+GEOM-Drugs 7B.3 skipped: val_data.pickle is still unavailable.

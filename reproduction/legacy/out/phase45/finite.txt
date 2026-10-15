@@ -1,0 +1,16 @@
+#   20/200 reps (26s)
+#   40/200 reps (39s)
+#   60/200 reps (59s)
+#   80/200 reps (75s)
+#   100/200 reps (95s)
+#   120/200 reps (108s)
+#   140/200 reps (132s)
+#   160/200 reps (148s)
+#   180/200 reps (172s)
+#   200/200 reps (188s)
+Phase 4.5.2 finite-band diagnostics | target=0.90 | n=500 | overlap=1.0 | misspec=none | reps=200 | m_test=200
+dim  cov(uncond)  cov(finite)  finite%   w_mean    w_med    w_q90   ESS/n_cal  max_wt
+  0        0.997        0.997    99.3    3.237    3.226    3.286    104/125    0.058
+  1        0.997        0.997    99.3    3.234    3.221    3.276    104/125    0.058
+
+ESS = Kish effective calibration size (sum w)^2/sum w^2; n_cal = raw arm calib count; max_wt = mean over test units of w_new/(sum w_cal + w_new).

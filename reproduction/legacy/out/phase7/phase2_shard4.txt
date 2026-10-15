@@ -1,0 +1,47 @@
+Phase 2.6 coverage study | target=0.90 | shard=4/7 | reps=28/200 | rep_range=116:144 | R backend=yes
+    n          method dim  cov(simult)   iw_err  mean_width
+   50       pointwise   0        0.857    0.072      5.8662
+   50       pointwise   1        0.786    0.044      4.9015
+   50      multiplier   0        0.929    0.026      5.0421
+   50      multiplier   1        0.893    0.031      4.5203
+   50  liebl_reimherr   0        0.964    0.003      8.2585
+   50  liebl_reimherr   1        1.000    0.000      6.9551
+   50    pini_vantini   0        0.821    0.073      4.5866
+   50    pini_vantini   1        0.750    0.081      3.9826
+# n=50 shard=4/7 reps=116:144 total_reps=200 done in 235.4s
+  100       pointwise   0        0.750    0.104      0.7514
+  100       pointwise   1        0.750    0.096      0.8688
+  100      multiplier   0        0.857    0.043      0.9443
+  100      multiplier   1        0.929    0.030      1.1362
+  100  liebl_reimherr   0        0.929    0.014      1.1323
+  100  liebl_reimherr   1        0.964    0.005      1.3129
+  100    pini_vantini   0        0.750    0.104      0.7596
+  100    pini_vantini   1        0.714    0.099      0.8682
+# n=100 shard=4/7 reps=116:144 total_reps=200 done in 229.1s
+  200       pointwise   0        0.821    0.053      0.4874
+  200       pointwise   1        0.821    0.051      0.5586
+  200      multiplier   0        0.964    0.003      0.6172
+  200      multiplier   1        0.964    0.013      0.7544
+  200  liebl_reimherr   0        1.000    0.000      0.7383
+  200  liebl_reimherr   1        0.964    0.005      0.8500
+  200    pini_vantini   0        0.821    0.055      0.4923
+  200    pini_vantini   1        0.821    0.046      0.5645
+# n=200 shard=4/7 reps=116:144 total_reps=200 done in 228.3s
+  500       pointwise   0        0.821    0.050      0.3093
+  500       pointwise   1        0.821    0.055      0.3561
+  500      multiplier   0        1.000    0.000      0.3898
+  500      multiplier   1        1.000    0.000      0.4780
+  500  liebl_reimherr   0        1.000    0.000      0.4682
+  500  liebl_reimherr   1        1.000    0.000      0.5411
+  500    pini_vantini   0        0.821    0.047      0.3109
+  500    pini_vantini   1        0.821    0.053      0.3582
+# n=500 shard=4/7 reps=116:144 total_reps=200 done in 227.8s
+ 1000       pointwise   0        0.821    0.039      0.2112
+ 1000       pointwise   1        0.679    0.084      0.2480
+ 1000      multiplier   0        0.964    0.005      0.2678
+ 1000      multiplier   1        0.857    0.021      0.3336
+ 1000  liebl_reimherr   0        1.000    0.000      0.3205
+ 1000  liebl_reimherr   1        0.929    0.011      0.3770
+ 1000    pini_vantini   0        0.786    0.039      0.2129
+ 1000    pini_vantini   1        0.679    0.091      0.2495
+# n=1000 shard=4/7 reps=116:144 total_reps=200 done in 215.0s

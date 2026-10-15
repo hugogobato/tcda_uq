@@ -1,0 +1,29 @@
+Phase 2.6 coverage study | target=0.90 | shard=2/4 | reps=37/150 | rep_range=76:113 | R backend=yes
+    n          method dim  cov(simult)   iw_err  mean_width
+  200       pointwise   0        0.892    0.053      0.4854
+  200       pointwise   1        0.676    0.129      0.5615
+  200      multiplier   0        0.919    0.036      0.6154
+  200      multiplier   1        0.892    0.033      0.7541
+  200  liebl_reimherr   0        0.946    0.026      0.7354
+  200  liebl_reimherr   1        0.946    0.015      0.8537
+  200    pini_vantini   0        0.892    0.052      0.4894
+  200    pini_vantini   1        0.676    0.128      0.5646
+# n=200 shard=2/4 reps=76:113 total_reps=150 done in 250.2s
+  500       pointwise   0        0.730    0.124      0.3018
+  500       pointwise   1        0.757    0.076      0.3508
+  500      multiplier   0        0.865    0.052      0.3831
+  500      multiplier   1        0.919    0.014      0.4749
+  500  liebl_reimherr   0        0.892    0.024      0.4575
+  500  liebl_reimherr   1        0.973    0.003      0.5336
+  500    pini_vantini   0        0.703    0.116      0.3051
+  500    pini_vantini   1        0.757    0.073      0.3553
+# n=500 shard=2/4 reps=76:113 total_reps=150 done in 250.8s
+ 1000       pointwise   0        0.946    0.015      0.2117
+ 1000       pointwise   1        0.865    0.039      0.2476
+ 1000      multiplier   0        1.000    0.000      0.2684
+ 1000      multiplier   1        0.973    0.008      0.3333
+ 1000  liebl_reimherr   0        1.000    0.000      0.3211
+ 1000  liebl_reimherr   1        0.973    0.005      0.3766
+ 1000    pini_vantini   0        0.946    0.012      0.2137
+ 1000    pini_vantini   1        0.865    0.039      0.2495
+# n=1000 shard=2/4 reps=76:113 total_reps=150 done in 260.9s

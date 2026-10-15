@@ -1,0 +1,34 @@
+Phase 6.1 silhouette<->diagram bridge (Thm 5.3) | hom_dim H1 | interval=(0.0, 1.0) | pairs~1200 per r
+#   4/20 samples (4s)
+#   8/20 samples (6s)
+#   12/20 samples (9s)
+#   16/20 samples (11s)
+#   20/20 samples (13s)
+
+Bound || phi-phi' ||_inf <= K(L,r,c) * W_1(D,D')  over 1192 pairs, by r:
+   r  satisfied%   median K  median lhs/rhs
+ 1.0      100.0%   3.00e+00        3.15e-02
+ 2.0      100.0%   5.60e+06        1.81e-08
+ 3.0      100.0%   1.17e+13        8.11e-15
+  (always satisfied -> it is a theorem. The worst-case K explodes for r>1 because L=max(lifetime)^(1-r) is driven by the shortest-lived (near-diagonal) feature, so the raw bound is vacuous there; r=1 (K=1+2L) is the clean regime, and persistence thresholding restores a finite K for r>1 -- shown next.)
+
+Diagram-robustness certificate: half-width inflation K*eps (silhouette sup-norm shift) for a W_1 diagram error <= eps
+   r min_pers tau          L       c          K      K*eps(0.01)     K*eps(0.05)      K*eps(0.1)
+ 1.0        0.000   1.00e+00   0.987   3.00e+00        3.000e-02       1.500e-01       3.000e-01
+ 2.0        0.000   7.69e+10   0.987   3.03e+11        3.034e+09       1.517e+10       3.034e+10
+ 2.0        0.050   1.99e+01   0.987   7.97e+01        7.969e-01       3.984e+00       7.969e+00
+ 3.0        0.000   5.91e+21   0.987   3.45e+22        3.451e+20       1.725e+21       3.451e+21
+ 3.0        0.050   3.98e+02   0.987   2.32e+03        2.323e+01       1.162e+02       2.323e+02
+ 3.0        0.100   9.92e+01   0.987   5.80e+02        5.803e+00       2.901e+01       5.803e+01
+  tau=0 keeps all points (noise-dominated L for r>1 -> vacuous); a modest tau prunes near-diagonal noise into a finite, usable certificate. At r=1 the certificate is clean with no thresholding (K=3): a W_1 diagram error of 0.05 inflates the band half-width by <= 0.15.
+
+Phase 6.2 diagram-space Wasserstein score | hom_dim H1 | q=1.0 | Frechet-mean predicted diagram | reps=15
+ arm  cov(ball)   radius  n_cal
+#   3/15 reps
+#   6/15 reps
+#   9/15 reps
+#   12/15 reps
+#   15/15 reps
+   0      0.928    0.803       
+   1      0.913    1.199       
+  target coverage 0.90: the Wasserstein ball around the Frechet-mean diagram covers a fresh potential-outcome diagram at >= nominal (intrinsic-geometry benchmark to the silhouette band).

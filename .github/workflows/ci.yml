@@ -26,6 +26,12 @@ jobs:
       - name: Verify saved experiment records
         run: uv run --no-sync python reproduction/verify_saved_results.py
 
+      - name: Verify additional public results
+        run: uv run --no-sync python reproduction/verify_publication.py
+
+      - name: Build installable wheel
+        run: uv build --wheel
+
       - name: Run fast tests
         run: uv run --no-sync pytest
 

@@ -1,0 +1,99 @@
+# Phase 7A.5 preset=full scenarios=small_n,large_n,weak_overlap,heavy_tail,adaptive_rf,neural_mlp,heterogeneous,topological,heavy_diagram_tail reps=100 workers=7 n_boot=700
+# Level-B truth ready for 2 scenarios (24s)
+# 45/900 scenario-reps done (109s)
+# 90/900 scenario-reps done (182s)
+# 135/900 scenario-reps done (293s)
+# 180/900 scenario-reps done (401s)
+# 225/900 scenario-reps done (495s)
+# 270/900 scenario-reps done (570s)
+# 315/900 scenario-reps done (648s)
+# 360/900 scenario-reps done (729s)
+# 405/900 scenario-reps done (797s)
+# 450/900 scenario-reps done (823s)
+# 495/900 scenario-reps done (848s)
+# 540/900 scenario-reps done (890s)
+# 585/900 scenario-reps done (933s)
+# 630/900 scenario-reps done (1003s)
+# 675/900 scenario-reps done (1079s)
+# 720/900 scenario-reps done (1162s)
+# 765/900 scenario-reps done (1241s)
+# 810/900 scenario-reps done (1319s)
+# 855/900 scenario-reps done (1402s)
+# 900/900 scenario-reps done (1481s)
+Phase 7A.5 regime analysis | target=0.90
+       scenario     n       nuis estimand      uncertainty             method dim     cov      width   inf%  reps
+    adaptive_rf   500         rf     ITTE       prediction          conformal   0   0.997     8.9873    0.1   100
+    adaptive_rf   500         rf     ITTE       prediction          conformal   1   0.988     9.1275    0.1   100
+    adaptive_rf   500         rf     ITTE wrong confidence multiplier_as_itte   0   0.000     0.5192    0.0   100
+    adaptive_rf   500         rf     ITTE wrong confidence multiplier_as_itte   1   0.000     0.5862    0.0   100
+    adaptive_rf   500         rf     TATE       confidence         multiplier   0   0.950     0.5192    0.0   100
+    adaptive_rf   500         rf     TATE       confidence         multiplier   1   0.980     0.5862    0.0   100
+    adaptive_rf   500         rf     TATE       confidence          pointwise   0   0.800     0.3955    0.0   100
+    adaptive_rf   500         rf     TATE       confidence          pointwise   1   0.820     0.4378    0.0   100
+heavy_diagram_tail   500 functional     ITTE       prediction          conformal   0   1.000    13.5403    0.6   100
+heavy_diagram_tail   500 functional     ITTE       prediction          conformal   1   1.000     4.5244    0.6   100
+heavy_diagram_tail   500 functional     ITTE wrong confidence multiplier_as_itte   0   0.155     0.0623    0.0   100
+heavy_diagram_tail   500 functional     ITTE wrong confidence multiplier_as_itte   1   0.001     0.0455    0.0   100
+heavy_diagram_tail   500 functional     TATE       confidence         multiplier   0   0.930     0.0623    0.0   100
+heavy_diagram_tail   500 functional     TATE       confidence         multiplier   1   0.930     0.0455    0.0   100
+heavy_diagram_tail   500 functional     TATE       confidence          pointwise   0   0.850     0.0483    0.0   100
+heavy_diagram_tail   500 functional     TATE       confidence          pointwise   1   0.600     0.0307    0.0   100
+     heavy_tail   500 functional     ITTE       prediction          conformal   0   0.988     3.2657    0.7   100
+     heavy_tail   500 functional     ITTE       prediction          conformal   1   0.986     3.2559    0.7   100
+     heavy_tail   500 functional     ITTE wrong confidence multiplier_as_itte   0   0.000     0.3806    0.0   100
+     heavy_tail   500 functional     ITTE wrong confidence multiplier_as_itte   1   0.000     0.4719    0.0   100
+     heavy_tail   500 functional     TATE       confidence         multiplier   0   0.930     0.3806    0.0   100
+     heavy_tail   500 functional     TATE       confidence         multiplier   1   0.930     0.4719    0.0   100
+     heavy_tail   500 functional     TATE       confidence          pointwise   0   0.840     0.2994    0.0   100
+     heavy_tail   500 functional     TATE       confidence          pointwise   1   0.810     0.3495    0.0   100
+  heterogeneous   500 functional     ITTE       prediction          conformal   0   0.995     9.5223    0.6   100
+  heterogeneous   500 functional     ITTE       prediction          conformal   1   0.994     9.5450    0.6   100
+  heterogeneous   500 functional     ITTE wrong confidence multiplier_as_itte   0   0.000     0.5231    0.0   100
+  heterogeneous   500 functional     ITTE wrong confidence multiplier_as_itte   1   0.000     0.5971    0.0   100
+  heterogeneous   500 functional     TATE       confidence         multiplier   0   0.920     0.5231    0.0   100
+  heterogeneous   500 functional     TATE       confidence         multiplier   1   0.910     0.5971    0.0   100
+  heterogeneous   500 functional     TATE       confidence          pointwise   0   0.820     0.4124    0.0   100
+  heterogeneous   500 functional     TATE       confidence          pointwise   1   0.780     0.4549    0.0   100
+        large_n  1000 functional     ITTE       prediction          conformal   0   0.997     3.1451    0.2   100
+        large_n  1000 functional     ITTE       prediction          conformal   1   0.997     3.1660    0.2   100
+        large_n  1000 functional     ITTE wrong confidence multiplier_as_itte   0   0.000     0.2717    0.0   100
+        large_n  1000 functional     ITTE wrong confidence multiplier_as_itte   1   0.000     0.3348    0.0   100
+        large_n  1000 functional     TATE       confidence         multiplier   0   0.980     0.2717    0.0   100
+        large_n  1000 functional     TATE       confidence         multiplier   1   0.980     0.3348    0.0   100
+        large_n  1000 functional     TATE       confidence          pointwise   0   0.850     0.2155    0.0   100
+        large_n  1000 functional     TATE       confidence          pointwise   1   0.900     0.2482    0.0   100
+     neural_mlp   500        mlp     ITTE       prediction          conformal   0   0.995     5.2274    0.0   100
+     neural_mlp   500        mlp     ITTE       prediction          conformal   1   0.987     7.0814    0.0   100
+     neural_mlp   500        mlp     ITTE wrong confidence multiplier_as_itte   0   0.000     0.4148    0.0   100
+     neural_mlp   500        mlp     ITTE wrong confidence multiplier_as_itte   1   0.000     0.5270    0.0   100
+     neural_mlp   500        mlp     TATE       confidence         multiplier   0   0.930     0.4148    0.0   100
+     neural_mlp   500        mlp     TATE       confidence         multiplier   1   0.800     0.5270    0.0   100
+     neural_mlp   500        mlp     TATE       confidence          pointwise   0   0.660     0.3044    0.0   100
+     neural_mlp   500        mlp     TATE       confidence          pointwise   1   0.510     0.3673    0.0   100
+        small_n   150 functional     ITTE       prediction          conformal   0   0.997     3.6085   17.8   100
+        small_n   150 functional     ITTE       prediction          conformal   1   0.999     3.6502   17.8   100
+        small_n   150 functional     ITTE wrong confidence multiplier_as_itte   0   0.001     0.7536    0.0   100
+        small_n   150 functional     ITTE wrong confidence multiplier_as_itte   1   0.001     0.9048    0.0   100
+        small_n   150 functional     TATE       confidence         multiplier   0   0.910     0.7536    0.0   100
+        small_n   150 functional     TATE       confidence         multiplier   1   0.940     0.9048    0.0   100
+        small_n   150 functional     TATE       confidence          pointwise   0   0.780     0.6062    0.0   100
+        small_n   150 functional     TATE       confidence          pointwise   1   0.720     0.6822    0.0   100
+    topological   500 functional     ITTE       prediction          conformal   0   1.000    11.2168    0.8   100
+    topological   500 functional     ITTE       prediction          conformal   1   0.999     1.8471    0.8   100
+    topological   500 functional     ITTE wrong confidence multiplier_as_itte   0   0.065     0.0653    0.0   100
+    topological   500 functional     ITTE wrong confidence multiplier_as_itte   1   0.000     0.0171    0.0   100
+    topological   500 functional     TATE       confidence         multiplier   0   0.860     0.0653    0.0   100
+    topological   500 functional     TATE       confidence         multiplier   1   0.930     0.0171    0.0   100
+    topological   500 functional     TATE       confidence          pointwise   0   0.710     0.0477    0.0   100
+    topological   500 functional     TATE       confidence          pointwise   1   0.500     0.0109    0.0   100
+   weak_overlap   500 functional     ITTE       prediction          conformal   0   0.998     3.2684   33.5   100
+   weak_overlap   500 functional     ITTE       prediction          conformal   1   0.998     3.3146   33.5   100
+   weak_overlap   500 functional     ITTE wrong confidence multiplier_as_itte   0   0.000     0.4414    0.0   100
+   weak_overlap   500 functional     ITTE wrong confidence multiplier_as_itte   1   0.001     0.5405    0.0   100
+   weak_overlap   500 functional     TATE       confidence         multiplier   0   0.970     0.4414    0.0   100
+   weak_overlap   500 functional     TATE       confidence         multiplier   1   0.950     0.5405    0.0   100
+   weak_overlap   500 functional     TATE       confidence          pointwise   0   0.870     0.3556    0.0   100
+   weak_overlap   500 functional     TATE       confidence          pointwise   1   0.810     0.4338    0.0   100
+# wrote experiments/out/phase7_regime/regime_analysis.csv
+# wrote experiments/out/phase7_regime/regime_analysis.md
+# wrote experiments/out/phase7_regime/regime_analysis.txt

@@ -1,0 +1,41 @@
+Phase 3.4 CTATE coverage | target=0.90 | shard=0/7 | reps=29/200 | range=0:29
+    n     x      method dim  recovery     cov(sim)   iw_err  mean_width
+  200   mu1   pointwise   0     0.039        0.690    0.157      0.2874
+  200   mu1  multiplier   0     0.039        0.793    0.077      0.3507
+  200   mu1   pointwise   1     0.023        0.793    0.082      0.2866
+  200   mu1  multiplier   1     0.023        0.931    0.015      0.3524
+  200   mid   pointwise   0     0.036        0.690    0.150      0.2026
+  200   mid  multiplier   0     0.036        0.897    0.079      0.2510
+  200   mid   pointwise   1     0.011        0.793    0.097      0.2034
+  200   mid  multiplier   1     0.011        0.862    0.038      0.2511
+  200   mu2   pointwise   0     0.040        0.724    0.136      0.2788
+  200   mu2  multiplier   0     0.040        0.862    0.068      0.3427
+  200   mu2   pointwise   1     0.012        0.862    0.074      0.2811
+  200   mu2  multiplier   1     0.012        0.897    0.046      0.3449
+# n=200 done in 194.3s
+  500   mu1   pointwise   0     0.019        0.655    0.152      0.1485
+  500   mu1  multiplier   0     0.019        0.759    0.086      0.1861
+  500   mu1   pointwise   1     0.011        0.862    0.056      0.1540
+  500   mu1  multiplier   1     0.011        0.966    0.012      0.1909
+  500   mid   pointwise   0     0.017        0.724    0.120      0.1062
+  500   mid  multiplier   0     0.017        0.862    0.036      0.1337
+  500   mid   pointwise   1     0.006        0.828    0.087      0.1098
+  500   mid  multiplier   1     0.006        0.897    0.037      0.1366
+  500   mu2   pointwise   0     0.016        0.897    0.039      0.1463
+  500   mu2  multiplier   0     0.016        0.966    0.017      0.1826
+  500   mu2   pointwise   1     0.007        0.793    0.056      0.1502
+  500   mu2  multiplier   1     0.007        0.931    0.028      0.1879
+# n=500 done in 186.2s
+ 1000   mu1   pointwise   0     0.013        0.862    0.070      0.1103
+ 1000   mu1  multiplier   0     0.013        0.931    0.024      0.1370
+ 1000   mu1   pointwise   1     0.009        0.828    0.074      0.1110
+ 1000   mu1  multiplier   1     0.009        0.966    0.010      0.1378
+ 1000   mid   pointwise   0     0.011        0.862    0.063      0.0771
+ 1000   mid  multiplier   0     0.011        0.931    0.025      0.0964
+ 1000   mid   pointwise   1     0.005        0.690    0.123      0.0770
+ 1000   mid  multiplier   1     0.005        0.897    0.038      0.0965
+ 1000   mu2   pointwise   0     0.011        0.897    0.051      0.1029
+ 1000   mu2  multiplier   0     0.011        0.966    0.024      0.1286
+ 1000   mu2   pointwise   1     0.004        0.759    0.097      0.1030
+ 1000   mu2  multiplier   1     0.004        0.897    0.031      0.1285
+# n=1000 done in 183.2s

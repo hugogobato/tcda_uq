@@ -37,6 +37,16 @@ python reproduction/augment_pacce_mean_tests.py --source-root /tmp/tcda_uq_mean_
 
 The replay verifies agreement with each original mean fit before saving the native absolute-supremum zero-mean rejection event. It preserves the original checkpoint. Mean confidence calibration always uses the known generator propensity in these controlled runs; the known/learned/constant weight sensitivity changes prediction weights only.
 
-The result records include synthetic studies and a historical aggregate PACCE standardization JSON from an existing cohort analysis. Those cohort-scale summaries are legacy aggregate values, not new clinical evidence. Raw clinical data and subject identifiers are not part of the public reproduction materials. The manuscript draft and PDF are maintained separately and are not included in this code and reproducibility publication.
+The simulation source bundles include a historical aggregate PACCE standardization JSON. Those cohort-scale constants are not evidence for the revised clinical analysis. The submission snapshot additionally provides reviewed aggregate clinical mean results under `reproduction/results/clinical_aggregates/`; their scope and distinct analysis populations are documented in [the paper results guide](paper_results.md). Raw clinical records, subject identifiers, and clinical ITTE prediction curves are excluded from the public files.
+
+The manuscript, its PDF, and the arXiv upload archive are maintained separately by the authors and are not included in this repository. [Data availability](data_availability.md) describes how to obtain authorized clinical inputs.
+
+Historical experiment logs and retained outputs are preserved in `reproduction/legacy/`. Runtime pilots and the superseded scale-4 attempt are in `reproduction/results/exploratory/`. These do not add replications to the 11,200 final production total. See [the paper results guide](paper_results.md) before interpreting those older results.
 
 The frozen runner, source archive, checksums, and recorded outputs define the reproducibility path. Tutorials and the small `scripts/reproduce_coverage.py` diagnostic demonstrate the current public API and are not substitutes for the frozen runs or their recorded result files.
+
+Verify the submission snapshot and additional public artifacts without scientific dependencies:
+
+```bash
+python reproduction/verify_publication.py
+```

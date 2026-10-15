@@ -1,0 +1,58 @@
+{
+  "spec": {
+    "spec_version": "pacce-outcome-v1.0-locked",
+    "records": {
+      "eval_type": "Central",
+      "lesion_cat": "Target lesion"
+    },
+    "window": {
+      "baseline_max_day": 0,
+      "week12_visit": "Week 12",
+      "week12_max_day": 117
+    },
+    "points": {
+      "u_divisor": 117.0,
+      "floor_mm": 5.0
+    },
+    "eligibility": {
+      "min_distinct_visit_days": 2,
+      "min_points": 4
+    },
+    "silhouette": {
+      "r": 3,
+      "resolution": 100,
+      "interval": [
+        0.0,
+        1.0
+      ]
+    },
+    "homology_dims": [
+      0,
+      1
+    ],
+    "standardization": {
+      "mean": [
+        0.2935327834141508,
+        3.1979128155260397
+      ],
+      "sd": [
+        0.4058917864014114,
+        0.6340602596525194
+      ]
+    }
+  },
+  "n_analysis_released": 632,
+  "n_analysis_eligible": 419,
+  "arm_counts": [
+    210,
+    209
+  ],
+  "propensity_training": "learned full-baseline selected-cohort model; no exact randomized-ratio claim",
+  "target": "adjusted observed-group contrast conditional on pilot representation and observed eligibility",
+  "selection_sensitivity": "baseline observation-odds tilts; not MNAR identification and no bound for unobserved outcome/death",
+  "causal_identification": "not asserted; requires additional selection and missing-outcome assumptions",
+  "confidence_calibration": "Gaussian unstudentized fixed-grid supremum",
+  "mean_width": 0.04979624165003147,
+  "peak_abs_estimate": 0.00813883522298948,
+  "publication_scope": "Aggregate mean diagnostics only; identifier lists and individual prediction outputs excluded."
+}

@@ -1,0 +1,25 @@
+# 7/150 reps done (3s)
+# 14/150 reps done (3s)
+# 21/150 reps done (3s)
+# 28/150 reps done (3s)
+# 35/150 reps done (3s)
+# 42/150 reps done (3s)
+# 49/150 reps done (3s)
+# 56/150 reps done (3s)
+# 63/150 reps done (3s)
+# 70/150 reps done (3s)
+# 77/150 reps done (3s)
+# 84/150 reps done (3s)
+# 91/150 reps done (4s)
+# 98/150 reps done (4s)
+# 105/150 reps done (4s)
+# 112/150 reps done (4s)
+# 119/150 reps done (4s)
+# 126/150 reps done (4s)
+# 133/150 reps done (4s)
+# 140/150 reps done (4s)
+# 147/150 reps done (4s)
+Phase 4.5 ITTE conformal | target=0.90 | overlap=1.0 | misspec=both | reps=150 | m_test=200
+    n      method dim  cov(itte)  cov(mean)  mean_width   inf%
+  800   conformal   0      0.997      -     13.6811    0.0
+  800   conformal   1      0.984      -     19.6527    0.0

@@ -1,0 +1,4 @@
+# Preserve retained source snapshots and numerical evidence byte for byte.
+# Console records and CSVs can contain original spacing or CRLF newlines.
+reproduction/legacy/** -text -whitespace
+reproduction/results/** -text -whitespace

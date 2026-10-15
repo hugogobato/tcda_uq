@@ -1,0 +1,36 @@
+..................................F..............                        [100%]
+=================================== FAILURES ===================================
+____________________ test_adaptive_width_tracks_difficulty _____________________
+
+hetero_fit = (<tcda_uq.datasets.simulation.TriOracleSimulation object at 0x7b4726bb7430>, SimulationSample(tseq=array([0.        , ...Conformal object at 0x7b4726bfb700>, <tcda_uq.uq.conformal.adaptive_cp.AdaptiveITTEConformal object at 0x7b4726c154b0>)
+
+    def test_adaptive_width_tracks_difficulty(hetero_fit):
+        """Adaptive width correlates with the true difficulty; marginal width is ~flat."""
+        _, st, amp, marg, adap = hetero_fit
+        lo_m, hi_m, _ = marg.band_bounds(st.X, 0.1, d=0)
+        lo_a, hi_a, _ = adap.band_bounds(st.X, 0.1, d=0)
+        w_m = (hi_m - lo_m).mean(1)
+        w_a = (hi_a - lo_a).mean(1)
+        # the marginal ITTE width can be *exactly* flat across x (k_a s_a(t), X-blind) ->
+        # its width-difficulty correlation is undefined; treat perfectly-flat as corr 0.
+        corr_m = 0.0 if w_m.std() < 1e-12 else float(np.corrcoef(w_m, amp)[0, 1])
+        corr_a = float(np.corrcoef(w_a, amp)[0, 1])
+        cv_m = w_m.std() / w_m.mean()
+        cv_a = w_a.std() / w_a.mean()
+>       assert corr_a > 0.5, corr_a                    # adaptive tracks difficulty
+E       AssertionError: nan
+E       assert nan > 0.5
+
+tests/test_phase5_adaptive.py:126: AssertionError
+=============================== warnings summary ===============================
+tests/test_phase5_adaptive.py::test_adaptive_width_tracks_difficulty
+  /home/hugo_souto/Stuff/Research/CP_TATE/.venv/lib/python3.10/site-packages/numpy/lib/_function_base_impl.py:2767: RuntimeWarning: invalid value encountered in subtract
+    X -= avg[:, None]
+
+tests/test_phase5_adaptive.py::test_adaptive_width_tracks_difficulty
+  /home/hugo_souto/Stuff/Research/CP_TATE/.venv/lib/python3.10/site-packages/numpy/_core/_methods.py:185: RuntimeWarning: invalid value encountered in subtract
+    x = asanyarray(arr - arrmean)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_phase5_adaptive.py::test_adaptive_width_tracks_difficulty

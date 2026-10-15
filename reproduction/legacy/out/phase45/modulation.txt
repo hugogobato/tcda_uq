@@ -1,0 +1,71 @@
+Phase 4.5.4 modulation audit | target=0.90 | n=500 | overlap=1.0 | reps=200 | m_test=200
+ res    modulation grid_slack dim     cov  finite%   w_mean
+#   20/200 reps (34s)
+#   40/200 reps (60s)
+#   60/200 reps (78s)
+#   80/200 reps (96s)
+#   100/200 reps (113s)
+#   120/200 reps (130s)
+#   140/200 reps (149s)
+#   160/200 reps (168s)
+#   180/200 reps (188s)
+#   200/200 reps (206s)
+  20      constant        off   0   0.998     99.3    3.271
+  20      constant        off   1   0.997     99.3    3.269
+  20      constant    on(L=2)   0   0.999     99.3    3.482
+  20      constant    on(L=2)   1   0.999     99.3    3.480
+  20     lipschitz        off   0   0.997     99.3    3.237
+  20     lipschitz        off   1   0.997     99.3    3.233
+  20     lipschitz    on(L=2)   0   0.999     99.3    3.461
+  20     lipschitz    on(L=2)   1   0.998     99.3    3.458
+  20  pointwise-sd        off   0   0.997     99.3    3.237
+  20  pointwise-sd        off   1   0.997     99.3    3.233
+  20  pointwise-sd    on(L=2)   0   0.999     99.3    3.461
+  20  pointwise-sd    on(L=2)   1   0.998     99.3    3.458
+
+#   20/200 reps (31s)
+#   40/200 reps (49s)
+#   60/200 reps (70s)
+#   80/200 reps (85s)
+#   100/200 reps (105s)
+#   120/200 reps (120s)
+#   140/200 reps (141s)
+#   160/200 reps (155s)
+#   180/200 reps (176s)
+#   200/200 reps (192s)
+  40      constant        off   0   0.998     99.3    3.275
+  40      constant        off   1   0.997     99.3    3.273
+  40      constant    on(L=2)   0   0.998     99.3    3.377
+  40      constant    on(L=2)   1   0.998     99.3    3.375
+  40     lipschitz        off   0   0.997     99.3    3.237
+  40     lipschitz        off   1   0.997     99.3    3.234
+  40     lipschitz    on(L=2)   0   0.998     99.3    3.347
+  40     lipschitz    on(L=2)   1   0.998     99.3    3.343
+  40  pointwise-sd        off   0   0.997     99.3    3.237
+  40  pointwise-sd        off   1   0.997     99.3    3.234
+  40  pointwise-sd    on(L=2)   0   0.998     99.3    3.347
+  40  pointwise-sd    on(L=2)   1   0.998     99.3    3.343
+
+#   20/200 reps (26s)
+#   40/200 reps (41s)
+#   60/200 reps (60s)
+#   80/200 reps (76s)
+#   100/200 reps (96s)
+#   120/200 reps (113s)
+#   140/200 reps (136s)
+#   160/200 reps (154s)
+#   180/200 reps (173s)
+#   200/200 reps (191s)
+  80      constant        off   0   0.998     99.3    3.276
+  80      constant        off   1   0.997     99.3    3.274
+  80      constant    on(L=2)   0   0.998     99.3    3.326
+  80      constant    on(L=2)   1   0.998     99.3    3.324
+  80     lipschitz        off   0   0.997     99.3    3.237
+  80     lipschitz        off   1   0.997     99.3    3.233
+  80     lipschitz    on(L=2)   0   0.998     99.3    3.291
+  80     lipschitz    on(L=2)   1   0.997     99.3    3.287
+  80  pointwise-sd        off   0   0.997     99.3    3.237
+  80  pointwise-sd        off   1   0.997     99.3    3.233
+  80  pointwise-sd    on(L=2)   0   0.998     99.3    3.291
+  80  pointwise-sd    on(L=2)   1   0.997     99.3    3.287
+

@@ -1,0 +1,23 @@
+#   20/200 reps (28s)
+#   40/200 reps (42s)
+#   60/200 reps (61s)
+#   80/200 reps (75s)
+#   100/200 reps (96s)
+#   120/200 reps (112s)
+#   140/200 reps (131s)
+#   160/200 reps (150s)
+#   180/200 reps (170s)
+#   200/200 reps (189s)
+Phase 4.5.3 arm-composition alternatives | target=0.90 | n=500 | overlap=1.0 | reps=200 | m_test=200
+ split (beta1/beta0) dim  cov(uncond)  cov(finite)  finite%   w_mean
+      bonferroni a/2   0        0.997        0.997     99.3    3.237
+      bonferroni a/2   1        0.997        0.997     99.3    3.234
+               sidak   0        0.997        0.997     99.4    3.219
+               sidak   1        0.997        0.997     99.4    3.217
+     unequal 0.3/0.7   0        0.998        0.998     99.1    3.299
+     unequal 0.3/0.7   1        0.997        0.997     99.1    3.286
+     unequal 0.7/0.3   0        0.998        0.998     98.5    3.294
+     unequal 0.7/0.3   1        0.997        0.997     98.5    3.286
+
+Note: arms calibrate on disjoint (treated / control) units, so no joint score across arms exists -- the alpha-split is the only Layer-3 lever, and (as the widths show) a small one; the interval arithmetic dominates.
+

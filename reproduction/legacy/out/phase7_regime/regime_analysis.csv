@@ -1,0 +1,73 @@
+scenario,level,n,nuisance,noise_df,prop_scale,hetero_scale,estimand,uncertainty,method,dim,coverage,mean_width,inf_pct,reps,target_reps,extra
+adaptive_rf,A,500,rf,,1.0,0.0,ITTE,prediction,conformal,0,0.9967500000000001,8.987270960068857,0.125,100,100,random-forest nuisances
+adaptive_rf,A,500,rf,,1.0,0.0,ITTE,prediction,conformal,1,0.9875499999999999,9.127526844150644,0.125,100,100,random-forest nuisances
+adaptive_rf,A,500,rf,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,0,0.00030000000000000003,0.5192151985630785,0.0,100,100,TATE confidence band applied to individual draws
+adaptive_rf,A,500,rf,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,1,0.0001,0.5861612539995108,0.0,100,100,TATE confidence band applied to individual draws
+adaptive_rf,A,500,rf,,1.0,0.0,TATE,confidence,multiplier,0,0.95,0.5192151985630785,0.0,100,100,random-forest nuisances
+adaptive_rf,A,500,rf,,1.0,0.0,TATE,confidence,multiplier,1,0.98,0.5861612539995108,0.0,100,100,random-forest nuisances
+adaptive_rf,A,500,rf,,1.0,0.0,TATE,confidence,pointwise,0,0.8,0.3955212885476103,0.0,100,100,random-forest nuisances
+adaptive_rf,A,500,rf,,1.0,0.0,TATE,confidence,pointwise,1,0.82,0.4377908782315476,0.0,100,100,random-forest nuisances
+heavy_diagram_tail,B,500,functional,,1.0,0.0,ITTE,prediction,conformal,0,1.0,13.54034696780057,0.62,100,100,heavy persistence-diagram tail (Level B)
+heavy_diagram_tail,B,500,functional,,1.0,0.0,ITTE,prediction,conformal,1,0.99995,4.524419154747107,0.62,100,100,heavy persistence-diagram tail (Level B)
+heavy_diagram_tail,B,500,functional,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,0,0.15475000000000003,0.06231331930082172,0.0,100,100,TATE confidence band applied to individual draws
+heavy_diagram_tail,B,500,functional,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,1,0.0014000000000000002,0.04550803593609887,0.0,100,100,TATE confidence band applied to individual draws
+heavy_diagram_tail,B,500,functional,,1.0,0.0,TATE,confidence,multiplier,0,0.93,0.06231331930082172,0.0,100,100,heavy persistence-diagram tail (Level B)
+heavy_diagram_tail,B,500,functional,,1.0,0.0,TATE,confidence,multiplier,1,0.93,0.04550803593609887,0.0,100,100,heavy persistence-diagram tail (Level B)
+heavy_diagram_tail,B,500,functional,,1.0,0.0,TATE,confidence,pointwise,0,0.85,0.04825982834642437,0.0,100,100,heavy persistence-diagram tail (Level B)
+heavy_diagram_tail,B,500,functional,,1.0,0.0,TATE,confidence,pointwise,1,0.6,0.030654900340028043,0.0,100,100,heavy persistence-diagram tail (Level B)
+heavy_tail,A,500,functional,3.0,1.0,0.0,ITTE,prediction,conformal,0,0.9879499999999999,3.265693082773489,0.73,100,100,Student-t functional noise
+heavy_tail,A,500,functional,3.0,1.0,0.0,ITTE,prediction,conformal,1,0.9864,3.2559425649161557,0.73,100,100,Student-t functional noise
+heavy_tail,A,500,functional,3.0,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,0,5e-05,0.3806361990119894,0.0,100,100,TATE confidence band applied to individual draws
+heavy_tail,A,500,functional,3.0,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,1,5e-05,0.47189108593001605,0.0,100,100,TATE confidence band applied to individual draws
+heavy_tail,A,500,functional,3.0,1.0,0.0,TATE,confidence,multiplier,0,0.93,0.3806361990119894,0.0,100,100,Student-t functional noise
+heavy_tail,A,500,functional,3.0,1.0,0.0,TATE,confidence,multiplier,1,0.93,0.47189108593001605,0.0,100,100,Student-t functional noise
+heavy_tail,A,500,functional,3.0,1.0,0.0,TATE,confidence,pointwise,0,0.84,0.29942288733207345,0.0,100,100,Student-t functional noise
+heavy_tail,A,500,functional,3.0,1.0,0.0,TATE,confidence,pointwise,1,0.81,0.3495209028502183,0.0,100,100,Student-t functional noise
+heterogeneous,A,500,functional,,1.0,3.0,ITTE,prediction,conformal,0,0.99465,9.522265622970014,0.625,100,100,X-dependent aleatoric spread
+heterogeneous,A,500,functional,,1.0,3.0,ITTE,prediction,conformal,1,0.9944,9.545049258852968,0.625,100,100,X-dependent aleatoric spread
+heterogeneous,A,500,functional,,1.0,3.0,ITTE,wrong confidence,multiplier_as_itte,0,0.0002,0.523133916904567,0.0,100,100,TATE confidence band applied to individual draws
+heterogeneous,A,500,functional,,1.0,3.0,ITTE,wrong confidence,multiplier_as_itte,1,0.0001,0.59712905402479,0.0,100,100,TATE confidence band applied to individual draws
+heterogeneous,A,500,functional,,1.0,3.0,TATE,confidence,multiplier,0,0.92,0.523133916904567,0.0,100,100,X-dependent aleatoric spread
+heterogeneous,A,500,functional,,1.0,3.0,TATE,confidence,multiplier,1,0.91,0.59712905402479,0.0,100,100,X-dependent aleatoric spread
+heterogeneous,A,500,functional,,1.0,3.0,TATE,confidence,pointwise,0,0.82,0.4124079198549211,0.0,100,100,X-dependent aleatoric spread
+heterogeneous,A,500,functional,,1.0,3.0,TATE,confidence,pointwise,1,0.78,0.4549240200932293,0.0,100,100,X-dependent aleatoric spread
+large_n,A,1000,functional,,1.0,0.0,ITTE,prediction,conformal,0,0.99715,3.1450500700422896,0.175,100,100,large sample
+large_n,A,1000,functional,,1.0,0.0,ITTE,prediction,conformal,1,0.99745,3.1660123294534244,0.175,100,100,large sample
+large_n,A,1000,functional,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,0,0.0,0.2717076815230225,0.0,100,100,TATE confidence band applied to individual draws
+large_n,A,1000,functional,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,1,0.0,0.3348293058218176,0.0,100,100,TATE confidence band applied to individual draws
+large_n,A,1000,functional,,1.0,0.0,TATE,confidence,multiplier,0,0.98,0.2717076815230225,0.0,100,100,large sample
+large_n,A,1000,functional,,1.0,0.0,TATE,confidence,multiplier,1,0.98,0.3348293058218176,0.0,100,100,large sample
+large_n,A,1000,functional,,1.0,0.0,TATE,confidence,pointwise,0,0.85,0.21547596259845223,0.0,100,100,large sample
+large_n,A,1000,functional,,1.0,0.0,TATE,confidence,pointwise,1,0.9,0.2482317780109031,0.0,100,100,large sample
+neural_mlp,A,500,mlp,,1.0,0.0,ITTE,prediction,conformal,0,0.9947499999999999,5.227445115715967,0.0,100,100,MLP nuisances
+neural_mlp,A,500,mlp,,1.0,0.0,ITTE,prediction,conformal,1,0.9871,7.08138332855129,0.0,100,100,MLP nuisances
+neural_mlp,A,500,mlp,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,0,0.0,0.41481939576305604,0.0,100,100,TATE confidence band applied to individual draws
+neural_mlp,A,500,mlp,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,1,0.0,0.5270362895626464,0.0,100,100,TATE confidence band applied to individual draws
+neural_mlp,A,500,mlp,,1.0,0.0,TATE,confidence,multiplier,0,0.93,0.41481939576305604,0.0,100,100,MLP nuisances
+neural_mlp,A,500,mlp,,1.0,0.0,TATE,confidence,multiplier,1,0.8,0.5270362895626464,0.0,100,100,MLP nuisances
+neural_mlp,A,500,mlp,,1.0,0.0,TATE,confidence,pointwise,0,0.66,0.3043887517763351,0.0,100,100,MLP nuisances
+neural_mlp,A,500,mlp,,1.0,0.0,TATE,confidence,pointwise,1,0.51,0.3673156137904161,0.0,100,100,MLP nuisances
+small_n,A,150,functional,,1.0,0.0,ITTE,prediction,conformal,0,0.99735,3.6084892637248323,17.835,100,100,small sample
+small_n,A,150,functional,,1.0,0.0,ITTE,prediction,conformal,1,0.9986,3.6502153286404138,17.835,100,100,small sample
+small_n,A,150,functional,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,0,0.00095,0.7536038310411526,0.0,100,100,TATE confidence band applied to individual draws
+small_n,A,150,functional,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,1,0.0011,0.9048224923963126,0.0,100,100,TATE confidence band applied to individual draws
+small_n,A,150,functional,,1.0,0.0,TATE,confidence,multiplier,0,0.91,0.7536038310411526,0.0,100,100,small sample
+small_n,A,150,functional,,1.0,0.0,TATE,confidence,multiplier,1,0.94,0.9048224923963126,0.0,100,100,small sample
+small_n,A,150,functional,,1.0,0.0,TATE,confidence,pointwise,0,0.78,0.6062002214882095,0.0,100,100,small sample
+small_n,A,150,functional,,1.0,0.0,TATE,confidence,pointwise,1,0.72,0.6821835949176619,0.0,100,100,small sample
+topological,B,500,functional,,1.0,0.0,ITTE,prediction,conformal,0,1.0,11.216808795142194,0.85,100,100,topological pipeline (Level B)
+topological,B,500,functional,,1.0,0.0,ITTE,prediction,conformal,1,0.9992,1.8470777656437978,0.85,100,100,topological pipeline (Level B)
+topological,B,500,functional,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,0,0.06485,0.06527973113498098,0.0,100,100,TATE confidence band applied to individual draws
+topological,B,500,functional,,1.0,0.0,ITTE,wrong confidence,multiplier_as_itte,1,0.0,0.017096541021639232,0.0,100,100,TATE confidence band applied to individual draws
+topological,B,500,functional,,1.0,0.0,TATE,confidence,multiplier,0,0.86,0.06527973113498098,0.0,100,100,topological pipeline (Level B)
+topological,B,500,functional,,1.0,0.0,TATE,confidence,multiplier,1,0.93,0.017096541021639232,0.0,100,100,topological pipeline (Level B)
+topological,B,500,functional,,1.0,0.0,TATE,confidence,pointwise,0,0.71,0.047730988171651646,0.0,100,100,topological pipeline (Level B)
+topological,B,500,functional,,1.0,0.0,TATE,confidence,pointwise,1,0.5,0.010859388264959626,0.0,100,100,topological pipeline (Level B)
+weak_overlap,A,500,functional,,4.0,0.0,ITTE,prediction,conformal,0,0.99845,3.2683583605746134,33.525,100,100,thin positivity
+weak_overlap,A,500,functional,,4.0,0.0,ITTE,prediction,conformal,1,0.9983500000000001,3.3145892896219,33.525,100,100,thin positivity
+weak_overlap,A,500,functional,,4.0,0.0,ITTE,wrong confidence,multiplier_as_itte,0,0.00015,0.44142037225507375,0.0,100,100,TATE confidence band applied to individual draws
+weak_overlap,A,500,functional,,4.0,0.0,ITTE,wrong confidence,multiplier_as_itte,1,0.0010500000000000002,0.5404504478492362,0.0,100,100,TATE confidence band applied to individual draws
+weak_overlap,A,500,functional,,4.0,0.0,TATE,confidence,multiplier,0,0.97,0.44142037225507375,0.0,100,100,thin positivity
+weak_overlap,A,500,functional,,4.0,0.0,TATE,confidence,multiplier,1,0.95,0.5404504478492362,0.0,100,100,thin positivity
+weak_overlap,A,500,functional,,4.0,0.0,TATE,confidence,pointwise,0,0.87,0.3555598246959626,0.0,100,100,thin positivity
+weak_overlap,A,500,functional,,4.0,0.0,TATE,confidence,pointwise,1,0.81,0.43379792389856364,0.0,100,100,thin positivity

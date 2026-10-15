@@ -1,0 +1,69 @@
+profiles:
+  oxali_low_burden:
+    chemo_iri: 0.0
+    age: 6.1
+    male: 1.0
+    ecog_ge1: 0.0
+    n_target_bl: 2.0
+    n_metsites_bl: 2.0
+    kras_wt: 1.0
+    kras_mut: 0.0
+    kras_missing: 0.0
+    ldh_high_bl: 0.0
+  oxali_mid_burden:
+    chemo_iri: 0.0
+    age: 6.1
+    male: 1.0
+    ecog_ge1: 0.0
+    n_target_bl: 4.0
+    n_metsites_bl: 2.0
+    kras_wt: 1.0
+    kras_mut: 0.0
+    kras_missing: 0.0
+    ldh_high_bl: 0.0
+  oxali_high_burden:
+    chemo_iri: 0.0
+    age: 6.1
+    male: 1.0
+    ecog_ge1: 0.0
+    n_target_bl: 6.0
+    n_metsites_bl: 2.0
+    kras_wt: 1.0
+    kras_mut: 0.0
+    kras_missing: 0.0
+    ldh_high_bl: 0.0
+  iri_low_burden:
+    chemo_iri: 1.0
+    age: 6.1
+    male: 1.0
+    ecog_ge1: 0.0
+    n_target_bl: 2.0
+    n_metsites_bl: 2.0
+    kras_wt: 1.0
+    kras_mut: 0.0
+    kras_missing: 0.0
+    ldh_high_bl: 0.0
+  iri_mid_burden:
+    chemo_iri: 1.0
+    age: 6.1
+    male: 1.0
+    ecog_ge1: 0.0
+    n_target_bl: 4.0
+    n_metsites_bl: 2.0
+    kras_wt: 1.0
+    kras_mut: 0.0
+    kras_missing: 0.0
+    ldh_high_bl: 0.0
+  iri_high_burden:
+    chemo_iri: 1.0
+    age: 6.1
+    male: 1.0
+    ecog_ge1: 0.0
+    n_target_bl: 6.0
+    n_metsites_bl: 2.0
+    kras_wt: 1.0
+    kras_mut: 0.0
+    kras_missing: 0.0
+    ldh_high_bl: 0.0
+feature_rule: binned burden (<=2 ref, 3-4, >=5)
+note: bands simultaneous-in-t at fixed profile (pointwise-in-x)

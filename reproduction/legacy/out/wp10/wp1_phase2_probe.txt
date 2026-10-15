@@ -1,0 +1,20 @@
+Phase 2.6 coverage study | target=0.90 | reps=3 | R backend=yes
+    n          method dim  cov(simult)   iw_err  mean_width
+  100       pointwise   0        1.000    0.000      0.6927
+  100       pointwise   1        1.000    0.000      0.7764
+  100      multiplier   0        1.000    0.000      0.9018
+  100      multiplier   1        1.000    0.000      1.0262
+  100  liebl_reimherr   0        1.000    0.000      1.0502
+  100  liebl_reimherr   1        1.000    0.000      1.1824
+  100    pini_vantini   0        1.000    0.000      0.7209
+  100    pini_vantini   1        1.000    0.000      0.7899
+# n=100 done in 51.2s
+  400       pointwise   0        1.000    0.000      0.3434
+  400       pointwise   1        1.000    0.000      0.4025
+  400      multiplier   0        1.000    0.000      0.4512
+  400      multiplier   1        1.000    0.000      0.5410
+  400  liebl_reimherr   0        1.000    0.000      0.5193
+  400  liebl_reimherr   1        1.000    0.000      0.6118
+  400    pini_vantini   0        1.000    0.000      0.3645
+  400    pini_vantini   1        1.000    0.000      0.4157
+# n=400 done in 39.2s

@@ -1,0 +1,24 @@
+# 10/200 reps done (14s)
+# 20/200 reps done (20s)
+# 30/200 reps done (30s)
+# 40/200 reps done (36s)
+# 50/200 reps done (46s)
+# 60/200 reps done (52s)
+# 70/200 reps done (58s)
+# 80/200 reps done (68s)
+# 90/200 reps done (74s)
+# 100/200 reps done (84s)
+# 110/200 reps done (90s)
+# 120/200 reps done (100s)
+# 130/200 reps done (106s)
+# 140/200 reps done (112s)
+# 150/200 reps done (122s)
+# 160/200 reps done (128s)
+# 170/200 reps done (138s)
+# 180/200 reps done (144s)
+# 190/200 reps done (154s)
+# 200/200 reps done (159s)
+Phase 4.5 ITTE conformal | target=0.90 | overlap=2.5 | misspec=none | reps=200 | m_test=200
+    n      method dim  cov(itte)  cov(mean)  mean_width   inf%
+  500   conformal   0      0.998      -      3.2824   13.5
+  500   conformal   1      0.998      -      3.2749   13.5

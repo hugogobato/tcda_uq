@@ -1,5 +1,9 @@
 # Changelog
 
+## Paper submission snapshot - 2026-10-15
+
+Added aggregate clinical mean outputs, retained historical experiment results, and a paper-to-results guide. The manuscript and arXiv submission files are maintained separately from this repository. Clinical ITTE curves, patient records, and subject identifiers remain excluded. The frozen production sources and all 11,200 production replications are preserved. The Python API and software version remain 0.1.0.
+
 ## 0.1.0 - 2026-10-11
 
 This is a breaking mathematical and API migration from the 0.0.1 library. The revised defaults and interfaces make each inferential target explicit and match the revised statistical formulation used in the project.

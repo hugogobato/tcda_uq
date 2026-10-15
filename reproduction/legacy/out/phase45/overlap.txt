@@ -1,0 +1,77 @@
+Phase 4.5.5 overlap diagnostics | target=0.90 | n=500 | misspec=none | reps=200 | m_test=200
+ scale dim  cov(uncond)  cov(finite)   inf%    ESS ESS/n_cal  max_wt  w_finite
+#   20/200 reps (27s)
+#   40/200 reps (44s)
+#   60/200 reps (64s)
+#   80/200 reps (79s)
+#   100/200 reps (96s)
+#   120/200 reps (112s)
+#   140/200 reps (129s)
+#   160/200 reps (145s)
+#   180/200 reps (161s)
+#   200/200 reps (176s)
+   1.0   0        0.997        0.997    0.7    104     0.829   0.058     3.237
+   1.0   1        0.997        0.997    0.7    104     0.829   0.058     3.234
+#   20/200 reps (34s)
+#   40/200 reps (53s)
+#   60/200 reps (74s)
+#   80/200 reps (97s)
+#   100/200 reps (114s)
+#   120/200 reps (134s)
+#   140/200 reps (153s)
+#   160/200 reps (171s)
+#   180/200 reps (187s)
+#   200/200 reps (204s)
+   1.5   0        0.998        0.998    2.8     90     0.719   0.139     3.234
+   1.5   1        0.997        0.997    2.8     90     0.719   0.139     3.245
+#   20/200 reps (28s)
+#   40/200 reps (42s)
+#   60/200 reps (62s)
+#   80/200 reps (77s)
+#   100/200 reps (102s)
+#   120/200 reps (129s)
+#   140/200 reps (155s)
+#   160/200 reps (175s)
+#   180/200 reps (198s)
+#   200/200 reps (220s)
+   2.0   0        0.998        0.997    6.9     80     0.636   0.269     3.249
+   2.0   1        0.997        0.997    6.9     80     0.636   0.269     3.259
+#   20/200 reps (26s)
+#   40/200 reps (44s)
+#   60/200 reps (63s)
+#   80/200 reps (79s)
+#   100/200 reps (95s)
+#   120/200 reps (112s)
+#   140/200 reps (128s)
+#   160/200 reps (144s)
+#   180/200 reps (161s)
+#   200/200 reps (179s)
+   2.5   0        0.998        0.997   12.4     70     0.564   0.404     3.261
+   2.5   1        0.997        0.997   12.4     70     0.564   0.404     3.263
+#   20/200 reps (23s)
+#   40/200 reps (36s)
+#   60/200 reps (56s)
+#   80/200 reps (75s)
+#   100/200 reps (97s)
+#   120/200 reps (112s)
+#   140/200 reps (128s)
+#   160/200 reps (143s)
+#   180/200 reps (159s)
+#   200/200 reps (174s)
+   3.0   0        0.998        0.997   19.7     63     0.502   0.547     3.284
+   3.0   1        0.997        0.997   19.7     63     0.502   0.547     3.290
+#   20/200 reps (23s)
+#   40/200 reps (35s)
+#   60/200 reps (53s)
+#   80/200 reps (65s)
+#   100/200 reps (76s)
+#   120/200 reps (85s)
+#   140/200 reps (96s)
+#   160/200 reps (105s)
+#   180/200 reps (117s)
+#   200/200 reps (125s)
+   4.0   0        0.999        0.998   34.0     57     0.456   0.748     3.305
+   4.0   1        0.998        0.997   34.0     57     0.456   0.748     3.299
+
+ESS = Kish effective calibration size; ESS/n_cal is the weighting efficiency (1.0 = uniform / randomized). max_wt = mean max normalized test weight -> the +inf atom fires when it exceeds ~alpha/2. inf% and width under scales 2.5/4.0 are the Phase-6.5 stabilization targets.
+s.

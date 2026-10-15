@@ -1,0 +1,38 @@
+# 20/400 reps done (94s)
+# 40/400 reps done (183s)
+# 60/400 reps done (273s)
+# 80/400 reps done (362s)
+# 100/400 reps done (450s)
+# 120/400 reps done (539s)
+# 140/400 reps done (605s)
+# 160/400 reps done (701s)
+# 180/400 reps done (798s)
+# 200/400 reps done (885s)
+# 220/400 reps done (979s)
+# 240/400 reps done (1103s)
+# 260/400 reps done (1211s)
+# 280/400 reps done (1305s)
+# 300/400 reps done (1413s)
+# 320/400 reps done (1523s)
+# 340/400 reps done (1637s)
+# 360/400 reps done (1753s)
+# 380/400 reps done (1882s)
+# 400/400 reps done (2001s)
+Phase 5 adaptive conformal | target=0.90 | hetero=3.0 | overlap=1.0 | reps=200 | m_test=300 | groups=4
+    n      method dim     cov  mean_width   inf%  cov_gap  w_corr   w_cv
+  500    marginal   0   0.993      9.5177    0.8    0.023   0.006  0.027
+  500    marginal   1   0.994      9.3940    0.8    0.020  -0.033  0.026
+  500  normalized   0   0.997      8.6791    0.8    0.010   0.917  0.338
+  500  normalized   1   0.996      8.5717    0.8    0.010   0.920  0.334
+  500   localized   0   0.998      8.9183    3.3    0.008   0.916  0.345
+  500   localized   1   0.997      8.7842    3.3    0.008   0.918  0.339
+  500        meta   0   0.965      7.5078    0.0    0.048   0.760  0.415
+  500        meta   1   0.965      7.5182    0.0    0.051   0.757  0.411
+ 1000    marginal   0   0.993      9.1493    0.2    0.025   0.021  0.013
+ 1000    marginal   1   0.993      9.3172    0.2    0.023   0.005  0.013
+ 1000  normalized   0   0.997      8.2912    0.2    0.010   0.935  0.348
+ 1000  normalized   1   0.997      8.3511    0.2    0.010   0.933  0.346
+ 1000   localized   0   0.997      8.4195    0.6    0.009   0.935  0.353
+ 1000   localized   1   0.997      8.4591    0.6    0.009   0.934  0.352
+ 1000        meta   0   0.964      6.9440    0.0    0.051   0.791  0.426
+ 1000        meta   1   0.967      6.9608    0.0    0.047   0.793  0.427

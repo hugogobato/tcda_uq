@@ -1,0 +1,23 @@
+Using local SARS-CoV-2 CT dataset at: notebooks/SARS_Dataset
+Loaded SARS-CoV-2 CT images: COVID=1252, non-COVID=1229
+
+SARS Phase 7B demo
+dim     estimand       method       metric      value
+  0         TATE         AIPW           L1     0.0001
+ROW level=7B_SARS estimand=TATE uncertainty=point method=AIPW n=400 scenario=SARS dim=0 coverage= mean_width= inf_pct= extra=L1=6.203e-05
+  0         TATE    mult_boot        width     0.0005
+ROW level=7B_SARS estimand=TATE uncertainty=confidence method=mult_boot n=400 scenario=SARS dim=0 coverage=1 mean_width=0.0004871 inf_pct= extra=level=0.90_covers_semisynth_truth
+  0        CTATE          mu1       rel_l1     0.9201
+ROW level=7B_SARS estimand=CTATE_mean uncertainty=point method=DRLearner n=400 scenario=SARS_mu1 dim=0 coverage= mean_width= inf_pct= extra=rel_l1=0.9201
+ROW level=7B_SARS estimand=CTATE_mean uncertainty=confidence method=mult_boot n=400 scenario=SARS_mu1 dim=0 coverage= mean_width=0.0003526 inf_pct= extra=level=0.90
+  0        CTATE          mid       rel_l1     0.9070
+ROW level=7B_SARS estimand=CTATE_mean uncertainty=point method=DRLearner n=400 scenario=SARS_mid dim=0 coverage= mean_width= inf_pct= extra=rel_l1=0.907
+ROW level=7B_SARS estimand=CTATE_mean uncertainty=confidence method=mult_boot n=400 scenario=SARS_mid dim=0 coverage= mean_width=0.0003067 inf_pct= extra=level=0.90
+  0        CTATE          mu2       rel_l1     0.9022
+ROW level=7B_SARS estimand=CTATE_mean uncertainty=point method=DRLearner n=400 scenario=SARS_mu2 dim=0 coverage= mean_width= inf_pct= extra=rel_l1=0.9022
+ROW level=7B_SARS estimand=CTATE_mean uncertainty=confidence method=mult_boot n=400 scenario=SARS_mu2 dim=0 coverage= mean_width=0.0004845 inf_pct= extra=level=0.90
+  0         ITTE   overlap_cp        width     0.0208
+ROW level=7B_SARS estimand=ITTE uncertainty=qualitative_prediction method=overlap_cp n=400 scenario=SARS dim=0 coverage= mean_width=0.02083 inf_pct=0 extra=no_honest_counterfactuals
+SARS CTATE/ITTE rows are qualitative only: per-patient counterfactual coverage is not claimed.
+
+GEOM-Drugs 7B.3 skipped: val_data.pickle is still unavailable.
