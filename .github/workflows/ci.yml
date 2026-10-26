@@ -29,6 +29,9 @@ jobs:
       - name: Verify additional public results
         run: uv run --no-sync python reproduction/verify_publication.py
 
+      - name: Check PACCE release scope
+        run: uv run --no-sync python reproduction/verify_pacce_release.py
+
       - name: Build installable wheel
         run: uv build --wheel
 

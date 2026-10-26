@@ -1,5 +1,9 @@
 # Changelog
 
+## PACCE co-author corrections - 2026-10-26
+
+Added a portable aggregate-only clinical reproduction entry point using authenticated frozen sources, explicit age 61 profiles, constant-one scores fixed before calibration, silhouette support intersections, and optional independently randomized folds. Published only corrected aggregate CTATE and fold summaries; no clinical prediction-output files, patient records, or identifiers are added. Historical age 6.1 profile tables and legacy scripts remain available as superseded provenance. The current library already uses training-frozen conformal scales; this update connects those conditions to the corrected clinical reproduction procedure. Added a staged-file release guard and clinical-only optional dependency.
+
 ## Paper submission snapshot - 2026-10-15
 
 Added aggregate clinical mean outputs, retained historical experiment results, and a paper-to-results guide. The manuscript and arXiv submission files are maintained separately from this repository. Clinical ITTE curves, patient records, and subject identifiers remain excluded. The frozen production sources and all 11,200 production replications are preserved. The Python API and software version remain 0.1.0.

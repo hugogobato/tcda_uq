@@ -1,6 +1,6 @@
 {
-  "snapshot_date": "2026-10-15",
-  "scope": "Additional publication artifacts. Frozen primary and remaining production records are independently verified by verify_saved_results.py.",
+  "snapshot_date": "2026-10-26",
+  "scope": "Additional publication artifacts, including corrected aggregate PACCE mean-profile and fold diagnostics. Frozen primary and remaining production records are independently verified by verify_saved_results.py. No patient data or individual clinical prediction results.",
   "files": [
     {
       "path": "reproduction/results/exploratory/production/topological_scale4/manifest.json",
@@ -2202,6 +2202,16 @@
       "original_path": "revision_20261010/audit/verified_ctate_aggregate.csv",
       "sha256": "e93799c91a5874408ca14f7b538c2379f6240cd8505c02a1076a70a03fc9aa41",
       "transformation": "byte-identical independently checked legacy aggregate"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/coauthor_revision_20261026/ctate_profile_summary.csv",
+      "original_path": "revision_20261026_coauthor/results/pacce_audit/ctate_age_corrected_profiles.csv (age61, treatment_stratified rows)",
+      "sha256": "0d6dff58460ac818f5b5e1e46fbee3a94d95d066a683e5d582d7bf1eb1ba222b"
+    },
+    {
+      "path": "reproduction/results/clinical_aggregates/coauthor_revision_20261026/independent_fold_sensitivity.csv",
+      "original_path": "revision_20261026_coauthor/results/pacce_audit/independent_fold_sensitivity.csv",
+      "sha256": "6e78b8502f753f05e132e1c582d0cd5a57e0e0e749c8327b150e3acf4a7fad02"
     }
   ]
 }

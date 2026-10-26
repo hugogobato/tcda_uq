@@ -39,6 +39,13 @@ MAIN_CSV = {
                                               "h1_totpers_med", "h0_totpers_med", "h0_l1_med",
                                               "corr_h0l1_blsld", "corr_h0l1_pctchg"},
 }
+REVISION_CSV = {
+    "ctate_profile_summary.csv": {"profile", "age_years", "folds", "n", "n_matching",
+        "peak_abs_tau", "t_at_peak", "mean_halfwidth", "mean_full_width", "excursion_frac",
+        "sup_stat", "sup_pvalue", "bonferroni_p", "band_seed", "test_seed"},
+    "independent_fold_sensitivity.csv": {"folds", "seed", "n", "pvalue", "peak_abs_estimate",
+        "mean_full_width", "zero_included_all", "fold_heldout_arm_counts"},
+}
 
 
 def check_fields(value, path: Path) -> None:
@@ -71,7 +78,8 @@ def main() -> None:
         assert not any(word in path.name.lower() for word in
                        ("itte", "analysis_manifest", "processed_subject", "prediction_shapes")), path
         if path.suffix == ".csv":
-            schema = SPLIT_CSV if path.parent.parent.name == "split_sample" else MAIN_CSV
+            schema = (REVISION_CSV if path.parent.name == "coauthor_revision_20261026" else
+                      SPLIT_CSV if path.parent.parent.name == "split_sample" else MAIN_CSV)
             assert path.name in schema, path
             with path.open(newline="") as stream:
                 reader = csv.DictReader(stream)
@@ -84,7 +92,7 @@ def main() -> None:
         else:
             assert path.name == "ctate_profiles.yaml", path
         clinical_count += 1
-    assert clinical_count == 44, clinical_count
+    assert clinical_count == 46, clinical_count
     assert not (ROOT / "manuscript").exists(), "Manuscript is maintained separately"
     assert not (ROOT / "submission").exists(), "arXiv files are maintained separately"
     print(json.dumps({"additional_artifacts": len(paths), "clinical_aggregate_files": clinical_count,

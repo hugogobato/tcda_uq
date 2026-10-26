@@ -1,5 +1,7 @@
 # Reproducing the revision studies
 
+For the corrected 26 October clinical PACCE calculation, use [the PACCE correction guide](pacce_coauthor_revision.md). The simulation runner below and the historical clinical scripts preserve older source versions; they are not substitutes for that corrected clinical entry point.
+
 The repository's `reproduction/` directory contains the frozen-source runner and records for the revision studies. Use its source bundle and manifest when reproducing the paper runs. The current `tcda_uq` package has a revised API and defaults; it is not a replacement for the frozen implementation used by those runs.
 
 From the repository root, inspect available studies and runner options with:

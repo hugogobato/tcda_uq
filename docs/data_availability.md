@@ -17,3 +17,11 @@ The PACCE trial (Amgen study 20040249) inputs require authorized access through 
 Published clinical files are selected aggregate mean curves, mean confidence summaries, tests, support counts, and sensitivity diagnostics. Sanitized provenance removes identifier lists and local input paths. The numerical analysis remains exploratory: post-treatment observation selection and working regression models limit its interpretation to the targets stated in the paper. A confidence band containing zero does not establish equivalence or validate an unobserved counterfactual distribution.
 
 Authorized investigators can reproduce the clinical calculations using the retained source versions and their own access-controlled inputs. Any files produced by those clinical scripts must be reviewed separately before publication; the full local output directory includes restricted objects and is not the public release allowlist.
+
+## Corrected clinical code and release checks
+
+The corrected clinical entry point is [documented separately](pacce_coauthor_revision.md). It accepts authorized SAS inputs supplied by the investigator and requires output outside the checkout. It writes aggregate tables only; it does not save patient identifiers, individual outcomes, subject-level prediction curves, calibration scores, or train/calibration membership arrays.
+
+The 26 October public correction contains exactly two aggregate CSV files: the six age 61 conditional-mean profile summaries and the original-plus-five independent-fold mean diagnostics. Clinical prediction-output files are not published. Historical age 6.1 conditional tables remain labeled as superseded evidence. The source dataset and local private rerun directory are not copied into Git.
+
+`python reproduction/verify_pacce_release.py` checks the actual staged Git blobs and nested source archives for restricted clinical artifacts, reviews clinical schemas against the explicit allowlist, and rejects saved notebook outputs. This release check complements human review; it is not a proof of anonymization. It does not hide experimental results through `.gitignore`.

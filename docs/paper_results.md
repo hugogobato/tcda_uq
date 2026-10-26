@@ -26,13 +26,17 @@ Public clinical results are under [`reproduction/results/clinical_aggregates`](.
 | --- | --- | --- |
 | Main selected cohort, 566 eligible subjects | `main_cohort/tate_estimates.csv`, `tate_test.csv` | Adjusted observed-group topological mean contrast; the saved sup-test p-value is approximately 0.982 |
 | Log-summed-diameter comparator | `main_cohort/sldfun_tate_estimates.csv`, `sldfun_tate_test.csv` | Distinct constructed response; p-value approximately 0.175 |
-| Six fixed CTATE profiles | `main_cohort/ctate_curves.csv`, `ctate_profile_summary.csv`, `ctate_profiles.yaml` | Conditional-mean working-regression diagnostics; simultaneous over the grid, not over all covariate profiles |
+| Corrected six fixed CTATE profiles, age 61 | `coauthor_revision_20261026/ctate_profile_summary.csv` | Current conditional-mean working-regression table; smallest sup-test p-value 0.432, all Bonferroni values 1.000; no model-free conditional guarantee |
+| Independent-fold sensitivity | `coauthor_revision_20261026/independent_fold_sensitivity.csv` | Original stratified fit plus five independent two-fold fits; aggregate mean diagnostics only |
+| Superseded age 6.1 CTATE profiles | `main_cohort/ctate_curves.csv`, `ctate_profile_summary.csv`, `ctate_profiles.yaml` | Historical age-unit error; retained for provenance, not the current manuscript table |
 | Clinical benchmarks and controls | Other `main_cohort/*.csv` | Aggregate clinical benchmarks, baseline summaries, placebo and sensitivity diagnostics |
 | Held-out scaling sensitivity, 419 eligible analysis subjects | `split_sample/pacce_pilot_grid1_basis5` | TATE curve, fixed-profile diagnostics, sensitivity results, and sanitized provenance; different representation and population from the main 566-subject fit |
 | Second-stage basis sensitivity | `split_sample/pacce_pilot_grid1_basis3`, `pacce_pilot_grid1_basis9` | Same held-out design, different CTATE working basis |
 | Additional endpoint sensitivity | `split_sample/pacce_selected_basis3`, `pacce_selected_basis5`, `pacce_selected_basis9` | Supplemental runs using endpoint 0.83; these are not the manuscript's main 566-subject fit |
 
 The two PACCE figures in `reproduction/figures/` show aggregate mean contrasts and confidence bands. Clinical ITTE curves, per-subject arrays, identifier lists and patient-level manifests are excluded. The source dataset is not redistributed; see [data availability](data_availability.md).
+
+The current corrected clinical entry point is documented in [the PACCE correction guide](pacce_coauthor_revision.md). It uses age 61 in years and a score scale fixed at one before calibration. Historical calibration-derived modulation was part of the old scores, not merely a separate diagnostic. Its clinical prediction widths are superseded; no individual clinical prediction results are published.
 
 The original main-cohort calculations use the retained adapters in `reproduction/legacy/experiments/pacce_*.py`. The held-out calculations use `revision_20261010/rerun/pacce_reanalysis.py` inside the already published `reproduction/sources/run_sources_5fdce0b48fe341aee1f1b31312ce5a35a27872577e5ed2ed44d25fc3cbf45625.zip`. The sanitized result manifests identify the source hashes, software versions, seeds and settings. Authorized investigators must run these clinical adapters in a private workspace: their complete local output includes patient manifests and prediction objects that are not part of the public allowlist.
 

@@ -8,6 +8,8 @@ Code and reproducibility materials for **Uncertainty Quantification for Topologi
 | [Reproduction guide](docs/revision_reproduction.md) | Frozen sources, all 11,200 production replications, and Colab presets |
 | [Data availability](docs/data_availability.md) | Public outputs and access requirements for the clinical data |
 
+The [26 October PACCE correction](docs/pacce_coauthor_revision.md) provides the current clinical reproduction entry point: age-61 query profiles, score scaling fixed before calibration, deterministic-support intersections, and independent-fold sensitivity. The historical clinical scripts and age-6.1 conditional tables are retained as superseded provenance. Authorized clinical inputs and all individual clinical prediction outputs stay outside this repository.
+
 The manuscript and arXiv submission files are maintained separately by the authors. This repository contains code, results, documentation, and tutorials; no arXiv identifier has been assigned here.
 
 `tcda_uq` contains Python tools and reproducibility materials for uncertainty quantification of topological treatment effects. The library represents each outcome by a prespecified persistence pipeline and a power-weighted silhouette on a fixed filtration grid. It supports three different targets:
